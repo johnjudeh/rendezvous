@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import Map from './Map';
 import Dock from './Dock';
+import MainButton from './MainButton';
 
 function MapperView() {
     return (
@@ -10,7 +11,7 @@ function MapperView() {
                 <Map />
             </View>
             <Dock>
-                <Text>Hi there</Text>
+                <MainButton text='Add location' />
             </Dock>
         </View>
     );
