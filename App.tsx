@@ -1,20 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Map from './components/Map';
+import MapperView from './components/MapperView';
 
-export default function App() {
+function App() {
     return (
-        <View style={styles.container}>
-            <Map />
-        </View>
+        <MapperView />
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
+export default App;
