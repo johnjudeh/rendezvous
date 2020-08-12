@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import BackButton from './BackButton';
 
-function LocationSearch() {
+function LocationSearch({ navigation }) {
     return (
         <View style={styles.container}>
+            <BackButton onPress={navigation.goBack} />
             <Text>Location Search</Text>
         </View>
     );
