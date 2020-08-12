@@ -3,10 +3,10 @@ import { StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { DARK_GREY, WHITE } from '../constants/colors';
 
 function MainButton(props) {
-    const { text } = props;
+    const { text, onPress } = props;
 
     return (
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>{text}</Text>
         </TouchableOpacity>
     );

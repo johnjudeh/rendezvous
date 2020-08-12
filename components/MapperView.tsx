@@ -4,14 +4,14 @@ import Map from './Map';
 import Dock from './Dock';
 import MainButton from './MainButton';
 
-function MapperView() {
+function MapperView({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.mapContainer}>
                 <Map />
             </View>
             <Dock>
-                <MainButton text='Add location' />
+                <MainButton text='Add location' onPress={() => navigation.navigate('locations')} />
             </Dock>
         </View>
     );
