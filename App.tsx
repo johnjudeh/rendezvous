@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, StatusBar } from 'react-native';
-import MapperView from './components/MapperView';
+import MainNavigaton from './components/MainNavigaton';
 
 function App() {
     return (
         <View style={styles.container}>
             <StatusBar barStyle='dark-content' />
-            <MapperView />
+            <MainNavigaton />
         </View>
     );
 }
