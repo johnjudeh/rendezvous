@@ -1,12 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native';
 import { NavigationProps } from '../common/types';
 import BackButton from './BackButton';
+import LocationsManager from './LocationsManager';
 
 function LocationSearch({ navigation }: NavigationProps) {
     return (
         <View style={styles.container}>
             <BackButton onPress={navigation.goBack} />
+            <LocationsManager />
             <Text>Location Search</Text>
         </View>
     );
@@ -15,8 +17,9 @@ function LocationSearch({ navigation }: NavigationProps) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 60,
     }
 });
 
