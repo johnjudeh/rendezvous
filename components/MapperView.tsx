@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { NavigationProps } from '../common/types';
 import Map from './Map';
 import Dock from './Dock';
 import MainButton from './MainButton';
 
-function MapperView({ navigation }) {
+function MapperView({ navigation }: NavigationProps) {
     return (
         <View style={styles.container}>
             <View style={styles.mapContainer}>

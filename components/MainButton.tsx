@@ -1,8 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { ButtonProps } from '../common/types';
 import { DARK_GREY, WHITE } from '../constants/colors';
 
-function MainButton(props) {
+interface MainButtonProps extends ButtonProps {
+    text: string,
+}
+
+function MainButton(props: MainButtonProps) {
     const { text, onPress } = props;
 
     return (

@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { ChildrenProps } from '../common/types';
 
-function Dock(props) {
+function Dock(props: ChildrenProps) {
     return (
         <View style={styles.dock}>
             {props.children}
