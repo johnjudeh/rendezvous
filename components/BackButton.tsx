@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ButtonProps } from '../common/types';
-import { DARK_GREY, WHITE } from '../constants/colors';
+import Color from '../constants/colors';
 
 function BackButton({ onPress }: ButtonProps) {
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Ionicons name="md-arrow-round-back" size={38} color={DARK_GREY} />
+            <Ionicons name="md-arrow-back" size={30} color={Color.DARK_GREY} />
         </TouchableOpacity>
     );
 }
@@ -15,8 +15,9 @@ function BackButton({ onPress }: ButtonProps) {
 const styles = StyleSheet.create({
     button: {
         position: 'absolute',
+        zIndex: 1,
         left: 15,
-        top: 60,
+        top: 70,
         justifyContent: 'center',
         alignItems: 'center',
     },
