@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { NavigationProps } from '../common/types';
 import Map from './Map';
 import Dock from './Dock';
@@ -21,12 +21,10 @@ function MapperView({ navigation }: NavigationProps) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         justifyContent: 'center',
     },
     mapContainer: {
-        height: Dimensions.get('window').height - 110,
-        width: '100%'
+        flexGrow: 1,
     }
 });
 

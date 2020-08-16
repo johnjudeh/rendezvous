@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ChildrenProps } from '../common/types';
+import Color from '../constants/colors';
 
 function Dock(props: ChildrenProps) {
     return (
@@ -12,20 +13,20 @@ function Dock(props: ChildrenProps) {
 
 const styles = StyleSheet.create({
     dock: {
-        flex: 1,
-        width: '100%',
+        justifyContent: 'center',
+        minHeight: 110,
+        paddingLeft: 29,
+        paddingRight: 29,
+        backgroundColor: Color.OFF_WHITE,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
-        backgroundColor: '#fafafa',
-        shadowColor: '#353745',
+        shadowColor: Color.DARK_GREY,
         shadowOffset: {
             width: 0,
             height: -2,
         },
         shadowRadius: 5,
         shadowOpacity: 0.20,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
 });
 

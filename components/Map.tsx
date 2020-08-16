@@ -18,8 +18,7 @@ function Map() {
 
 const styles = StyleSheet.create({
     mapStyle: {
-        height: '100%',
-        width: '100%',
+        flex: 1,
     },
 });
 

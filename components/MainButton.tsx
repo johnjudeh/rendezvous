@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { ButtonProps } from '../common/types';
 import Color from '../constants/colors';
 
@@ -20,15 +20,13 @@ function MainButton(props: MainButtonProps) {
 const styles = StyleSheet.create({
     button: {
         backgroundColor: Color.DARK_GREY,
-        width: Dimensions.get('window').width - 58,
         height: 52,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 6,
     },
     buttonText: {
-        color: Color.WHITE,
-        fontSize: 14,
+        color: Color.OFF_WHITE,
         textTransform: 'uppercase',
         fontWeight: 'bold',
     }

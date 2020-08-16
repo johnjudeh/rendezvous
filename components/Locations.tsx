@@ -20,7 +20,7 @@ const USER_LOCATIONS = [
         address: '22 Greenland Road',
         postcode: 'NW1 0AY',
     },
-]
+];
 
 function Locations() {
     return (
@@ -35,14 +35,13 @@ function Locations() {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'stretch',
         minHeight: 80,
         paddingLeft: 45,
         paddingRight: 45,
         borderStyle: 'solid',
         borderBottomColor: Color.LIGHT_GREY,
         borderBottomWidth: 1,
-        paddingBottom: 10,
+        paddingBottom: 20,
         marginBottom: 20,
     }
 });
