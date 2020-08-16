@@ -10,7 +10,6 @@ function LocationSearchBar() {
 
 const styles = StyleSheet.create({
     input: {
-        width: Dimensions.get('window').width - 90,
         height: 50,
         borderStyle: 'solid',
         borderColor: Color.DARK_GREY,
