@@ -11,7 +11,7 @@ function MapperView({ navigation, route }: NavigationProps) {
     return (
         <View style={styles.container}>
             <View style={styles.mapContainer}>
-                {route.params?.userLocations && <BackButton onPress={() => {}}/>}
+                {route.params?.userLocations && <BackButton onPress={() => navigation.navigate('locations')}/>}
                 <Map />
             </View>
             {route.params?.userLocations

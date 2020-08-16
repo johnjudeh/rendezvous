@@ -28,7 +28,7 @@ const USER_LOCATIONS = [
 function LocationSearch({ navigation }: NavigationProps) {
     return (
         <View style={styles.container}>
-            <BackButton onPress={navigation.goBack} />
+            <BackButton onPress={() => navigation.navigate('map', { userLocations: undefined })} />
             <Locations locations={USER_LOCATIONS} />
             <RecentLocations />
             <View style={styles.buttonContainer}>
