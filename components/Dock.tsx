@@ -1,22 +1,31 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { ChildrenProps } from '../common/types';
 import Color from '../constants/colors';
 
-function Dock(props: ChildrenProps) {
+interface DockProps extends ChildrenProps {
+    title?: string,
+}
+
+function Dock({ children, title }: DockProps) {
     return (
         <View style={styles.dock}>
-            {props.children}
+            {title
+                ? <View style={styles.titleContainer}>
+                    <Text style={styles.title}>{title}</Text>
+                </View>
+                : null
+            }
+            <View style={styles.childrenContainer}>
+                {children}
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     dock: {
-        justifyContent: 'center',
         minHeight: 110,
-        paddingLeft: 29,
-        paddingRight: 29,
         backgroundColor: Color.OFF_WHITE,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
@@ -28,6 +37,26 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         shadowOpacity: 0.20,
     },
+    titleContainer: {
+        height: 56,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderBottomColor: Color.LIGHT_GREY,
+        borderBottomWidth: 1,
+    },
+    title: {
+        fontSize: 20,
+        color: Color.DARK_GREY,
+        fontWeight: '500',
+    },
+    childrenContainer: {
+        paddingLeft: 29,
+        paddingRight: 29,
+        paddingTop: 30,
+        paddingBottom: 30,
+        justifyContent: 'center',
+        flexGrow: 1,
+    }
 });
 
 export default Dock;

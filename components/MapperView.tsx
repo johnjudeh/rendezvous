@@ -5,6 +5,7 @@ import Map from './Map';
 import Dock from './Dock';
 import MainButton from './MainButton';
 import BackButton from './BackButton';
+import CategoryList from './CategoryList';
 
 function MapperView({ navigation, route }: NavigationProps) {
     return (
@@ -13,12 +14,14 @@ function MapperView({ navigation, route }: NavigationProps) {
                 {route.params?.userLocations && <BackButton onPress={() => {}}/>}
                 <Map />
             </View>
-            <Dock>
-                {route.params?.userLocations
-                    ? null
-                    : <MainButton text='Add location' onPress={() => navigation.navigate('locations')} />
-                }
-            </Dock>
+            {route.params?.userLocations
+                ? <Dock title='Explore the middle'>
+                    <CategoryList />
+                </Dock>
+                : <Dock>
+                    <MainButton text='Add location' onPress={() => navigation.navigate('locations')} />
+                </Dock>
+            }
         </View>
     );
 }
