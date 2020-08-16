@@ -1,12 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Color from '../constants/colors';
 
 function RecentLocations() {
     return (
         <View style={styles.container}>
-            <Text>
-                Recent Locations
-            </Text>
+            <Text style={styles.title}>Recent Locations</Text>
         </View>
     );
 }
@@ -19,7 +18,12 @@ const styles = StyleSheet.create({
         paddingRight: 45,
         paddingBottom: 10,
         marginBottom: 20,
-    }
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: '500',
+        color: Color.DARK_GREY,
+    },
 });
 
 export default RecentLocations;
