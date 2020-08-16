@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import Constants from 'expo-constants';
 import { NavigationProps } from '../common/types';
 import BackButton from './BackButton';
 import LocationsManager from './LocationsManager';
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'stretch',
         justifyContent: 'flex-start',
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 60,
+        paddingTop: Constants.statusBarHeight + 15,
     }
 });
 

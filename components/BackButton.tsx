@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 import { ButtonProps } from '../common/types';
 import Color from '../constants/colors';
 
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 1,
         left: 15,
-        top: 70,
+        top: Constants.statusBarHeight + 25,
         justifyContent: 'center',
         alignItems: 'center',
     },

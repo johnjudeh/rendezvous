@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import MainNavigaton from './components/MainNavigaton';
 
 function App() {
     return (
         <View style={styles.container}>
-            <StatusBar barStyle='dark-content' />
+            <StatusBar style='dark' />
             <MainNavigaton />
         </View>
     );
