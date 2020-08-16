@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         justifyContent: 'center',
-        minHeight: 110,
+        minHeight: 120,
         paddingLeft: 29,
         paddingRight: 29,
     },

@@ -1,11 +1,26 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { ScrollView } from 'react-native';
+import CategoryThumbnail from './CategoryThumbnail';
+
+const CATEGORIES = [
+    {
+        name: 'Restaurants',
+    },
+    {
+        name: 'Bars',
+    },
+    {
+        name: 'Museums',
+    },
+];
 
 function CategoryList() {
     return (
-        <View>
-            <Text>Categories</Text>
-        </View>
+        <ScrollView horizontal={true}>
+            {CATEGORIES.map(category => (
+                <CategoryThumbnail key={category.name.toLowerCase()} category={category.name} />
+            ))}
+        </ScrollView>
     );
 }
 

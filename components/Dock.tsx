@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     childrenContainer: {
-        paddingLeft: 29,
-        paddingRight: 29,
-        paddingTop: 30,
+        paddingLeft: 14,
+        paddingRight: 14,
+        paddingTop: 20,
         paddingBottom: 30,
         justifyContent: 'center',
         flexGrow: 1,

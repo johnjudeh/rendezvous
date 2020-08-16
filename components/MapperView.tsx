@@ -19,7 +19,9 @@ function MapperView({ navigation, route }: NavigationProps) {
                     <CategoryList />
                 </Dock>
                 : <Dock>
-                    <MainButton text='Add location' onPress={() => navigation.navigate('locations')} />
+                    <View style={styles.buttonContainer}>
+                        <MainButton text='Add location' onPress={() => navigation.navigate('locations')} />
+                    </View>
                 </Dock>
             }
         </View>
@@ -33,7 +35,11 @@ const styles = StyleSheet.create({
     },
     mapContainer: {
         flexGrow: 1,
-    }
+    },
+    buttonContainer: {
+        paddingLeft: 15,
+        paddingRight: 15,
+    },
 });
 
 export default MapperView;
