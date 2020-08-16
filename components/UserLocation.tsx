@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import Color from '../constants/colors';
 
 interface UserLocationProps {
@@ -37,6 +38,11 @@ class UserLocation extends Component<UserLocationProps> {
                     </Text>
                     <Text style={styles.address}>{`${address}, ${postcode}`}</Text>
                 </View>
+                <View style={styles.removeContainer}>
+                    <TouchableOpacity>
+                        <Ionicons name="md-close" size={22} color={Color.DARK_GREY} />
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -60,11 +66,11 @@ const styles = StyleSheet.create({
     },
     postcode: {
         fontSize: 14,
-        color: Color.PLATINUM,
     },
     locationContainer: {
         justifyContent: 'center',
         paddingLeft: 10,
+        flexGrow: 1,
     },
     name: {
         fontSize: 15,
@@ -72,6 +78,10 @@ const styles = StyleSheet.create({
     address: {
         fontSize: 13,
         color: Color.MID_GREY,
+    },
+    removeContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
 
