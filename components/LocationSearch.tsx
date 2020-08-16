@@ -3,13 +3,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import Constants from 'expo-constants';
 import { NavigationProps } from '../common/types';
 import BackButton from './BackButton';
-import LocationsManager from './LocationsManager';
+import Locations from './Locations';
 
 function LocationSearch({ navigation }: NavigationProps) {
     return (
         <View style={styles.container}>
             <BackButton onPress={navigation.goBack} />
-            <LocationsManager />
+            <Locations />
             <Text>Location Search</Text>
         </View>
     );

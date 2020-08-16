@@ -22,7 +22,7 @@ const USER_LOCATIONS = [
     },
 ]
 
-function LocationsManager() {
+function Locations() {
     return (
         <View style={styles.container}>
             <LocationSearchBar />
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default LocationsManager;
+export default Locations;
