@@ -7,14 +7,32 @@ import Locations from './Locations';
 import RecentLocations from './RecentLocations';
 import MainButton from './MainButton';
 
+const USER_LOCATIONS = [
+    {
+        id: 1,
+        address: '167 Bermondsey Street',
+        postcode: 'SE1 3UW',
+    },
+    {
+        id: 2,
+        address: '11 First Street',
+        postcode: 'SW3 2LB',
+    },
+    {
+        id: 3,
+        address: '22 Greenland Road',
+        postcode: 'NW1 0AY',
+    },
+];
+
 function LocationSearch({ navigation }: NavigationProps) {
     return (
         <View style={styles.container}>
             <BackButton onPress={navigation.goBack} />
-            <Locations />
+            <Locations locations={USER_LOCATIONS} />
             <RecentLocations />
             <View style={styles.buttonContainer}>
-                <MainButton text='Rendez Vous' onPress={() => {}} />
+                <MainButton text='Rendez Vous' onPress={() => navigation.navigate('map', { userLocations: USER_LOCATIONS })} />
             </View>
         </View>
     );

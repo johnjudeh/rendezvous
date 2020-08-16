@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 
 export interface NavigationProps {
     navigation: {
-        navigate: (route: string) => void,
+        navigate: (route: string, params?: Object) => void,
         goBack: () => void,
     }
 }
