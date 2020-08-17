@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { NativeSyntheticEvent, NativeTouchEvent } from 'react-native';
 
 export interface NavigationProps {
     navigation: {
@@ -13,7 +14,7 @@ export interface NavigationProps {
 }
 
 export interface ButtonProps {
-    onPress: () => void,
+    onPress: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void,
 }
 
 export interface ChildrenProps {
