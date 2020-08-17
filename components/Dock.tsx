@@ -5,11 +5,12 @@ import Color from '../constants/colors';
 
 interface DockProps extends ChildrenProps {
     title?: string,
+    style?: Object,
 }
 
-function Dock({ children, title }: DockProps) {
+function Dock({ children, title, style }: DockProps) {
     return (
-        <View style={styles.dock}>
+        <View style={[styles.dock, style]}>
             {title
                 ? <View style={styles.titleContainer}>
                     <Text style={styles.title}>{title}</Text>

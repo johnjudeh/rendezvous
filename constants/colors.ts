@@ -2,6 +2,7 @@ enum Color {
     BLACK = '#070707',
     DARK_GREY = '#353745',
     MID_GREY = '#6A6E8A',
+    MID_LIGHT_GREY = '#8C8FA6',
     LIGHT_GREY = '#D1CFC7',
     ORANGE = '#E07A5F',
     DARK_GREEN = '#5A7D7C',
