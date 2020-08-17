@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MapperView from './MapperView';
 import LocationSearch from './LocationSearch';
+import CategoryResults from './CategoryResults';
 
 const Stack = createStackNavigator();
 
@@ -12,6 +13,7 @@ function MainNavigaton() {
             <Stack.Navigator initialRouteName='map' screenOptions={{ headerShown: false }}>
                 <Stack.Screen name='map' component={MapperView} />
                 <Stack.Screen name='locations' component={LocationSearch} />
+                <Stack.Screen name='category' component={CategoryResults} />
             </Stack.Navigator>
         </NavigationContainer>
     );
