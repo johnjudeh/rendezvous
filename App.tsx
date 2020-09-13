@@ -1,30 +1,14 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import reducer from './reducers';
-import MainNavigaton from './components/MainNavigaton';
-
-const store = configureStore({
-    reducer,
-});
+import store from 'app/store';
+import AppContainer from 'app/components/AppContainer';
 
 function App() {
     return (
         <Provider store={store}>
-            <View style={styles.container}>
-                <StatusBar style='dark' />
-                <MainNavigaton />
-            </View>
+            <AppContainer />
         </Provider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-});
 
 export default App;
