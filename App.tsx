@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import AppContainer, { store } from 'app';
+import { AppContainer, store } from 'app';
 
 function App() {
     return (
