@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-
-const reducer = (state, action) => state
+import { reducer as locationsReducer } from 'locations/state';
 
 export default configureStore({
-    reducer,
+    reducer: {
+        locations: locationsReducer,
+    }
 });
