@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MapperView from 'map/components';
 import LocationSearch from 'locations/components';
-import CategoryResults from '../../../components/CategoryResults';
+import CategoryResults from 'categories/components';
 
 const Stack = createStackNavigator();
 

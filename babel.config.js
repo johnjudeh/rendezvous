@@ -11,6 +11,7 @@ module.exports = function (api) {
                         common: './src/common',
                         map: './src/map',
                         locations: './src/locations',
+                        categories: './src/categories',
                     }
                 }
             ]

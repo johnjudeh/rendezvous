@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { NavigationProps } from 'common/types';
 import Map from './Map';
 import { Dock, MainButton, BackButton } from 'common/components';
-import CategoryList from '../../../components/CategoryList';
+import { CategoryList } from 'categories/components';
 
 function MapperView({ navigation, route }: NavigationProps) {
     return (
