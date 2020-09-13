@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import LocationSearchBar from './LocationSearchBar';
-import Color from '../constants/colors';
+import Color from 'common/constants/colors';
 import UserLocation from './UserLocation';
 
 interface Location {

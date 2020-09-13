@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { ChildrenProps } from '../common/types';
-import Color from '../constants/colors';
+import { ChildrenProps } from 'common/types';
+import Color from 'common/constants/colors';
 
 interface DockProps extends ChildrenProps {
     title?: string,

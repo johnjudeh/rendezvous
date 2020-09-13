@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Color from '../constants/colors';
+import Color from 'common/constants/colors';
 
 interface UserLocationProps {
     address: string,

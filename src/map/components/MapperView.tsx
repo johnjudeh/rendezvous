@@ -1,11 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { NavigationProps } from '../common/types';
+import { NavigationProps } from 'common/types';
 import Map from './Map';
-import Dock from './Dock';
-import MainButton from './MainButton';
-import BackButton from './BackButton';
-import CategoryList from './CategoryList';
+import { Dock, MainButton, BackButton } from 'common/components';
+import CategoryList from '../../../components/CategoryList';
 
 function MapperView({ navigation, route }: NavigationProps) {
     return (

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, EventUserLocation } from 'react-native-maps';
 import * as Location from 'expo-location';
-import Coordinates from '../constants/cities';
+import Coordinates from 'locations/constants/cities';
 
 class Map extends Component {
     state = {

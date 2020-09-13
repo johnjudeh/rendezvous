@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { ButtonProps } from '../common/types';
-import Color from '../constants/colors';
+import { ButtonProps } from 'common/types';
+import Color from 'common/constants/colors';
 
 interface MainButtonProps extends ButtonProps {
     text: string,

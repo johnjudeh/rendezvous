@@ -8,6 +8,9 @@ module.exports = function (api) {
                 {
                     alias: {
                         app: './src/app',
+                        common: './src/common',
+                        map: './src/map',
+                        locations: './src/locations',
                     }
                 }
             ]

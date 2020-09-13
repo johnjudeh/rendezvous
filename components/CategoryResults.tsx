@@ -1,11 +1,10 @@
 import React from 'react';
+import { ScrollView } from 'react-native';
 import { View, StyleSheet } from 'react-native';
-import { NavigationProps } from '../common/types';
-import BackButton from './BackButton';
-import Dock from './Dock';
-import Color from '../constants/colors';
+import { NavigationProps } from 'common/types';
+import { BackButton, Dock } from 'common/components';
+import Color from 'common/constants/colors';
 import CategoryResult from './CategoryResult';
-import { ScrollView } from 'react-native-gesture-handler';
 
 function CategoryResults({ navigation, route }: NavigationProps) {
     return (

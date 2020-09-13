@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { ButtonProps } from '../common/types';
-import Color from '../constants/colors';
+import { ButtonProps } from 'common/types';
+import Color from 'common/constants/colors';
 
 interface CategoryThumbnailProps extends ButtonProps {
     category: string,

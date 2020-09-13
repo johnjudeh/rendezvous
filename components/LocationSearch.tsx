@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
-import { NavigationProps } from '../common/types';
-import BackButton from './BackButton';
+import { NavigationProps } from 'common/types';
+import { BackButton, MainButton } from 'common/components';
 import Locations from './Locations';
 import RecentLocations from './RecentLocations';
-import MainButton from './MainButton';
 
 const USER_LOCATIONS = [
     {
