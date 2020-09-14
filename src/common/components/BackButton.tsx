@@ -16,7 +16,7 @@ function BackButton({ onPress }: ButtonProps) {
 const styles = StyleSheet.create({
     button: {
         position: 'absolute',
-        zIndex: 1,
+        zIndex: 2,
         left: 15,
         top: Constants.statusBarHeight + 25,
         justifyContent: 'center',

@@ -1,37 +1,23 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
+import { useSelector } from 'react-redux';
+import { selectLocations } from '../state';
 import { NavigationProps } from 'common/types';
 import { BackButton, MainButton } from 'common/components';
 import Locations from './Locations';
 import RecentLocations from './RecentLocations';
 
-const USER_LOCATIONS = [
-    {
-        id: 1,
-        address: '167 Bermondsey Street',
-        postcode: 'SE1 3UW',
-    },
-    {
-        id: 2,
-        address: '11 First Street',
-        postcode: 'SW3 2LB',
-    },
-    {
-        id: 3,
-        address: '22 Greenland Road',
-        postcode: 'NW1 0AY',
-    },
-];
-
 function LocationSearch({ navigation }: NavigationProps) {
+    const locations = useSelector(selectLocations);
+
     return (
         <View style={styles.container}>
             <BackButton onPress={() => navigation.navigate('map', { userLocations: undefined })} />
-            <Locations locations={USER_LOCATIONS} />
+            <Locations locations={locations} />
             <RecentLocations />
             <View style={styles.buttonContainer}>
-                <MainButton text='Rendez Vous' onPress={() => navigation.navigate('map', { userLocations: USER_LOCATIONS })} />
+                <MainButton text='Rendez Vous' onPress={() => navigation.navigate('map', { userLocations: locations })} />
             </View>
         </View>
     );

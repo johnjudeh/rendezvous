@@ -1,1 +1,6 @@
-export { default as reducer } from './slice';
+export {
+    default as reducer,
+    add as addLocation,
+    remove as removeLocation,
+    selectLocations,
+} from './slice';

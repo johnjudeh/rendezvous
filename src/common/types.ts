@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import { NativeSyntheticEvent, NativeTouchEvent } from 'react-native';
+import { LatLng } from 'react-native-maps';
 
 export interface NavigationProps {
     navigation: {
@@ -19,4 +20,14 @@ export interface ButtonProps {
 
 export interface ChildrenProps {
     children: ReactElement | ReactElement[] | null,
+}
+
+export interface UniqueObject {
+    id: string,
+}
+
+export interface LocationData extends UniqueObject {
+    address: string,
+    postcode: string,
+    latLng: LatLng,
 }

@@ -1,17 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import LocationSearchBar from './LocationSearchBar';
 import Color from 'common/constants/colors';
+import { LocationData } from 'common/types';
+import LocationSearchBar from './LocationSearchBar';
 import UserLocation from './UserLocation';
 
-interface Location {
-    id: number,
-    address: string,
-    postcode: string,
-}
-
 interface LocationsProps {
-    locations: Location[]
+    locations: LocationData[]
 }
 
 function Locations({ locations }: LocationsProps) {
@@ -19,7 +14,13 @@ function Locations({ locations }: LocationsProps) {
         <View style={styles.container}>
             <LocationSearchBar />
             {locations.map((location, i) => (
-                <UserLocation key={location.id} address={location.address} postcode={location.postcode} index={i} />
+                <UserLocation
+                    key={location.id}
+                    id={location.id}
+                    address={location.address}
+                    postcode={location.postcode}
+                    index={i}
+                />
             ))}
         </View>
     )
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         paddingBottom: 20,
         marginBottom: 20,
+        zIndex: 1,
     }
 });
 
