@@ -6,9 +6,13 @@ import {
     GooglePlaceData,
     GooglePlaceDetail,
 } from 'react-native-google-places-autocomplete';
-import { addLocation } from '../state';
 import Color from 'common/constants/colors';
 import { LocationData } from 'common/types';
+import { addLocation } from '../state';
+import {
+    getAdressFromGooglePlaceDetails,
+    getPostcodeFromGooglePlaceDetails,
+} from '../utils';
 
 type GooglePlacesAutocompleteOnPress = (data: GooglePlaceData, detail: GooglePlaceDetail | null) => void;
 
@@ -24,17 +28,9 @@ function LocationSearchBar() {
         const place_id: string = details.place_id;
         const placeCoords: { lat: number, lng: number } = details.geometry.location;
         const addressComponents = details.address_components;
-        const addresTypes = ['premise', 'street_number', 'route'];
 
-        const address: string = addressComponents.reduce((address, addressComponent) => {
-            return addressComponent.types.some(type => addresTypes.includes(type))
-                ? `${address} ${addressComponent.long_name}`
-                : address;
-        }, '');
-
-        const postcode: string = addressComponents.find(addressComponent => {
-            return addressComponent.types.includes('postal_code');
-        })?.long_name || '';
+        const address: string = getAdressFromGooglePlaceDetails(addressComponents);
+        const postcode: string = getPostcodeFromGooglePlaceDetails(addressComponents) || '';
 
         const location: LocationData = {
             id: place_id,
