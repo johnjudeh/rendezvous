@@ -86,8 +86,12 @@ const styles = StyleSheet.create({
         padding: 15,
     },
     listView: {
-        position: 'absolute',
-        top: 50,
+        // TODO: To get correct styling, need to fork the GooglePlacesAutocomplete
+        // library and use TouchableHighlight from react-native-gesture-handler
+        // and uncomment the lines below. See discussion:
+        // https://github.com/facebook/react-native/issues/22397#issuecomment-523784563
+        // position: 'absolute',
+        // top: 50,
         backgroundColor: Color.OFF_WHITE,
         borderStyle: 'solid',
         borderColor: Color.DARK_GREY,
