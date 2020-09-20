@@ -37,7 +37,6 @@ function Map() {
             // TODO: Need to add config before deploying this see intructions in the repo:
             // https://github.com/react-native-community/react-native-maps/blob/master/docs/mapview.md
             showsUserLocation={true}
-            showsMyLocationButton={true}
             onUserLocationChange={onLocationChange}
             ref={mapRef}
             mapPadding={{
