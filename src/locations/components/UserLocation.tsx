@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import Color from 'common/constants/colors';
 import { UniqueObject } from 'common/types';
 import { removeLocation } from '../state'
+import { formatAddress } from 'locations/utils';
 
 interface UserLocationProps extends UniqueObject {
     address: string,
@@ -25,10 +26,13 @@ const COLORS: Color[] = [
 ]
 
 function UserLocation(props: UserLocationProps) {
+    const ADDRESS_MAX_LENGTH = 25;
+
     const { id, address, postcode, index } = props;
     const dispatch = useDispatch();
 
     const handleLocationRemoval = () => dispatch(removeLocation(id));
+    const formattedAddress = formatAddress(address, ADDRESS_MAX_LENGTH);
 
     return (
         <View style={styles.container}>
@@ -41,7 +45,11 @@ function UserLocation(props: UserLocationProps) {
                 <Text style={styles.name}>
                     {index === 0 ? 'Your location' : `Friend ${index}`}
                 </Text>
-                <Text style={styles.address}>{`${address}, ${postcode}`}</Text>
+                <Text style={styles.address}>{
+                    postcode === ''
+                        ? `${formattedAddress}`
+                        : `${formattedAddress}, ${postcode}`
+                }</Text>
             </View>
             <View style={styles.removeContainer}>
                 <TouchableOpacity onPress={handleLocationRemoval}>
