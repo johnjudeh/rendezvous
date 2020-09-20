@@ -26,6 +26,9 @@ function Dock({ children, title, style }: DockProps) {
 
 const styles = StyleSheet.create({
     dock: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
         minHeight: 110,
         backgroundColor: Color.OFF_WHITE,
         borderTopRightRadius: 10,

@@ -51,6 +51,12 @@ class Map extends Component {
                 showsUserLocation={true}
                 showsMyLocationButton={true}
                 onUserLocationChange={this.onUserLocationChange}
+                mapPadding={{
+                    top: 0,
+                    bottom: 80,
+                    left: 0,
+                    right: 0,
+                }}
             />
         );
     }
