@@ -17,6 +17,18 @@ function Map() {
 
     const [ locationSet, setLocationSet ] = useState(false);
     const mapRef: MutableRefObject<MapView | null> = useRef(null);
+
+    // Added to work around bug on iOS where fillColor is not respected:
+    // https://github.com/react-native-community/react-native-maps/issues/3173
+    // TODO: Remove after this bug is fixed in the react-native-maps
+    const circleRef: MutableRefObject<Circle | null> = useRef(null);
+    const forceCircleFillColor = (fillColor: string): void => {
+        if (circleRef.current !== null) {
+            // TODO: Figure out how to fix the type error here
+            circleRef.current.setNativeProps({ fillColor });
+        }
+    }
+
     const locations = useSelector(selectLocations);
     let center: LatLng = locations.length !== 0
         ? calculateCenter(locations.map(loc => loc.latLng))
@@ -76,11 +88,13 @@ function Map() {
             ))}
             {locations.length !== 0
                 ? <Circle
+                    ref={circleRef}
                     center={center}
                     radius={1000}
                     strokeColor={Color.ORANGE}
                     strokeWidth={1.4}
                     fillColor={Color.ORANGE + '30'}
+                    onLayout={() => forceCircleFillColor(Color.ORANGE + '30')}
                 />
                 : null
             }
