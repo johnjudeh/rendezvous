@@ -50,7 +50,7 @@ function Map() {
                 }
             );
         }
-    });
+    }, [mapRef, locations]);
 
     const onLocationChange = (e: EventUserLocation): void => {
         if (locationSet === false) {
