@@ -1,18 +1,25 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationProps } from 'common/types';
-import Map from './Map';
+import { useSelector } from 'react-redux';
+import { selectLocations } from 'locations/state';
 import { Dock, MainButton, BackButton } from 'common/components';
 import { CategoryList } from 'categories/components';
+import Map from './Map';
 
-function MapperView({ navigation, route }: NavigationProps) {
+function MapperView({ navigation }: NavigationProps) {
+    const locations = useSelector(selectLocations);
+
     return (
         <View style={styles.container}>
             <View style={styles.mapContainer}>
-                {route.params?.userLocations && <BackButton onPress={() => navigation.navigate('locations')}/>}
+                {locations.length !== 0
+                    ? <BackButton onPress={() => navigation.navigate('locations')}/>
+                    : null
+                }
                 <Map />
             </View>
-            {route.params?.userLocations
+            {locations.length !== 0
                 ? <Dock title='Explore the middle'>
                     <CategoryList />
                 </Dock>
