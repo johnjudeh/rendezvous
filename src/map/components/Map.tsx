@@ -7,6 +7,7 @@ import { calculateCenter } from 'locations/utils';
 import Coordinates from 'locations/constants/cities';
 import { requestLocation } from 'common/permissions';
 import Color from 'common/constants/colors';
+import { SEARCH_RADIUS } from '../constants';
 
 function Map() {
     const INITAL_REGION = {
@@ -30,7 +31,7 @@ function Map() {
     }
 
     const locations = useSelector(selectLocations);
-    let center: LatLng = locations.length !== 0
+    const center: LatLng = locations.length !== 0
         ? calculateCenter(locations.map(loc => loc.latLng))
         : { ...Coordinates.London };
 
@@ -90,7 +91,7 @@ function Map() {
                 ? <Circle
                     ref={circleRef}
                     center={center}
-                    radius={1000}
+                    radius={SEARCH_RADIUS}
                     strokeColor={Color.ORANGE}
                     strokeWidth={1.4}
                     fillColor={Color.ORANGE + '30'}
