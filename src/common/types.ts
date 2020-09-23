@@ -26,6 +26,10 @@ export interface UniqueObject {
     id: string,
 }
 
+export interface Dictionary<T> {
+    [key: string]: T,
+}
+
 export interface LocationData extends UniqueObject {
     address: string,
     postcode: string,
