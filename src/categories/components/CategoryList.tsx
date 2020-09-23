@@ -1,29 +1,18 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { CATEGORY_LABELS } from '../constants';
 import CategoryThumbnail from './CategoryThumbnail';
-
-const CATEGORIES = [
-    {
-        name: 'Restaurants',
-    },
-    {
-        name: 'Bars',
-    },
-    {
-        name: 'Museums',
-    },
-];
 
 function CategoryList() {
     const navigation = useNavigation();
 
     return (
         <ScrollView horizontal={true}>
-            {CATEGORIES.map(category => (
+            {Object.keys(CATEGORY_LABELS).map(category => (
                 <CategoryThumbnail
-                    key={category.name.toLowerCase()}
-                    category={category.name}
+                    key={category}
+                    category={CATEGORY_LABELS[category]}
                     onPress={() => navigation.navigate('category', { category })}
                 />
             ))}
