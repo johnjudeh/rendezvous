@@ -1,23 +1,29 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
-import { useSelector } from 'react-redux';
-import { selectLocations } from '../state';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectLocations, removeAllLocations } from '../state';
 import { NavigationProps } from 'common/types';
 import { BackButton, MainButton } from 'common/components';
 import Locations from './Locations';
 import RecentLocations from './RecentLocations';
 
 function LocationSearch({ navigation }: NavigationProps) {
+    const dispatch = useDispatch();
     const locations = useSelector(selectLocations);
+
+    const handleGoBack = () => {
+        dispatch(removeAllLocations());
+        navigation.navigate('map');
+    }
 
     return (
         <View style={styles.container}>
-            <BackButton onPress={() => navigation.navigate('map', { userLocations: undefined })} />
+            <BackButton onPress={handleGoBack} />
             <Locations locations={locations} />
             <RecentLocations />
             <View style={styles.buttonContainer}>
-                <MainButton text='Rendez Vous' onPress={() => navigation.navigate('map', { userLocations: locations })} />
+                <MainButton text='Rendez Vous' onPress={() => navigation.navigate('map')} />
             </View>
         </View>
     );

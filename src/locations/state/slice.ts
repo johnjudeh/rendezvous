@@ -19,12 +19,17 @@ const sliceObject: CreateSliceOptions<LocationSlice> = {
         remove: (state, action: PayloadAction<string>) => {
             delete state[action.payload];
         },
+        removeAll: state => {
+            Object.keys(state).forEach(id => {
+                delete state[id];
+            });
+        },
     },
 };
 
 export const slice = createSlice(sliceObject);
 
-export const { add, remove } = slice.actions;
+export const { add, remove, removeAll } = slice.actions;
 
 export const selectLocations: (state: State) => LocationData[] = state => Object.values(state.locations);
 
