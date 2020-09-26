@@ -1,5 +1,5 @@
 import { createSlice, CreateSliceOptions, PayloadAction } from '@reduxjs/toolkit';
-import { LocationData, UniqueObject } from 'common/types';
+import { LocationData } from 'common/types';
 
 interface LocationSlice {
     [id: string]: LocationData,
