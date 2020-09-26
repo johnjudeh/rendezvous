@@ -3,18 +3,27 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import Color from 'common/constants/colors';
 
-function CategoryResult() {
+interface CategoryResultProps {
+    id: string,
+    name: string,
+    address: string,
+    rating: number,
+    numOfRatings: number,
+}
+
+function CategoryResult(props: CategoryResultProps) {
+    const { name, address, rating, numOfRatings } = props;
+
     return (
         <View style={styles.container}>
             <View style={styles.image} />
             <View style={styles.detailsContainer}>
-                <Text style={styles.description}>Steak house</Text>
-                <Text style={styles.name}>Flat Iron</Text>
-                <Text style={styles.address}>17-18 Henrietta St, WC2E 8QH</Text>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.address}>{address}</Text>
                 <View style={styles.ratingContainer}>
                     <FontAwesome name='star' size={16} color={Color.ORANGE} />
-                    <Text style={styles.rating}>4.6</Text>
-                    <Text style={styles.numOfRatings}>(4,441)</Text>
+                    <Text style={styles.rating}>{rating}</Text>
+                    <Text style={styles.numOfRatings}>({numOfRatings})</Text>
                     <View style={styles.actionsContainer}>
                         <TouchableOpacity style={styles.action}>
                             <Ionicons name="md-heart" size={28} color={Color.ORANGE} />
@@ -47,10 +56,6 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         alignItems: 'stretch',
         marginLeft: 17,
-    },
-    description: {
-        fontSize: 12,
-        color: Color.MID_GREY,
     },
     name: {
         fontSize: 18,
