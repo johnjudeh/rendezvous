@@ -39,7 +39,7 @@ interface LatLngShort {
     lng: number,
 }
 
-interface Result {
+export interface Result {
     place_id: string,
     name: string,
     business_status: string,
@@ -68,6 +68,7 @@ interface Response {
 export class Client {
     static BASE_URL: string = 'https://maps.googleapis.com/maps/api/place';
     static OUTPUT_TYPE: OutputType = 'json';
+    static ALLOWED_STATUSES: StatusCode[] = ['OK', 'ZERO_RESULTS'];
 
     private apiKey: string;
 
@@ -109,7 +110,7 @@ export class Client {
             const res = await fetch(url);
             const json: Response = await res.json();
 
-            if (!res.ok || json.status !== 'OK') {
+            if (!res.ok || !Client.ALLOWED_STATUSES.includes(json.status)) {
                 throw new Error(
                     `API responded with HTTP status code of ${res.status}. GooglePlaces status of ${json.status}. Response message: ${JSON.stringify(json, undefined, 2)}`
                 );
