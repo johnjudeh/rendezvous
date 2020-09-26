@@ -6,14 +6,16 @@ interface Category {
     [place_id: string]: GooglePlacesResult,
 };
 
+type CategoryOrNull = Category | null;
+
 // TODO: Update interface definition to be DRY with syntax like: { [key: PlaceType]: Category }
 // Read Typescript issue: https://github.com/microsoft/TypeScript/issues/5683
 interface CategorySlice {
-    restaurant: Category,
-    bar: Category,
-    cafe: Category,
-    museum: Category,
-    park: Category,
+    restaurant: CategoryOrNull,
+    bar: CategoryOrNull,
+    cafe: CategoryOrNull,
+    museum: CategoryOrNull,
+    park: CategoryOrNull,
 }
 
 interface State {
@@ -28,11 +30,11 @@ export interface SetActionPayload {
 const sliceObject: CreateSliceOptions<CategorySlice> = {
     name: 'categories',
     initialState: {
-        restaurant: {},
-        bar: {},
-        cafe: {},
-        museum: {},
-        park: {},
+        restaurant: null,
+        bar: null,
+        cafe: null,
+        museum: null,
+        park: null,
     },
     reducers: {
         set: (state, action: PayloadAction<SetActionPayload>) => {
@@ -49,7 +51,7 @@ const sliceObject: CreateSliceOptions<CategorySlice> = {
 };
 
 // TODO: Checkout best practices on how to write this type of dynamic selector
-export const selectCategoryResultsCreator = (category: PlaceType) => (state: State): Category => state.categories[category];
+export const selectCategoryResultsCreator = (category: PlaceType) => (state: State): CategoryOrNull => state.categories[category];
 
 export const slice = createSlice(sliceObject);
 export const { set } = slice.actions;

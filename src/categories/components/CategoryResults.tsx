@@ -22,7 +22,7 @@ function CategoryResults({ navigation, route }: NavigationProps) {
     const center: LatLng = calculateCenter(locations.map(loc => loc.latLng));
 
     useEffect(() => {
-        if (Object.keys(results).length === 0) {
+        if (!results) {
             GooglePlacesAPI.nearbySearch(center, SEARCH_RADIUS, category)
                 .then(res => {
                     const action: SetActionPayload = {
@@ -40,21 +40,24 @@ function CategoryResults({ navigation, route }: NavigationProps) {
             <View style={styles.imageContainer}></View>
             <Dock title={CATEGORY_LABELS[category]} style={styles.dock}>
                 <View style={styles.resultsContainer}>
-                    {/* TODO: Handle the ZERO_RESULTS in a neater way */}
-                    {Object.keys(results).length === 0
+                    {results === null
                         ? <Text style={styles.loadingText}>Loading...</Text>
-                        : <ScrollView>
-                            {Object.keys(results).map(result => (
-                                <CategoryResult
-                                    key={results[result].place_id}
-                                    id={results[result].place_id}
-                                    name={results[result].name}
-                                    address={results[result].vicinity}
-                                    rating={results[result].rating}
-                                    numOfRatings={results[result].user_ratings_total}
-                                />
-                            ))}
-                        </ScrollView>
+                        : Object.keys(results).length === 0
+                            ? <Text style={styles.loadingText}>
+                                There are no open {CATEGORY_LABELS[category].toLowerCase()} in this area right now
+                            </Text>
+                            : <ScrollView>
+                                {Object.keys(results).map(result => (
+                                    <CategoryResult
+                                        key={results[result].place_id}
+                                        id={results[result].place_id}
+                                        name={results[result].name}
+                                        address={results[result].vicinity}
+                                        rating={results[result].rating}
+                                        numOfRatings={results[result].user_ratings_total}
+                                    />
+                                ))}
+                            </ScrollView>
                     }
                 </View>
             </Dock>
