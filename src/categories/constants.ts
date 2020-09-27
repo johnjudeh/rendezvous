@@ -14,7 +14,7 @@ export const CATEGORY_LABELS: Dictionary<string> = {
     [CATEGORY_CAFE]: 'Cafés',
     [CATEGORY_MUSEUM]: 'Museums',
     [CATEGORY_PARK]: 'Parks',
-}
+};
 
 export const CATEGORY_PHOTOS: Dictionary<ImageSourcePropType> = {
     [CATEGORY_RESTAURANT]: require('./img/restaurant.jpg'),
@@ -22,4 +22,12 @@ export const CATEGORY_PHOTOS: Dictionary<ImageSourcePropType> = {
     [CATEGORY_CAFE]: require('./img/cafe.jpg'),
     [CATEGORY_MUSEUM]: require('./img/museum.jpg'),
     [CATEGORY_PARK]: require('./img/park.jpg'),
-}
+};
+
+export const CATEGORY_PHOTOS_LARGE: Dictionary<ImageSourcePropType> = {
+    [CATEGORY_RESTAURANT]: require('./img/restaurant-large.jpg'),
+    [CATEGORY_BAR]: require('./img/bar-large.jpg'),
+    [CATEGORY_CAFE]: require('./img/cafe-large.jpg'),
+    [CATEGORY_MUSEUM]: require('./img/museum-large.jpg'),
+    [CATEGORY_PARK]: require('./img/park-large.jpg'),
+};

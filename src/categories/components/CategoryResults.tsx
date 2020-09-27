@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Dimensions, ScrollView, Text } from 'react-native';
-import { View, StyleSheet } from 'react-native';
+import { Dimensions, ScrollView, Text, View, StyleSheet, Image } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { LatLng } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLocations } from 'locations/state';
@@ -11,7 +11,7 @@ import { BackButton, Dock } from 'common/components';
 import Color from 'common/constants/colors';
 import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
 import { SEARCH_RADIUS } from 'map/constants';
-import { CATEGORY_LABELS } from '../constants';
+import { CATEGORY_LABELS, CATEGORY_PHOTOS_LARGE } from '../constants';
 import CategoryResult from './CategoryResult';
 
 function CategoryResults({ navigation, route }: NavigationProps) {
@@ -36,8 +36,12 @@ function CategoryResults({ navigation, route }: NavigationProps) {
 
     return (
         <View style={styles.container}>
-            <BackButton onPress={navigation.goBack}/>
-            <View style={styles.imageContainer}></View>
+            <StatusBar style='light' />
+            <BackButton onPress={navigation.goBack} color={Color.OFF_WHITE} />
+            <Image
+                source={CATEGORY_PHOTOS_LARGE[category]}
+                style={styles.imageContainer}
+            />
             <Dock title={CATEGORY_LABELS[category]} style={styles.dock}>
                 <View style={styles.resultsContainer}>
                     {results === null
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
         backgroundColor: Color.DARK_GREEN,
     },
     imageContainer: {
-        height: 185,
+        width: '100%',
     },
     dock: {
         flex: 1,
