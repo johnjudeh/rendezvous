@@ -5,10 +5,14 @@ import Constants from 'expo-constants';
 import { ButtonProps } from 'common/types';
 import Color from 'common/constants/colors';
 
-function BackButton({ onPress }: ButtonProps) {
+interface BackButtonProps extends ButtonProps {
+    color?: Color,
+}
+
+function BackButton({ onPress, color }: BackButtonProps) {
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Ionicons name="md-arrow-back" size={30} color={Color.DARK_GREY} />
+            <Ionicons name="md-arrow-back" size={30} color={color ? color : Color.DARK_GREY} />
         </TouchableOpacity>
     );
 }
