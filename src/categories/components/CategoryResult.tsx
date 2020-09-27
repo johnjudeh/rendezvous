@@ -41,6 +41,7 @@ function CategoryResult(props: CategoryResultProps) {
 
     return (
         <View style={styles.container}>
+            {/* TODO: Figure out how to manage the html_attributes for images */}
             <Image
                 source={photoDataURL
                     ? { uri: photoDataURL }
