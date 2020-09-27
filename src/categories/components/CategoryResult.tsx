@@ -51,10 +51,10 @@ function CategoryResult(props: CategoryResultProps) {
             <View style={styles.detailsContainer}>
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.address}>{address}</Text>
-                <View style={styles.ratingContainer}>
+                <View style={styles.secondaryContainer}>
                     <FontAwesome name='star' size={16} color={Color.ORANGE} />
-                    <Text style={styles.rating}>{rating}</Text>
-                    <Text style={styles.numOfRatings}>({numOfRatings})</Text>
+                    <Text style={styles.rating}>{rating ? rating.toPrecision(2) : 'Unrated'}</Text>
+                    <Text style={styles.numOfRatings}>{rating ? `(${numOfRatings})` : ''}</Text>
                     <View style={styles.actionsContainer}>
                         <TouchableOpacity style={styles.action}>
                             <Ionicons name="md-heart" size={28} color={Color.ORANGE} />
@@ -99,10 +99,13 @@ const styles = StyleSheet.create({
         color: Color.MID_LIGHT_GREY,
         marginTop: 3,
     },
-    ratingContainer: {
+    secondaryContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 2,
+    },
+    ratingContainer: {
+        flexDirection: 'row',
     },
     rating: {
         fontSize: 12,
