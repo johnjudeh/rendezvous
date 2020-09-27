@@ -1,9 +1,17 @@
 import { createSlice, CreateSliceOptions, PayloadAction } from '@reduxjs/toolkit';
-import { PlaceType, Result as GooglePlacesResult } from 'common/clients/googlePlaces';
+import { PlaceType, Result as GooglePlacesResult, Photo } from 'common/clients/googlePlaces';
 import { Dictionary } from 'common/types';
 
+interface EnrichedPhoto extends Photo {
+    photo_data_url?: string,
+}
+
+interface CategoryResult extends GooglePlacesResult {
+    photos?: EnrichedPhoto[],
+}
+
 interface Category {
-    [place_id: string]: GooglePlacesResult,
+    [place_id: string]: CategoryResult,
 };
 
 type CategoryOrNull = Category | null;
@@ -27,6 +35,13 @@ export interface SetActionPayload {
     places: GooglePlacesResult[],
 }
 
+export interface SetPlacePhotoActionPaylod {
+    category: PlaceType,
+    placeId: string,
+    photoRef: string,
+    photoDataURL: string,
+}
+
 const sliceObject: CreateSliceOptions<CategorySlice> = {
     name: 'categories',
     initialState: {
@@ -47,6 +62,15 @@ const sliceObject: CreateSliceOptions<CategorySlice> = {
 
             state[category] = placesDict;
         },
+        setPlacePhoto: (state, action: PayloadAction<SetPlacePhotoActionPaylod>) => {
+            const { category, placeId, photoRef, photoDataURL } = action.payload;
+            const place = state[category]?.[placeId];
+            place?.photos?.forEach(photo => {
+                if (photo.photo_reference === photoRef) {
+                    photo.photo_data_url = photoDataURL;
+                }
+            })
+        }
     },
 };
 
@@ -54,5 +78,5 @@ const sliceObject: CreateSliceOptions<CategorySlice> = {
 export const selectCategoryResultsCreator = (category: PlaceType) => (state: State): CategoryOrNull => state.categories[category];
 
 export const slice = createSlice(sliceObject);
-export const { set } = slice.actions;
+export const { set, setPlacePhoto } = slice.actions;
 export default slice.reducer;
