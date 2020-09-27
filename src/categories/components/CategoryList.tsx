@@ -12,7 +12,7 @@ function CategoryList() {
             {Object.keys(CATEGORY_LABELS).map(category => (
                 <CategoryThumbnail
                     key={category}
-                    category={CATEGORY_LABELS[category]}
+                    category={category}
                     onPress={() => navigation.navigate('category', { category })}
                 />
             ))}
