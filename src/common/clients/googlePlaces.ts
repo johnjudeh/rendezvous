@@ -18,9 +18,20 @@ type StatusCode =
     | 'INVALID_REQUEST'
     | 'UNKNOWN_ERROR';
 
-type PriceLevel = 0 | 1 | 2 | 3 | 4;
+type BusinessStatus =
+    | 'OPERATIONAL'
+    | 'CLOSED_TEMPORARILY'
+    | 'CLOSED_PERMANENTLY';
 
-interface QueryParams {
+enum PriceLevel {
+    Free,
+    Inexpensive,
+    Moderate,
+    Expensive,
+    VeryExpensive,
+};
+
+interface NearbySearchQueryParams {
     key: string,
     location: string,
     radius: number,
@@ -34,18 +45,31 @@ interface QueryParams {
     pagetoken?: string,
 }
 
+interface PlacePhotoQueryParams {
+    key: string,
+    photoreference: string,
+    maxheight?: number,
+    maxwidth?: number,
+}
+
 interface LatLngShort {
     lat: number,
     lng: number,
 }
 
+export interface Photo {
+    photo_reference: string,
+    height: number,
+    width: number,
+    html_attributions: string[],
+}
+
 export interface Result {
     place_id: string,
     name: string,
-    business_status: string,
     geometry: {
         location: LatLngShort,
-        viewport: {
+        viewport?: {
             northeast: LatLngShort,
             southwest: LatLngShort,
         }
@@ -56,13 +80,20 @@ export interface Result {
     types: string[],
     user_ratings_total: number,
     vicinity: string,
+    opening_hours: {
+        open_now?: Boolean,
+    },
+    photos?: Photo[],
+    business_status?: BusinessStatus,
+    permanently_closed?: Boolean,
 }
 
 interface Response {
     status: StatusCode,
     results: Result[],
     html_attributions: [],
-    next_page_token: string,
+    next_page_token?: string,
+    error_message?: string,
 }
 
 export class Client {
@@ -80,6 +111,17 @@ export class Client {
         return `${Client.BASE_URL}${path}`;
     }
 
+    static addQueryToUrl(baseUrl: string, queryParams: { [key: string]: any }): string {
+        let newUrl: string = `${baseUrl}?`;
+
+        for (let q of Object.keys(queryParams)) {
+            newUrl += `${q}=${queryParams[q]}&`;
+        }
+        newUrl = newUrl.slice(0, -1);
+
+        return newUrl;
+    }
+
     static latLngToString(latLng: LatLng): string {
         const { latitude, longitude } = latLng;
         return `${latitude},${longitude}`;
@@ -87,24 +129,18 @@ export class Client {
 
     async nearbySearch(location: LatLng, radius: number, type?: PlaceType, openNow: boolean = true): Promise<Result[]> {
         const path: string = `/nearbysearch/${Client.OUTPUT_TYPE}`;
-        const queryParams: QueryParams = {
+        const queryParams: NearbySearchQueryParams = {
             key: this.apiKey,
             location: Client.latLngToString(location),
             radius,
             opennow: openNow,
         };
 
-        if (type !== undefined) {
+        if (type) {
             queryParams.type = type;
         }
 
-        let url = Client.getUrl(path) + '?';
-
-        let q: keyof typeof queryParams;
-        for (q in queryParams) {
-            url += `${q}=${queryParams[q]}&`;
-        }
-        url = url.slice(0, -1);
+        const url = Client.addQueryToUrl(Client.getUrl(path), queryParams);
 
         try {
             const res = await fetch(url);
@@ -112,7 +148,7 @@ export class Client {
 
             if (!res.ok || !Client.ALLOWED_STATUSES.includes(json.status)) {
                 throw new Error(
-                    `API responded with HTTP status code of ${res.status}. GooglePlaces status of ${json.status}. Response message: ${JSON.stringify(json, undefined, 2)}`
+                    `API responded with HTTP status code of ${res.status}. GooglePlaces status of ${json.status} with message ${json.error_message}. Response message: ${JSON.stringify(json, undefined, 2)}`
                 );
             }
 
@@ -122,6 +158,39 @@ export class Client {
             // TODO: Do something more sophistcated with the error.
             console.error(err);
             return [];
+        }
+    }
+
+    async placePhotoURL(photoRef: string, maxHeight?: number, maxWidth?: number): Promise<string | undefined> {
+        const path: string = '/photo';
+        const queryParams: PlacePhotoQueryParams = {
+            key: this.apiKey,
+            photoreference: photoRef,
+        };
+
+        if (maxHeight) {
+            queryParams.maxheight = maxHeight;
+        }
+        if (maxWidth) {
+            queryParams.maxwidth = maxWidth;
+        }
+
+        const url = Client.addQueryToUrl(Client.getUrl(path), queryParams);
+
+        try {
+            const res = await fetch(url);
+            const photoBlob = await res.blob();
+
+            const photoDataURI: string = await new Promise((resolve, reject) => {
+                const fileReader = new FileReader();
+                fileReader.onload = () => resolve(fileReader.result as string);
+                fileReader.readAsDataURL(photoBlob);
+            });
+
+            return photoDataURI;
+
+        } catch (err) {
+            console.error(err);
         }
     }
 }
