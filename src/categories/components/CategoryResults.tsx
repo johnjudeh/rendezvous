@@ -51,10 +51,13 @@ function CategoryResults({ navigation, route }: NavigationProps) {
                                     <CategoryResult
                                         key={results[result].place_id}
                                         id={results[result].place_id}
+                                        category={category}
                                         name={results[result].name}
                                         address={results[result].vicinity}
                                         rating={results[result].rating}
                                         numOfRatings={results[result].user_ratings_total}
+                                        photoRef={results[result].photos?.[0]?.photo_reference}
+                                        photoDataURL={results[result].photos?.[0]?.photo_data_url}
                                     />
                                 ))}
                             </ScrollView>

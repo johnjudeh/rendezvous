@@ -1,22 +1,53 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 import Color from 'common/constants/colors';
+import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
+import { setPlacePhoto, SetPlacePhotoActionPaylod } from '../state';
 
 interface CategoryResultProps {
     id: string,
+    category: PlaceType,
     name: string,
     address: string,
     rating: number,
     numOfRatings: number,
+    photoRef?: string,
+    photoDataURL?: string,
 }
 
 function CategoryResult(props: CategoryResultProps) {
-    const { name, address, rating, numOfRatings } = props;
+    const { id, category, name, address, rating, numOfRatings, photoRef, photoDataURL } = props;
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (photoRef && !photoDataURL) {
+            const pixelSize = PixelRatio.getPixelSizeForLayoutSize(100);
+            GooglePlacesAPI.placePhotoURL(photoRef, pixelSize, pixelSize)
+                .then(photoURL => {
+                    if (photoURL) {
+                        const action: SetPlacePhotoActionPaylod = {
+                            category,
+                            placeId: id,
+                            photoRef,
+                            photoDataURL: photoURL,
+                        }
+                        dispatch(setPlacePhoto(action));
+                    }
+                });
+        }
+    }, [id, photoRef]);
 
     return (
         <View style={styles.container}>
-            <View style={styles.image} />
+            <Image
+                source={photoDataURL
+                    ? { uri: photoDataURL }
+                    : {}
+                }
+                style={styles.image}
+            />
             <View style={styles.detailsContainer}>
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.address}>{address}</Text>
