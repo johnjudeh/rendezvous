@@ -14,10 +14,6 @@ export interface NavigationProps {
     }
 }
 
-export interface ButtonProps {
-    onPress: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void,
-}
-
 export interface ChildrenProps {
     children: ReactElement | ReactElement[] | null,
 }

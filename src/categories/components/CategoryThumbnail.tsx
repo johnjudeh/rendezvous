@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, ImageBackground, ImageSourcePropType } from 'react-native';
-import { ButtonProps } from 'common/types';
+import { StyleSheet, TouchableOpacity, Text, ImageBackground, TouchableOpacityProps } from 'react-native';
 import Color from 'common/constants/colors';
 import { CATEGORY_PHOTOS, CATEGORY_LABELS } from '../constants';
 
-interface CategoryThumbnailProps extends ButtonProps {
+interface CategoryThumbnailProps extends TouchableOpacityProps {
     category: string,
 }
 
