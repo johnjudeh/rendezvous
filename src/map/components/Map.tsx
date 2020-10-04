@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
-import { StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Marker, EventUserLocation, Circle, LatLng, Region } from 'react-native-maps';
+import { PixelRatio, Platform, StyleSheet } from 'react-native';
+import MapView, {
+    PROVIDER_GOOGLE,
+    Marker,
+    EventUserLocation,
+    Circle,
+    LatLng,
+    Region,
+    EdgePadding
+} from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLocations, setCurrLocation } from 'locations/state';
 import { calculateCenter } from 'locations/utils';
@@ -36,6 +44,23 @@ function Map() {
         ? calculateCenter(locations.map(loc => loc.latLng))
         : { ...Coordinates.London };
 
+    const mapPadding: EdgePadding = {
+        top: 0,
+        bottom: Platform.OS === 'ios' ? 80 : 95,
+        left: 0,
+        right: 0,
+    }
+
+    const getEdgePaddingForPlatform = (padding: number, side: keyof EdgePadding): number => {
+        // This is a hack to get the edge padding to work on Android. See issue below:
+        // https://github.com/react-native-maps/react-native-maps/issues/3308#issuecomment-592500013
+        return (
+            Platform.OS === 'android'
+                ? padding * PixelRatio.get() - 50
+                : padding - mapPadding[side].valueOf()
+        );
+    }
+
     useEffect(requestLocation);
     useEffect(() => {
         if (mapRef.current !== null && locations.length !== 0) {
@@ -43,10 +68,10 @@ function Map() {
                 locations.map(loc => loc.id),
                 {
                     edgePadding: {
-                        top: 30,
-                        right: 30,
-                        bottom: 30,
-                        left: 30,
+                        top: getEdgePaddingForPlatform(70, 'top'),
+                        right: getEdgePaddingForPlatform(30, 'right'),
+                        bottom: getEdgePaddingForPlatform(240, 'bottom'),
+                        left: getEdgePaddingForPlatform(30, 'left'),
                     }
                 }
             );
@@ -79,18 +104,13 @@ function Map() {
             onUserLocationChange={onLocationChange}
             showsMyLocationButton={true}
             ref={mapRef}
-            mapPadding={{
-                top: 0,
-                bottom: 80,
-                left: 0,
-                right: 0,
-            }}
+            mapPadding={mapPadding}
         >
-            {locations.map(location => (
+            {locations.map((location, i) => (
                 <Marker
                     key={location.id}
                     identifier={location.id}
-                    title={'Your Location'}
+                    title={i === 0 ? 'Your Location' : `Friend ${i}`}
                     description={location.address}
                     coordinate={location.latLng}
                 />
