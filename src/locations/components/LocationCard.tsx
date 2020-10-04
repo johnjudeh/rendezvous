@@ -39,7 +39,7 @@ function LocationCard(props: LocationCardProps) {
         <View style={styles.container}>
             <View style={[styles.postcodeContainer, { backgroundColor: BAKGROUND_COLORS[index % BAKGROUND_COLORS.length] }]}>
                 <Text style={[styles.postcode, { color: COLORS[index % COLORS.length] }]}>
-                    {postcode.substring(0, 3)}
+                    {postcode.length !== 0 ? postcode.substring(0, 3) : 'RV'}
                 </Text>
             </View>
             <View style={styles.locationContainer}>
