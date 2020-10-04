@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -6,6 +6,8 @@ import {
     GooglePlaceData,
     GooglePlaceDetail,
 } from 'react-native-google-places-autocomplete';
+import 'react-native-get-random-values';
+import { v4 as createUUID } from 'uuid';
 import { selectLocations } from 'locations/state';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
@@ -22,6 +24,11 @@ function LocationSearchBar() {
     const dispatch = useDispatch();
     const locations = useSelector(selectLocations);
     const [ value, setValue ] = useState('');
+    const [ sessionToken, setSessionToken ] = useState('');
+
+    const setNewUUID = () => {
+        setSessionToken(createUUID());
+    };
 
     const addAutocompleteLocation: GooglePlacesAutocompleteOnPress = (data, details = null) => {
         if (!details) {
@@ -47,7 +54,10 @@ function LocationSearchBar() {
 
         dispatch(addLocation(location));
         setValue('');
+        setNewUUID();
     };
+
+    useEffect(setNewUUID, []);
 
     return (
         <View style={styles.topContainer}>
@@ -57,7 +67,7 @@ function LocationSearchBar() {
                 query={{
                     // TODO: Remove this key from the code somehow, then generate a new one!
                     key: '***REMOVED***',
-                    language: 'en-GB',
+                    sessiontoken: sessionToken,
                 }}
                 currentLocation={true}
                 fetchDetails={true}
