@@ -73,7 +73,6 @@ function LocationSearchBar() {
                     location: currLocation ? latLngToString(currLocation) : undefined,
                     radius: 5000,
                 }}
-                currentLocation={true}
                 fetchDetails={true}
                 onPress={addAutocompleteLocation}
                 onFail={(error) => console.error(error)}
