@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { View, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     GooglePlacesAutocomplete,
     GooglePlaceData,
     GooglePlaceDetail,
 } from 'react-native-google-places-autocomplete';
+import { selectLocations } from 'locations/state';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import { LocationData } from 'common/types';
@@ -19,6 +20,7 @@ type GooglePlacesAutocompleteOnPress = (data: GooglePlaceData, detail: GooglePla
 
 function LocationSearchBar() {
     const dispatch = useDispatch();
+    const locations = useSelector(selectLocations);
     const [ value, setValue ] = useState('');
 
     const addAutocompleteLocation: GooglePlacesAutocompleteOnPress = (data, details = null) => {
@@ -48,31 +50,44 @@ function LocationSearchBar() {
     };
 
     return (
-        <GooglePlacesAutocomplete
-            placeholder='Add new location'
-            placeholderTextColor={Color.MID_LIGHT_GREY}
-            query={{
-                // TODO: Remove this key from the code somehow, then generate a new one!
-                key: '***REMOVED***',
-                language: 'en-GB',
-            }}
-            currentLocation={true}
-            fetchDetails={true}
-            onPress={addAutocompleteLocation}
-            onFail={(error) => console.error(error)}
-            minLength={2}
-            debounce={500}
-            suppressDefaultStyles={true}
-            styles={{ ...styles }}
-            textInputProps={{
-                value,
-                onChangeText: text => setValue(text),
-            }}
-        />
+        <View style={styles.topContainer}>
+            <GooglePlacesAutocomplete
+                placeholder={locations.length === 0 ? "Add your location" : "Add a friend's location"}
+                placeholderTextColor={Color.MID_LIGHT_GREY}
+                query={{
+                    // TODO: Remove this key from the code somehow, then generate a new one!
+                    key: '***REMOVED***',
+                    language: 'en-GB',
+                }}
+                currentLocation={true}
+                fetchDetails={true}
+                onPress={addAutocompleteLocation}
+                onFail={(error) => console.error(error)}
+                minLength={2}
+                debounce={500}
+                suppressDefaultStyles={true}
+                styles={{ ...styles }}
+                textInputProps={{
+                    value,
+                    onChangeText: text => setValue(text),
+                }}
+            />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    topContainer: {
+        height: 210,
+        paddingLeft: 45,
+        paddingRight: 45,
+        borderStyle: 'solid',
+        borderBottomColor: Color.LIGHT_GREY,
+        borderBottomWidth: 1,
+        paddingBottom: 20,
+        marginBottom: 20,
+        zIndex: 1,
+    },
     container: {
         zIndex: 1,
     },
@@ -88,16 +103,8 @@ const styles = StyleSheet.create({
         padding: 15,
     },
     listView: {
-        // TODO: To get correct styling, need to fork the GooglePlacesAutocomplete
-        // library and use TouchableHighlight from react-native-gesture-handler
-        // and uncomment the lines below. See discussion:
-        // https://github.com/facebook/react-native/issues/22397#issuecomment-523784563
-        // position: 'absolute',
-        // top: 50,
-        backgroundColor: Color.OFF_WHITE,
-        borderStyle: 'solid',
-        borderColor: Color.DARK_GREY,
-        borderWidth: 0.3,
+        height: 140,
+        marginBottom: 20,
     },
     row: {
         padding: 15,
@@ -111,6 +118,10 @@ const styles = StyleSheet.create({
     },
     description: {
         color: Color.DARK_GREY,
+        fontFamily: FontFamily.BODY,
+    },
+    poweredContainer: {
+        backgroundColor: null,
     },
 });
 

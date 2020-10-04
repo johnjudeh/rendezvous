@@ -2,11 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
+import UserLocations from './UserLocations';
 
-function RecentLocations() {
+function FriendLocations() {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Recent Locations</Text>
+            <Text style={styles.title}>Friend Locations</Text>
+            <UserLocations />
         </View>
     );
 }
@@ -14,17 +16,17 @@ function RecentLocations() {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'stretch',
-        flexGrow: 1,
         paddingLeft: 45,
         paddingRight: 45,
         paddingBottom: 10,
-        marginBottom: 20,
+        marginBottom: 360,
     },
     title: {
         fontSize: 18,
         fontFamily: FontFamily.TITLE,
         color: Color.DARK_GREY,
+        marginBottom: 12,
     },
 });
 
-export default RecentLocations;
+export default FriendLocations;

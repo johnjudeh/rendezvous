@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLocations, removeAllLocations } from '../state';
 import { NavigationProps } from 'common/types';
 import { BackButton, MainButton } from 'common/components';
-import Locations from './Locations';
-import RecentLocations from './RecentLocations';
+import FriendLocations from './FriendLocations';
+import LocationSearchBar from './LocationSearchBar';
 
 function LocationSearch({ navigation }: NavigationProps) {
     const dispatch = useDispatch();
@@ -22,8 +22,8 @@ function LocationSearch({ navigation }: NavigationProps) {
     return (
         <View style={styles.container}>
             <BackButton onPress={handleGoBack} />
-            <Locations locations={locations} />
-            <RecentLocations />
+            <LocationSearchBar />
+            <FriendLocations />
             <View style={styles.buttonContainer}>
                 <MainButton
                     text='Rendez Vous'
@@ -43,8 +43,11 @@ const styles = StyleSheet.create({
         paddingTop: Constants.statusBarHeight + 15,
     },
     buttonContainer: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
         justifyContent: 'center',
-        minHeight: 120,
+        minHeight: Platform.OS === 'ios' ? 110 : 90,
         paddingLeft: 29,
         paddingRight: 29,
     },
