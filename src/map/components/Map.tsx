@@ -49,14 +49,15 @@ function Map() {
                     }
                 }
             );
+            setLocationSet(false);
         }
     }, [mapRef, locations]);
 
     const onLocationChange = (e: EventUserLocation): void => {
-        if (locationSet === false) {
+        if (locationSet === false && locations.length === 0) {
             const { coordinate } = e.nativeEvent;
             if (mapRef.current !== null) {
-                mapRef.current.animateCamera({ center: coordinate });
+                mapRef.current.animateCamera({ center: coordinate, zoom: 12 });
                 setLocationSet(true);
             }
         }
@@ -70,6 +71,7 @@ function Map() {
             // https://github.com/react-native-community/react-native-maps/blob/master/docs/mapview.md
             showsUserLocation={locations.length === 0 ? true : false}
             onUserLocationChange={onLocationChange}
+            showsMyLocationButton={true}
             ref={mapRef}
             mapPadding={{
                 top: 0,
