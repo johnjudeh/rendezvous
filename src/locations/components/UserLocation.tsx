@@ -3,9 +3,10 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import Color from 'common/constants/colors';
+import FontFamily from 'common/constants/fonts';
 import { UniqueObject } from 'common/types';
-import { removeLocation } from '../state'
 import { formatAddress } from 'locations/utils';
+import { removeLocation } from '../state'
 
 interface UserLocationProps extends UniqueObject {
     address: string,
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
     },
     postcode: {
         fontSize: 14,
+        fontFamily: FontFamily.BODY,
     },
     locationContainer: {
         justifyContent: 'center',
@@ -86,10 +88,12 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 15,
+        fontFamily: FontFamily.BODY,
     },
     address: {
         fontSize: 13,
         color: Color.MID_GREY,
+        fontFamily: FontFamily.BODY,
     },
     removeContainer: {
         alignItems: 'center',

@@ -7,6 +7,7 @@ import {
     GooglePlaceDetail,
 } from 'react-native-google-places-autocomplete';
 import Color from 'common/constants/colors';
+import FontFamily from 'common/constants/fonts';
 import { LocationData } from 'common/types';
 import { addLocation } from '../state';
 import {
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
     textInput: {
         height: 50,
         color: Color.DARK_GREY,
+        fontFamily: FontFamily.BODY,
         backgroundColor: Color.OFF_WHITE,
         borderStyle: 'solid',
         borderColor: Color.DARK_GREY,

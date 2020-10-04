@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Platform } from 'react-native';
 import { ChildrenProps } from 'common/types';
 import Color from 'common/constants/colors';
+import FontFamily from 'common/constants/fonts';
 
 interface DockProps extends ChildrenProps {
     title?: string,
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         color: Color.DARK_GREY,
-        fontWeight: '500',
+        fontFamily: FontFamily.TITLE,
     },
     childrenContainer: {
         paddingLeft: 14,

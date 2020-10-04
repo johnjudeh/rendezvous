@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Color from 'common/constants/colors';
+import FontFamily from 'common/constants/fonts';
 
 function RecentLocations() {
     return (
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 18,
-        fontWeight: '500',
+        fontFamily: FontFamily.TITLE,
         color: Color.DARK_GREY,
     },
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import Color, { Opacity } from 'common/constants/colors';
+import FontFamily from 'common/constants/fonts';
 
 interface MainButtonProps extends TouchableOpacityProps {
     text: string,
@@ -32,9 +33,9 @@ const styles = StyleSheet.create({
         backgroundColor: Color.DARK_GREY + Opacity.DISABLED,
     },
     buttonText: {
+        fontFamily: FontFamily.CTA,
         color: Color.OFF_WHITE,
         textTransform: 'uppercase',
-        fontWeight: 'bold',
     }
 });
 

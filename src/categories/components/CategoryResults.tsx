@@ -9,6 +9,7 @@ import { setCategoryResults, selectCategoryResultsCreator, SetActionPayload } fr
 import { NavigationProps } from 'common/types';
 import { BackButton, Dock } from 'common/components';
 import Color from 'common/constants/colors';
+import FontFamily from 'common/constants/fonts';
 import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
 import { SEARCH_RADIUS } from 'map/constants';
 import { CATEGORY_LABELS, CATEGORY_PHOTOS_LARGE } from '../constants';
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'center',
         marginTop: 10,
+        fontFamily: FontFamily.BODY,
     }
 });
 

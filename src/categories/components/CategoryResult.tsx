@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio } from 'rea
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import Color from 'common/constants/colors';
+import FontFamily from 'common/constants/fonts';
 import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
 import { setPlacePhoto, SetPlacePhotoActionPaylod } from '../state';
 
@@ -92,12 +93,13 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 18,
         color: Color.DARK_GREY,
-        fontWeight: 'bold',
+        fontFamily: FontFamily.TITLE,
         marginTop: 3,
     },
     address: {
-        fontSize: 10,
+        fontSize: 11,
         color: Color.MID_LIGHT_GREY,
+        fontFamily: FontFamily.BODY,
         marginTop: 3,
     },
     secondaryContainer: {
@@ -109,13 +111,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     rating: {
-        fontSize: 12,
+        fontSize: 14,
         color: Color.DARK_GREY,
+        fontFamily: FontFamily.BODY,
         paddingLeft: 4,
     },
     numOfRatings: {
-        fontSize: 12,
+        fontSize: 14,
         color: Color.MID_LIGHT_GREY,
+        fontFamily: FontFamily.BODY,
         marginLeft: 3,
     },
     actionsContainer: {

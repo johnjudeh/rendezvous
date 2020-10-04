@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, ImageBackground, TouchableOpacityProps } from 'react-native';
 import Color from 'common/constants/colors';
+import FontFamily from 'common/constants/fonts';
 import { CATEGORY_PHOTOS, CATEGORY_LABELS } from '../constants';
 
 interface CategoryThumbnailProps extends TouchableOpacityProps {
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 20,
-        fontWeight: 'bold',
+        fontFamily: FontFamily.CTA,
         color: Color.OFF_WHITE,
         textShadowColor: Color.DARK_GREY,
         textShadowRadius: 20,
