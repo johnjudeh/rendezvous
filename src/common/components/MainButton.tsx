@@ -1,16 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
-import Color from 'common/constants/colors';
+import Color, { Opacity } from 'common/constants/colors';
 
 interface MainButtonProps extends TouchableOpacityProps {
     text: string,
 }
 
 function MainButton(props: MainButtonProps) {
-    const { text, onPress } = props;
+    const { text, disabled, onPress } = props;
 
     return (
-        <TouchableOpacity style={styles.button} onPress={onPress}>
+        <TouchableOpacity
+            style={disabled ? [styles.button, styles.disabled] : styles.button}
+            disabled={disabled}
+            onPress={onPress}
+        >
             <Text style={styles.buttonText}>{text}</Text>
         </TouchableOpacity>
     );
@@ -23,6 +27,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 6,
+    },
+    disabled: {
+        backgroundColor: Color.DARK_GREY + Opacity.DISABLED,
     },
     buttonText: {
         color: Color.OFF_WHITE,

@@ -13,7 +13,9 @@ function LocationSearch({ navigation }: NavigationProps) {
     const locations = useSelector(selectLocations);
 
     const handleGoBack = () => {
-        dispatch(removeAllLocations());
+        if (locations.length !== 0) {
+            dispatch(removeAllLocations());
+        }
         navigation.navigate('map');
     }
 
@@ -23,7 +25,11 @@ function LocationSearch({ navigation }: NavigationProps) {
             <Locations locations={locations} />
             <RecentLocations />
             <View style={styles.buttonContainer}>
-                <MainButton text='Rendez Vous' onPress={() => navigation.navigate('map')} />
+                <MainButton
+                    text='Rendez Vous'
+                    disabled={locations.length === 0}
+                    onPress={() => navigation.navigate('map')}
+                />
             </View>
         </View>
     );

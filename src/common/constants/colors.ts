@@ -14,4 +14,8 @@ enum Color {
     WHITE = '#FFF',
 }
 
+export enum Opacity {
+    DISABLED = 'aa'
+}
+
 export default Color;
