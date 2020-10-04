@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
 import { StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Marker, EventUserLocation, Circle, LatLng } from 'react-native-maps';
-import { useSelector } from 'react-redux';
-import { selectLocations } from 'locations/state';
+import MapView, { PROVIDER_GOOGLE, Marker, EventUserLocation, Circle, LatLng, Region } from 'react-native-maps';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectLocations, setCurrLocation } from 'locations/state';
 import { calculateCenter } from 'locations/utils';
 import Coordinates from 'locations/constants/cities';
 import { requestLocation } from 'common/permissions';
@@ -10,12 +10,13 @@ import Color from 'common/constants/colors';
 import { SEARCH_RADIUS } from '../constants';
 
 function Map() {
-    const INITAL_REGION = {
+    const INITAL_REGION: Region = {
         ...Coordinates.London,
         latitudeDelta: 0.1000,
         longitudeDelta: 0.1000,
     };
 
+    const dispatch = useDispatch();
     const [ locationSet, setLocationSet ] = useState(false);
     const mapRef: MutableRefObject<MapView | null> = useRef(null);
 
@@ -56,6 +57,11 @@ function Map() {
     const onLocationChange = (e: EventUserLocation): void => {
         if (locationSet === false && locations.length === 0) {
             const { coordinate } = e.nativeEvent;
+            const latLng: LatLng = {
+                latitude: coordinate.latitude,
+                longitude: coordinate.longitude,
+            }
+            dispatch(setCurrLocation(latLng));
             if (mapRef.current !== null) {
                 mapRef.current.animateCamera({ center: coordinate, zoom: 12 });
                 setLocationSet(true);

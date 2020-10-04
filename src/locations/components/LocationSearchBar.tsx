@@ -8,7 +8,7 @@ import {
 } from 'react-native-google-places-autocomplete';
 import 'react-native-get-random-values';
 import { v4 as createUUID } from 'uuid';
-import { selectLocations } from 'locations/state';
+import { selectLocations, selectCurrLocation } from 'locations/state';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import { LocationData } from 'common/types';
@@ -16,6 +16,7 @@ import { addLocation } from '../state';
 import {
     getAdressFromGooglePlaceDetails,
     getPostcodeFromGooglePlaceDetails,
+    latLngToString,
 } from '../utils';
 
 type GooglePlacesAutocompleteOnPress = (data: GooglePlaceData, detail: GooglePlaceDetail | null) => void;
@@ -23,6 +24,7 @@ type GooglePlacesAutocompleteOnPress = (data: GooglePlaceData, detail: GooglePla
 function LocationSearchBar() {
     const dispatch = useDispatch();
     const locations = useSelector(selectLocations);
+    const currLocation = useSelector(selectCurrLocation);
     const [ value, setValue ] = useState('');
     const [ sessionToken, setSessionToken ] = useState('');
 
@@ -68,6 +70,8 @@ function LocationSearchBar() {
                     // TODO: Remove this key from the code somehow, then generate a new one!
                     key: '***REMOVED***',
                     sessiontoken: sessionToken,
+                    location: currLocation ? latLngToString(currLocation) : undefined,
+                    radius: 5000,
                 }}
                 currentLocation={true}
                 fetchDetails={true}
