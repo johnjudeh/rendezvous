@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Platform } from 'react-native';
 import { ChildrenProps } from 'common/types';
 import Color from 'common/constants/colors';
 
@@ -29,17 +29,24 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: '100%',
-        minHeight: 110,
+        minHeight: Platform.OS === 'ios' ? 110 : 90,
         backgroundColor: Color.OFF_WHITE,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
-        shadowColor: Color.DARK_GREY,
-        shadowOffset: {
-            width: 0,
-            height: -2,
-        },
-        shadowRadius: 5,
-        shadowOpacity: 0.20,
+        ...Platform.select({
+            android: {
+                elevation: 30,
+            },
+            default: {
+                shadowColor: Color.DARK_GREY,
+                shadowOffset: {
+                    width: 0,
+                    height: -2,
+                },
+                shadowRadius: 5,
+                shadowOpacity: 0.20,
+            },
+        }),
     },
     titleContainer: {
         height: 56,
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
         paddingLeft: 14,
         paddingRight: 14,
         paddingTop: 20,
-        paddingBottom: 30,
+        paddingBottom: Platform.OS === 'ios' ? 30 : 20,
         justifyContent: 'center',
         flexGrow: 1,
     }
