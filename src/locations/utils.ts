@@ -63,3 +63,8 @@ export function calculateCenter(coordinates: LatLng[]): LatLng {
         latitude: calculateMiddle(coordinateLats),
     }
 }
+
+export function latLngToString(latLng: LatLng): string {
+    const { latitude, longitude } = latLng;
+    return `${latitude},${longitude}`;
+}

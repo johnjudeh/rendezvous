@@ -1,5 +1,6 @@
 import { LatLng } from 'react-native-maps';
 import { Language } from 'react-native-google-places-autocomplete';
+import { latLngToString } from 'locations/utils';
 
 type OutputType = 'json' | 'xml';
 
@@ -122,16 +123,11 @@ export class Client {
         return newUrl;
     }
 
-    static latLngToString(latLng: LatLng): string {
-        const { latitude, longitude } = latLng;
-        return `${latitude},${longitude}`;
-    }
-
     async nearbySearch(location: LatLng, radius: number, type?: PlaceType, openNow: boolean = true): Promise<Result[]> {
         const path: string = `/nearbysearch/${Client.OUTPUT_TYPE}`;
         const queryParams: NearbySearchQueryParams = {
             key: this.apiKey,
-            location: Client.latLngToString(location),
+            location: latLngToString(location),
             radius,
             opennow: openNow,
         };
