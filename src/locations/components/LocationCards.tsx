@@ -2,15 +2,15 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectLocations } from 'locations/state';
-import UserLocation from './UserLocation';
+import LocationCard from './LocationCard';
 
-function UserLocations() {
+function LocationCards() {
     const locations = useSelector(selectLocations);
 
     return (
         <ScrollView>
             {locations.map((location, i) => (
-                <UserLocation
+                <LocationCard
                     key={location.id}
                     id={location.id}
                     address={location.address}
@@ -22,4 +22,4 @@ function UserLocations() {
     );
 }
 
-export default UserLocations;
+export default LocationCards;

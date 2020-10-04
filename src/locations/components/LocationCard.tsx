@@ -8,7 +8,7 @@ import { UniqueObject } from 'common/types';
 import { formatAddress } from 'locations/utils';
 import { removeLocation } from '../state'
 
-interface UserLocationProps extends UniqueObject {
+interface LocationCardProps extends UniqueObject {
     address: string,
     postcode: string,
     index: number,
@@ -26,7 +26,7 @@ const COLORS: Color[] = [
     Color.DARK_GREY,
 ]
 
-function UserLocation(props: UserLocationProps) {
+function LocationCard(props: LocationCardProps) {
     const ADDRESS_MAX_LENGTH = 25;
 
     const { id, address, postcode, index } = props;
@@ -101,4 +101,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default UserLocation;
+export default LocationCard;

@@ -2,13 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
-import UserLocations from './UserLocations';
+import LocationCards from './LocationCards';
 
 function FriendLocations() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Friend Locations</Text>
-            <UserLocations />
+            <LocationCards />
         </View>
     );
 }
