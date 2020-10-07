@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
+import HTMLView from 'react-native-htmlview';
+import * as WebBrowser from 'expo-web-browser';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
@@ -16,10 +18,11 @@ interface CategoryResultProps {
     numOfRatings: number,
     photoRef?: string,
     photoDataURL?: string,
+    photoAttrHTML?: string,
 }
 
 function CategoryResult(props: CategoryResultProps) {
-    const { id, category, name, address, rating, numOfRatings, photoRef, photoDataURL } = props;
+    const { id, category, name, address, rating, numOfRatings, photoRef, photoDataURL, photoAttrHTML } = props;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -42,14 +45,31 @@ function CategoryResult(props: CategoryResultProps) {
 
     return (
         <View style={styles.container}>
-            {/* TODO: Figure out how to manage the html_attributes for images */}
-            <Image
-                source={photoDataURL
-                    ? { uri: photoDataURL }
-                    : {}
-                }
-                style={styles.image}
-            />
+            <View style={styles.imageContainer}>
+                <Image
+                    source={photoDataURL
+                        ? { uri: photoDataURL }
+                        : {}
+                    }
+                    style={styles.image}
+                />
+                <View style={styles.attributionContainer}>
+                    {photoAttrHTML
+                        ? <View style={styles.attributionTextContainer}>
+                            <Text style={styles.attributionText}>By </Text>
+                            <HTMLView
+                                value={photoAttrHTML}
+                                stylesheet={HTMLStyles}
+                                onLinkPress={(url: string) => WebBrowser.openBrowserAsync(url, {
+                                    toolbarColor: Color.OFF_WHITE,
+                                    controlsColor: Color.ORANGE,
+                                })}
+                            />
+                        </View>
+                        : null
+                    }
+                </View>
+            </View>
             <View style={styles.detailsContainer}>
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.address}>{address}</Text>
@@ -75,15 +95,29 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: 130,
+        height: 150,
         borderColor: Color.LIGHT_GREY,
         borderBottomWidth: 1,
     },
+    imageContainer: {
+        alignItems: 'center',
+    },
     image: {
-        height: 100,
-        width: 100,
+        height: 110,
+        width: 110,
         backgroundColor: Color.DARK_RED,
         borderRadius: 5,
+    },
+    attributionContainer: {
+        marginTop: 2,
+    },
+    attributionTextContainer: {
+        flexDirection: 'row',
+    },
+    attributionText: {
+        fontFamily: FontFamily.BODY,
+        fontSize: 10,
+        color: Color.MID_GREY,
     },
     detailsContainer: {
         flexGrow: 1,
@@ -99,7 +133,7 @@ const styles = StyleSheet.create({
     address: {
         fontSize: 11,
         color: Color.MID_LIGHT_GREY,
-        fontFamily: FontFamily.BODY,
+        fontFamily: FontFamily.TITLE,
         marginTop: 3,
     },
     secondaryContainer: {
@@ -131,6 +165,15 @@ const styles = StyleSheet.create({
         marginLeft: 7,
         marginRight: 6,
     },
-})
+});
+
+const HTMLStyles = StyleSheet.create({
+    a: {
+        fontFamily: FontFamily.CTA,
+        fontSize: 10,
+        color: Color.DARK_GREEN,
+        textDecorationLine: 'underline'
+    }
+});
 
 export default CategoryResult;

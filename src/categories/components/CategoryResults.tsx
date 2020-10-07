@@ -63,6 +63,7 @@ function CategoryResults({ navigation, route }: NavigationProps) {
                                         numOfRatings={results[result].user_ratings_total}
                                         photoRef={results[result].photos?.[0]?.photo_reference}
                                         photoDataURL={results[result].photos?.[0]?.photo_data_url}
+                                        photoAttrHTML={results[result].photos?.[0]?.html_attributions[0]}
                                     />
                                 ))}
                             </ScrollView>
