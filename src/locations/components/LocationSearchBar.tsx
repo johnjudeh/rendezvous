@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     GooglePlacesAutocomplete,
@@ -20,6 +20,14 @@ import {
 } from '../utils';
 
 type GooglePlacesAutocompleteOnPress = (data: GooglePlaceData, detail: GooglePlaceDetail | null) => void;
+
+// TODO: This is a hack. It solves the issue that by default Android loads the ActivityIndicator
+// as a transparent color since Expo 39. The library does not provide anyway to explicity set the color.
+// So it has been done below. Ideally, a PR should be opened to the library to allow for setting the
+// colour of the indicator.
+GooglePlacesAutocomplete.prototype._getRowLoader = () => {
+    return <ActivityIndicator animating={true} size='small' color={Color.DARK_GREEN} />;
+}
 
 function LocationSearchBar() {
     const dispatch = useDispatch();
