@@ -27,7 +27,7 @@ function LocationSearch({ navigation }: NavigationProps) {
             <View style={styles.buttonContainer}>
                 <MainButton
                     text='Rendez Vous'
-                    disabled={locations.length === 0}
+                    disabled={locations.length < 2}
                     onPress={() => navigation.navigate('map')}
                 />
             </View>
