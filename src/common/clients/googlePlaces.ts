@@ -108,43 +108,31 @@ export class Client {
         this.apiKey = key;
     }
 
-    static getUrl(path: string): string {
-        return `${Client.BASE_URL}${path}`;
-    }
-
-    static addQueryToUrl(baseUrl: string, queryParams: { [key: string]: any }): string {
-        let newUrl: string = `${baseUrl}?`;
-
-        for (let q of Object.keys(queryParams)) {
-            newUrl += `${q}=${queryParams[q]}&`;
-        }
-        newUrl = newUrl.slice(0, -1);
-
-        return newUrl;
-    }
-
     async nearbySearch(location: LatLng, radius: number, type?: PlaceType, openNow: boolean = true): Promise<Result[]> {
         const path: string = `/nearbysearch/${Client.OUTPUT_TYPE}`;
-        const queryParams: NearbySearchQueryParams = {
-            key: this.apiKey,
-            location: latLngToString(location),
-            radius,
-            opennow: openNow,
-        };
+        const url = new URL(path, Client.BASE_URL);
+        const queryParams = url.searchParams;
+        queryParams.append('key', this.apiKey);
+        queryParams.append('location', latLngToString(location));
+        queryParams.append('radius', String(radius));
+        queryParams.append('opennow', String(openNow));
 
         if (type) {
-            queryParams.type = type;
+            queryParams.append('type', type);
         }
 
-        const url = Client.addQueryToUrl(Client.getUrl(path), queryParams);
-
         try {
-            const res = await fetch(url);
-            const json: Response = await res.json();
-
-            if (!res.ok || !Client.ALLOWED_STATUSES.includes(json.status)) {
+            const res = await fetch(url.toString());
+            if (!res.ok) {
                 throw new Error(
-                    `API responded with HTTP status code of ${res.status}. GooglePlaces status of ${json.status} with message ${json.error_message}. Response message: ${JSON.stringify(json, undefined, 2)}`
+                    `API responded with HTTP status code of ${res.status}`
+                );
+            }
+
+            const json: Response = await res.json();
+            if (!Client.ALLOWED_STATUSES.includes(json.status)) {
+                throw new Error(
+                    `GooglePlaces status of ${json.status} with message ${json.error_message}. Response message: ${JSON.stringify(json, undefined, 2)}`
                 );
             }
 
@@ -159,22 +147,20 @@ export class Client {
 
     async placePhotoURL(photoRef: string, maxHeight?: number, maxWidth?: number): Promise<string | undefined> {
         const path: string = '/photo';
-        const queryParams: PlacePhotoQueryParams = {
-            key: this.apiKey,
-            photoreference: photoRef,
-        };
+        const url = new URL(path, Client.BASE_URL);
+        const queryParams = url.searchParams;
+        queryParams.append('key', this.apiKey);
+        queryParams.append('photoreference', photoRef);
 
         if (maxHeight) {
-            queryParams.maxheight = maxHeight;
+            queryParams.append('maxheight', String(maxHeight));
         }
         if (maxWidth) {
-            queryParams.maxwidth = maxWidth;
+            queryParams.append('maxwidth', String(maxWidth));
         }
 
-        const url = Client.addQueryToUrl(Client.getUrl(path), queryParams);
-
         try {
-            const res = await fetch(url);
+            const res = await fetch(url.toString());
             const photoBlob = await res.blob();
 
             const photoDataURI: string = await new Promise((resolve, reject) => {

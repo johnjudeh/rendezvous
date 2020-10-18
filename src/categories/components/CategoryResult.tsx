@@ -26,8 +26,11 @@ function CategoryResult(props: CategoryResultProps) {
     const dispatch = useDispatch();
 
     const navigateToGoogleMaps = () => {
-        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}&query_place_id=${id}`;
-        Linking.openURL(url);
+        const url = new URL('https://www.google.com/maps/search/');
+        url.searchParams.append('api', '1');
+        url.searchParams.append('query', encodeURIComponent(name));
+        url.searchParams.append('query_place_id', id);
+        Linking.openURL(url.toString());
     }
 
     useEffect(() => {
