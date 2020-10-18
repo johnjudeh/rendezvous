@@ -1,6 +1,6 @@
 import { createSlice, CreateSliceOptions, PayloadAction } from '@reduxjs/toolkit';
+import { LatLng } from 'react-native-maps';
 import { PlaceType, Result as GooglePlacesResult, Photo } from 'common/clients/googlePlaces';
-import { Dictionary } from 'common/types';
 
 interface EnrichedPhoto extends Photo {
     photo_data_url?: string,
@@ -10,9 +10,15 @@ interface CategoryResult extends GooglePlacesResult {
     photos?: EnrichedPhoto[],
 }
 
-interface Category {
+interface CategoryResults {
     [place_id: string]: CategoryResult,
 };
+
+interface Category {
+    center: LatLng,
+    radius: number,
+    results: CategoryResults,
+}
 
 type CategoryOrNull = Category | null;
 
@@ -31,12 +37,12 @@ interface State {
 }
 
 export interface SetActionPayload {
-    category: PlaceType,
-    places: GooglePlacesResult[],
+    categoryName: PlaceType,
+    category: Category,
 }
 
 export interface SetPlacePhotoActionPaylod {
-    category: PlaceType,
+    categoryName: PlaceType,
     placeId: string,
     photoRef: string,
     photoDataURL: string,
@@ -53,18 +59,12 @@ const sliceObject: CreateSliceOptions<CategorySlice> = {
     },
     reducers: {
         set: (state, action: PayloadAction<SetActionPayload>) => {
-            const { category, places } = action.payload;
-            const placesDict: Dictionary<GooglePlacesResult> = {};
-
-            for (const p of places) {
-                placesDict[p.place_id] = p;
-            }
-
-            state[category] = placesDict;
+            const { categoryName, category } = action.payload;
+            state[categoryName] = category;
         },
         setPlacePhoto: (state, action: PayloadAction<SetPlacePhotoActionPaylod>) => {
-            const { category, placeId, photoRef, photoDataURL } = action.payload;
-            const place = state[category]?.[placeId];
+            const { categoryName, placeId, photoRef, photoDataURL } = action.payload;
+            const place = state[categoryName]?.results?.[placeId];
             place?.photos?.forEach(photo => {
                 if (photo.photo_reference === photoRef) {
                     photo.photo_data_url = photoDataURL;
@@ -75,7 +75,7 @@ const sliceObject: CreateSliceOptions<CategorySlice> = {
 };
 
 // TODO: Checkout best practices on how to write this type of dynamic selector
-export const selectCategoryResultsCreator = (category: PlaceType) => (state: State): CategoryOrNull => state.categories[category];
+export const selectCategoryCreator = (category: PlaceType) => (state: State): CategoryOrNull => state.categories[category];
 
 export const slice = createSlice(sliceObject);
 export const { set, setPlacePhoto } = slice.actions;

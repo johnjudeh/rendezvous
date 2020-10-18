@@ -2,7 +2,7 @@ export {
     default as reducer,
     set as setCategoryResults,
     setPlacePhoto,
-    selectCategoryResultsCreator,
+    selectCategoryCreator,
     SetActionPayload,
     SetPlacePhotoActionPaylod,
 } from './slice';

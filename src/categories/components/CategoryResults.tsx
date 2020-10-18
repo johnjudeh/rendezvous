@@ -5,58 +5,66 @@ import { LatLng } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLocations } from 'locations/state';
 import { calculateCenter } from 'locations/utils';
-import { setCategoryResults, selectCategoryResultsCreator, SetActionPayload } from 'categories/state';
-import { NavigationProps } from 'common/types';
+import { setCategoryResults, selectCategoryCreator, SetActionPayload } from 'categories/state';
+import { Dictionary, NavigationProps } from 'common/types';
 import { BackButton, Dock } from 'common/components';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
-import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
+import GooglePlacesAPI, { PlaceType, Result as GooglePlacesResult } from 'common/clients/googlePlaces';
 import { SEARCH_RADIUS } from 'map/constants';
 import { CATEGORY_LABELS, CATEGORY_PHOTOS_LARGE } from '../constants';
 import CategoryResult from './CategoryResult';
 
 function CategoryResults({ navigation, route }: NavigationProps) {
-    const category: PlaceType = route.params?.category;
+    const categoryName: PlaceType = route.params?.category;
     const dispatch = useDispatch();
     const locations = useSelector(selectLocations);
-    const results = useSelector(selectCategoryResultsCreator(category));
+    const category = useSelector(selectCategoryCreator(categoryName));
+    const results = category?.results;
     const center: LatLng = calculateCenter(locations.map(loc => loc.latLng));
 
     useEffect(() => {
         if (!results) {
-            GooglePlacesAPI.nearbySearch(center, SEARCH_RADIUS, category)
+            const radius = SEARCH_RADIUS;
+            GooglePlacesAPI.nearbySearch(center, radius, categoryName)
                 .then(res => {
+                    const placeResults: Dictionary<GooglePlacesResult> = {};
+                    res.forEach(result => placeResults[result.place_id] = result);
                     const action: SetActionPayload = {
-                        category,
-                        places: res,
+                        categoryName,
+                        category: {
+                            center,
+                            radius,
+                            results: placeResults,
+                        }
                     };
                     dispatch(setCategoryResults(action));
                 });
         }
-    }, [center.latitude, center.longitude, category]);
+    }, [center.latitude, center.longitude, categoryName]);
 
     return (
         <View style={styles.container}>
             <StatusBar style='light' />
             <BackButton onPress={navigation.goBack} color={Color.OFF_WHITE} />
             <Image
-                source={CATEGORY_PHOTOS_LARGE[category]}
+                source={CATEGORY_PHOTOS_LARGE[categoryName]}
                 style={styles.imageContainer}
             />
-            <Dock title={CATEGORY_LABELS[category]} style={styles.dock}>
+            <Dock title={CATEGORY_LABELS[categoryName]} style={styles.dock}>
                 <View style={styles.resultsContainer}>
-                    {results === null
+                    {results === undefined
                         ? <Text style={styles.loadingText}>Loading...</Text>
                         : Object.keys(results).length === 0
                             ? <Text style={styles.loadingText}>
-                                There are no open {CATEGORY_LABELS[category].toLowerCase()} in this area right now
+                                There are no open {CATEGORY_LABELS[categoryName].toLowerCase()} in this area right now
                             </Text>
                             : <ScrollView>
                                 {Object.keys(results).map(result => (
                                     <CategoryResult
                                         key={results[result].place_id}
                                         id={results[result].place_id}
-                                        category={category}
+                                        category={categoryName}
                                         name={results[result].name}
                                         address={results[result].vicinity}
                                         rating={results[result].rating}

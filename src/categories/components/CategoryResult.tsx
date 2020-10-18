@@ -32,7 +32,7 @@ function CategoryResult(props: CategoryResultProps) {
                 .then(photoURL => {
                     if (photoURL) {
                         const action: SetPlacePhotoActionPaylod = {
-                            category,
+                            categoryName: category,
                             placeId: id,
                             photoRef,
                             photoDataURL: photoURL,
