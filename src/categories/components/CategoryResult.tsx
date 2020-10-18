@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio, Dimensions } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import HTMLView from 'react-native-htmlview';
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: 150,
+        height: 160,
         borderColor: Color.LIGHT_GREY,
         borderBottomWidth: 1,
     },
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     },
     attributionContainer: {
         marginTop: 2,
+        maxWidth: 110,
     },
     attributionTextContainer: {
         flexDirection: 'row',
@@ -129,12 +130,14 @@ const styles = StyleSheet.create({
         color: Color.DARK_GREY,
         fontFamily: FontFamily.TITLE,
         marginTop: 3,
+        maxWidth: Dimensions.get('window').width - 110 - 17 - 28,
     },
     address: {
         fontSize: 11,
         color: Color.MID_LIGHT_GREY,
         fontFamily: FontFamily.TITLE,
         marginTop: 3,
+        maxWidth: Dimensions.get('window').width - 110 - 17 - 28,
     },
     secondaryContainer: {
         flexDirection: 'row',
