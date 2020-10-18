@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio, Dimensions, Linking } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import HTMLView from 'react-native-htmlview';
@@ -25,6 +25,11 @@ function CategoryResult(props: CategoryResultProps) {
     const { id, category, name, address, rating, numOfRatings, photoRef, photoDataURL, photoAttrHTML } = props;
     const dispatch = useDispatch();
 
+    const navigateToGoogleMaps = () => {
+        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}&query_place_id=${id}`;
+        Linking.openURL(url);
+    }
+
     useEffect(() => {
         if (photoRef && !photoDataURL) {
             const pixelSize = PixelRatio.getPixelSizeForLayoutSize(100);
@@ -44,7 +49,7 @@ function CategoryResult(props: CategoryResultProps) {
     }, [id, photoRef]);
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={navigateToGoogleMaps}>
             <View style={styles.imageContainer}>
                 <Image
                     source={photoDataURL
@@ -87,7 +92,7 @@ function CategoryResult(props: CategoryResultProps) {
                     </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
