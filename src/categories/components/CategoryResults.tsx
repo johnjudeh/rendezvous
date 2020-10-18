@@ -22,10 +22,15 @@ function CategoryResults({ navigation, route }: NavigationProps) {
     const category = useSelector(selectCategoryCreator(categoryName));
     const results = category?.results;
     const center: LatLng = calculateCenter(locations.map(loc => loc.latLng));
+    const radius = SEARCH_RADIUS;
 
     useEffect(() => {
-        if (!results) {
-            const radius = SEARCH_RADIUS;
+        if (
+            !category
+            || category.center.latitude !== center.latitude
+            || category.center.longitude !== center.longitude
+            || category.radius !== radius
+        ) {
             GooglePlacesAPI.nearbySearch(center, radius, categoryName)
                 .then(res => {
                     const placeResults: Dictionary<GooglePlacesResult> = {};
