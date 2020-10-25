@@ -6,7 +6,7 @@ interface EnrichedPhoto extends Photo {
     photo_data_url?: string,
 }
 
-interface CategoryResult extends GooglePlacesResult {
+export interface CategoryResult extends GooglePlacesResult {
     photos?: EnrichedPhoto[],
 }
 

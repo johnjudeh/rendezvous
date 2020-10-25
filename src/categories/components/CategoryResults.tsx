@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { Dimensions, ScrollView, Text, View, StyleSheet, Image } from 'react-native';
+import { Dimensions, FlatList, Text, View, StyleSheet, Image, ListRenderItem } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { LatLng } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLocations } from 'locations/state';
 import { calculateCenter } from 'locations/utils';
-import { setCategoryResults, selectCategoryCreator, SetActionPayload } from 'categories/state';
+import { setCategoryResults, selectCategoryCreator, SetActionPayload, CategoryResult as CategoryResultInterface } from 'categories/state';
 import { Dictionary, NavigationProps } from 'common/types';
 import { BackButton, Dock } from 'common/components';
 import Color from 'common/constants/colors';
@@ -23,6 +23,30 @@ function CategoryResults({ navigation, route }: NavigationProps) {
     const results = category?.results;
     const center: LatLng = calculateCenter(locations.map(loc => loc.latLng));
     const radius = SEARCH_RADIUS;
+
+    const renderCategoryResult: ListRenderItem<CategoryResultInterface> = ({ item }) => {
+        return (
+            <CategoryResult
+                id={item.place_id}
+                category={categoryName}
+                name={item.name}
+                address={item.vicinity}
+                rating={item.rating}
+                numOfRatings={item.user_ratings_total}
+                photoRef={item.photos?.[0]?.photo_reference}
+                photoDataURL={item.photos?.[0]?.photo_data_url}
+                photoAttrHTML={item.photos?.[0]?.html_attributions[0]}
+            />
+        );
+    };
+
+    const renderEmptyList = () => {
+        return (
+            <Text style={styles.loadingText}>
+                There are no open {CATEGORY_LABELS[categoryName].toLowerCase()} in this area right now
+            </Text>
+        );
+    };
 
     useEffect(() => {
         if (
@@ -60,26 +84,14 @@ function CategoryResults({ navigation, route }: NavigationProps) {
                 <View style={styles.resultsContainer}>
                     {results === undefined
                         ? <Text style={styles.loadingText}>Loading...</Text>
-                        : Object.keys(results).length === 0
-                            ? <Text style={styles.loadingText}>
-                                There are no open {CATEGORY_LABELS[categoryName].toLowerCase()} in this area right now
-                            </Text>
-                            : <ScrollView>
-                                {Object.keys(results).map(result => (
-                                    <CategoryResult
-                                        key={results[result].place_id}
-                                        id={results[result].place_id}
-                                        category={categoryName}
-                                        name={results[result].name}
-                                        address={results[result].vicinity}
-                                        rating={results[result].rating}
-                                        numOfRatings={results[result].user_ratings_total}
-                                        photoRef={results[result].photos?.[0]?.photo_reference}
-                                        photoDataURL={results[result].photos?.[0]?.photo_data_url}
-                                        photoAttrHTML={results[result].photos?.[0]?.html_attributions[0]}
-                                    />
-                                ))}
-                            </ScrollView>
+                        : <FlatList
+                            data={Object.values(results)}
+                            renderItem={renderCategoryResult}
+                            keyExtractor={item => item.place_id}
+                            extraData={categoryName}
+                            initialNumToRender={5}
+                            ListEmptyComponent={renderEmptyList}
+                        />
                     }
                 </View>
             </Dock>

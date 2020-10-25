@@ -5,5 +5,6 @@ export {
     selectCategoryCreator,
     SetActionPayload,
     SetPlacePhotoActionPaylod,
+    CategoryResult,
 } from './slice';
 
