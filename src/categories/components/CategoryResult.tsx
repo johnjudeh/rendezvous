@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio, Dimensions, Linking } from 'react-native';
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import HTMLView from 'react-native-htmlview';
 import * as WebBrowser from 'expo-web-browser';
@@ -85,14 +85,6 @@ function CategoryResult(props: CategoryResultProps) {
                     <FontAwesome name='star' size={16} color={Color.ORANGE} />
                     <Text style={styles.rating}>{rating ? rating.toPrecision(2) : 'Unrated'}</Text>
                     <Text style={styles.numOfRatings}>{rating ? `(${numOfRatings})` : ''}</Text>
-                    <View style={styles.actionsContainer}>
-                        <TouchableOpacity style={styles.action}>
-                            <Ionicons name="md-heart" size={28} color={Color.ORANGE} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.action}>
-                            <Ionicons name="md-share-alt" size={28} color={Color.MID_LIGHT_GREY} style={styles.action} />
-                        </TouchableOpacity>
-                    </View>
                 </View>
             </View>
         </TouchableOpacity>
@@ -150,7 +142,7 @@ const styles = StyleSheet.create({
     secondaryContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 2,
+        marginTop: 9,
     },
     ratingContainer: {
         flexDirection: 'row',
@@ -166,15 +158,6 @@ const styles = StyleSheet.create({
         color: Color.MID_LIGHT_GREY,
         fontFamily: FontFamily.BODY,
         marginLeft: 3,
-    },
-    actionsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        flexGrow: 1,
-    },
-    action: {
-        marginLeft: 7,
-        marginRight: 6,
     },
 });
 
