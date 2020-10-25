@@ -15,7 +15,7 @@ enum Color {
 }
 
 export enum Opacity {
-    DISABLED = 'aa'
+    DISABLED = 'AA',
 }
 
 export default Color;
