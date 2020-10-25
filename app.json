@@ -1,10 +1,17 @@
 {
   "expo": {
-    "name": "rendezvous",
+    "name": "Rendez Vous",
+    "description": "An app that helps friends connect in big cities",
     "slug": "rendezvous",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
+    "backgroundColor": "#D1CFC7",
+    "primaryColor": "#5A7D7C",
     "icon": "./assets/icon.png",
+    "androidNavigationBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#353745"
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -17,10 +24,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "guide.rendezvous.rendezvous",
+      "supportsTablet": false,
+      "config": {
+        "googleMapsApiKey": "***REMOVED***"
+      }
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "android": {
+      "package": "guide.rendezvous.rendezvous",
+      "config": {
+        "googleMaps": {
+          "apiKey": "***REMOVED***"
+        }
+      }
     }
   }
 }
