@@ -26,6 +26,9 @@
     "ios": {
       "bundleIdentifier": "guide.rendezvous.rendezvous",
       "supportsTablet": false,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses the user's location to help them search for places near them to meet friends"
+      },
       "config": {
         "googleMapsApiKey": "***REMOVED***"
       }

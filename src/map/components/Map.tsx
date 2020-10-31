@@ -98,8 +98,6 @@ function Map() {
         <MapView style={styles.mapStyle}
             initialRegion={INITAL_REGION}
             provider={PROVIDER_GOOGLE}
-            // TODO: Need to add config before deploying this see intructions in the repo:
-            // https://github.com/react-native-community/react-native-maps/blob/master/docs/mapview.md
             showsUserLocation={locations.length === 0 ? true : false}
             onUserLocationChange={onLocationChange}
             showsMyLocationButton={true}
