@@ -4,7 +4,7 @@ enum Color {
     MID_GREY = '#6A6E8A',
     MID_LIGHT_GREY = '#8C8FA6',
     LIGHT_GREY = '#D1CFC7',
-    ORANGE = '#E07A5F',
+    ORANGE = '#F97958',
     DARK_GREEN = '#5A7D7C',
     LIGHT_GREEN = '#C3D898',
     LIGHT_BLUE = '#BFD9D7',
