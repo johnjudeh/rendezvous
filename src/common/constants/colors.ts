@@ -9,7 +9,7 @@ enum Color {
     LIGHT_GREEN = '#C3D898',
     LIGHT_BLUE = '#BFD9D7',
     DARK_RED = '#6D3B47',
-    PLATINUM = '#EDEBE9',
+    PLATINUM = '#F0F0EF',
     OFF_WHITE = '#FAFAFA',
     WHITE = '#FFF',
 }
