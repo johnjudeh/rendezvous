@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import Color from 'common/constants/colors';
@@ -27,13 +27,13 @@ const COLORS: Color[] = [
 ]
 
 function LocationCard(props: LocationCardProps) {
-    const ADDRESS_MAX_LENGTH = 25;
+    const address_max_length = Math.round(Dimensions.get('screen').width / 17);
 
     const { id, address, postcode, index } = props;
     const dispatch = useDispatch();
 
     const handleLocationRemoval = () => dispatch(removeLocation(id));
-    const formattedAddress = formatAddress(address, ADDRESS_MAX_LENGTH);
+    const formattedAddress = formatAddress(address, address_max_length);
 
     return (
         <View style={styles.container}>
