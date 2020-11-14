@@ -15,6 +15,7 @@ import { calculateCenter } from 'locations/utils';
 import Coordinates from 'locations/constants/cities';
 import { requestLocation } from 'common/permissions';
 import Color from 'common/constants/colors';
+import { appleDeviceHasDockBar } from 'common/utils/device';
 import { SEARCH_RADIUS } from '../constants';
 
 function Map() {
@@ -46,7 +47,11 @@ function Map() {
 
     const mapPadding: EdgePadding = {
         top: 0,
-        bottom: Platform.OS === 'ios' ? 80 : 95,
+        bottom: Platform.OS === 'ios'
+            ? appleDeviceHasDockBar()
+                ? 85
+                : 110
+            : 90,
         left: 0,
         right: 0,
     }
