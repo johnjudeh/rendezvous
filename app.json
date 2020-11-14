@@ -3,10 +3,10 @@
     "name": "Rendez Vous",
     "description": "An app that helps friends connect in big cities",
     "slug": "rendezvous",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "orientation": "portrait",
-    "backgroundColor": "#D1CFC7",
-    "primaryColor": "#5A7D7C",
+    "backgroundColor": "#FAFAFA",
+    "primaryColor": "#F97958",
     "icon": "./assets/icon.png",
     "androidNavigationBar": {
       "barStyle": "light-content",
