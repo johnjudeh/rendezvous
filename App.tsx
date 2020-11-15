@@ -11,6 +11,7 @@ import {
     Roboto_700Bold,
     Roboto_700Bold_Italic,
 } from '@expo-google-fonts/roboto';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { AppContainer, store } from 'app';
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
         Roboto_500Medium_Italic,
         Roboto_700Bold,
         Roboto_700Bold_Italic,
+        ...FontAwesome.font,
+        ...Ionicons.font,
     });
     const [ assets ] = useAssets([
         require('categories/img/restaurant.jpg'),
