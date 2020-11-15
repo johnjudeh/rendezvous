@@ -1,12 +1,13 @@
 export {
     default as locationsReducer,
-    add as addLocation,
-    remove as removeLocation,
-    removeAll as removeAllLocations,
+    handleAdd as addLocation,
+    handleRemove as removeLocation,
+    handleRemoveAll as removeAllLocations,
     selectLocations,
+    selectLocationsDict,
 } from './locationsSlice';
 export {
     default as currLocationReducer,
-    set as setCurrLocation,
+    handleSet as setCurrLocation,
     selectCurrLocation,
 } from './currLocationSlice';
