@@ -1,7 +1,7 @@
 export {
     default as reducer,
-    set as setCategoryResults,
-    setPlacePhoto,
+    handleSet as setCategoryResults,
+    handleSetPlacePhoto as setPlacePhoto,
     selectCategoryCreator,
     SetActionPayload,
     SetPlacePhotoActionPaylod,

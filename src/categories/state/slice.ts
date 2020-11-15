@@ -1,5 +1,6 @@
-import { createSlice, CreateSliceOptions, PayloadAction } from '@reduxjs/toolkit';
+import { Action, createSlice, CreateSliceOptions, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { LatLng } from 'react-native-maps';
+import * as Segment from 'expo-analytics-segment';
 import { PlaceType, Result as GooglePlacesResult, Photo } from 'common/clients/googlePlaces';
 
 interface EnrichedPhoto extends Photo {
@@ -35,6 +36,8 @@ interface CategorySlice {
 interface State {
     categories: CategorySlice,
 }
+
+type CategoryThunkAction = ThunkAction<void, State, undefined, Action<string>>;
 
 export interface SetActionPayload {
     categoryName: PlaceType,
@@ -74,9 +77,28 @@ const sliceObject: CreateSliceOptions<CategorySlice> = {
     },
 };
 
+export const slice = createSlice(sliceObject);
+export const { set, setPlacePhoto } = slice.actions;
+
 // TODO: Checkout best practices on how to write this type of dynamic selector
 export const selectCategoryCreator = (category: PlaceType) => (state: State): CategoryOrNull => state.categories[category];
 
-export const slice = createSlice(sliceObject);
-export const { set, setPlacePhoto } = slice.actions;
+export const handleSet = (payload: SetActionPayload): CategoryThunkAction => dispatch => {
+    Segment.trackWithProperties('Loaded category results', {
+        numOfResults: Object.values(payload.category.results).length,
+        ...payload,
+    });
+    dispatch(set(payload));
+};
+
+export const handleSetPlacePhoto = (payload: SetPlacePhotoActionPaylod): CategoryThunkAction => (dispatch, getState) => {
+    const category = selectCategoryCreator(payload.categoryName)(getState());
+    Segment.trackWithProperties('Loaded place photo', {
+        category: payload.categoryName,
+        placeId: payload.placeId,
+        place: category?.results[payload.placeId],
+    });
+    dispatch(setPlacePhoto(payload));
+};
+
 export default slice.reducer;
