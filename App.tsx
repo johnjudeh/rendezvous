@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { AppLoading } from 'expo';
 import { useAssets } from 'expo-asset';
@@ -12,6 +12,7 @@ import {
     Roboto_700Bold_Italic,
 } from '@expo-google-fonts/roboto';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { initialize as initializeSegment } from 'common/analytics/segment';
 import { AppContainer, store } from 'app';
 
 function App() {
@@ -36,7 +37,9 @@ function App() {
         require('categories/img/cafe-large.jpg'),
         require('categories/img/museum-large.jpg'),
         require('categories/img/park-large.jpg'),
-    ])
+    ]);
+
+    useEffect(initializeSegment, []);
 
     if (!fontsLoaded || !assets) {
         return <AppLoading />;

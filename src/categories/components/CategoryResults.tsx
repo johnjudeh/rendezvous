@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Dimensions, FlatList, Text, View, StyleSheet, Image, ListRenderItem } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { LatLng } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
+import * as Segment from 'expo-analytics-segment';
 import { selectLocations } from 'locations/state';
 import { calculateCenter } from 'locations/utils';
 import { setCategoryResults, selectCategoryCreator, SetActionPayload, CategoryResult as CategoryResultInterface } from 'categories/state';
@@ -47,6 +49,16 @@ function CategoryResults({ navigation, route }: NavigationProps) {
             </Text>
         );
     };
+
+    useFocusEffect(useCallback(() => {
+        Segment.screenWithProperties('Category Results', {
+            category: categoryName,
+            locations,
+            center,
+            radius,
+            numOfResults: results ? Object.values(results).length : null,
+        });
+    }, []));
 
     useEffect(() => {
         if (
