@@ -6,8 +6,5 @@ export function initialize(): void {
             iosWriteKey: "gv4OfhvA4Cj3WwyPNUk0Qm3fyfLvj1Uc",
             androidWriteKey: "YEGyUJecngvXSJKRT1FWc8yKvizYROCx",
         });
-        Segment.setEnabledAsync(true);
-    } else {
-        Segment.setEnabledAsync(false);
     }
 }
