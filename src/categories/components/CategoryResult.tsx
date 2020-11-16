@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import HTMLView from 'react-native-htmlview';
 import * as WebBrowser from 'expo-web-browser';
+import * as Segment from 'expo-analytics-segment';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
@@ -30,6 +31,15 @@ function CategoryResult(props: CategoryResultProps) {
         url.searchParams.append('api', '1');
         url.searchParams.append('query', encodeURIComponent(name));
         url.searchParams.append('query_place_id', id);
+        Segment.trackWithProperties('Choose place', {
+            category,
+            placeName: name,
+            placeId: id,
+            address,
+            rating,
+            numOfRatings,
+            hasPhoto: photoRef !== undefined,
+        });
         Linking.openURL(url.toString());
     }
 
