@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     },
     attributionText: {
         fontFamily: FontFamily.BODY,
-        fontSize: 10,
+        fontSize: 11,
         color: Color.MID_GREY,
     },
     detailsContainer: {
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
 const HTMLStyles = StyleSheet.create({
     a: {
         fontFamily: FontFamily.CTA,
-        fontSize: 10,
+        fontSize: 11,
         color: Color.DARK_GREEN,
         textDecorationLine: 'underline'
     }
