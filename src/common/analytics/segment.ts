@@ -3,8 +3,11 @@ import * as Segment from 'expo-analytics-segment';
 export function initialize(): void {
     if (!__DEV__) {
         Segment.initialize({
-            iosWriteKey: "GbbXfM4ReUdYFxmMSPegjaLZQ3dMFYTg",
-            androidWriteKey: "onBrGs4IbG2v9RM04LB0WvMU4828vlRC",
+            iosWriteKey: "gv4OfhvA4Cj3WwyPNUk0Qm3fyfLvj1Uc",
+            androidWriteKey: "YEGyUJecngvXSJKRT1FWc8yKvizYROCx",
         });
+        Segment.setEnabledAsync(true);
+    } else {
+        Segment.setEnabledAsync(false);
     }
 }
