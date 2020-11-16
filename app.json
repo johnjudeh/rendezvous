@@ -31,7 +31,7 @@
       "buildNumber": "1.0.0d1",
       "supportsTablet": false,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "This app uses the user's location to help them search for places near them to meet friends"
+        "NSLocationWhenInUseUsageDescription": "Your location is used to find nearby places to meet friends"
       },
       "config": {
         "googleMapsApiKey": "***REMOVED***"
