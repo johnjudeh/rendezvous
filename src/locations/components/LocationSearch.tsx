@@ -7,7 +7,7 @@ import * as Segment from 'expo-analytics-segment';
 import { selectLocations, removeAllLocations } from '../state';
 import { NavigationProps } from 'common/types';
 import { BackButton, MainButton } from 'common/components';
-import FriendLocations from './FriendLocations';
+import Locations from './Locations';
 import LocationSearchBar from './LocationSearchBar';
 
 function LocationSearch({ navigation }: NavigationProps) {
@@ -31,7 +31,7 @@ function LocationSearch({ navigation }: NavigationProps) {
         <View style={styles.container}>
             <BackButton onPress={handleGoBack} />
             <LocationSearchBar />
-            <FriendLocations />
+            <Locations />
             <View style={styles.buttonContainer}>
                 <MainButton
                     text='Rendez Vous'

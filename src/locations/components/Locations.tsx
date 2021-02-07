@@ -6,17 +6,19 @@ import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import LocationCards from './LocationCards';
 
-function FriendLocations() {
+function Locations() {
     const locations = useSelector(selectLocations);
+    const showHelpText = locations.length < 2;
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Friend Locations</Text>
-            {locations.length > 0
-                ? <LocationCards />
-                : <View style={styles.emptyContainer}>
-                    <Text style={styles.emptyText}>Add at least 2 locations to Rendez Vous</Text>
+            <Text style={styles.title}>Locations to Use</Text>
+            <LocationCards />
+            {showHelpText
+                ? <View style={styles.emptyContainer}>
+                    <Text style={styles.emptyText}>Add at least {2 - locations.length} more location to activate the Rendez Vous button</Text>
                 </View>
+                : null
             }
         </View>
     );
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
         marginBottom: 12,
     },
     emptyContainer: {
-        marginTop: 10,
+        marginTop: 30,
     },
     emptyText: {
         fontFamily: FontFamily.BODY,
@@ -45,4 +47,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FriendLocations;
+export default Locations;
