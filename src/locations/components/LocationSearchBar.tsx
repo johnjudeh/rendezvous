@@ -9,9 +9,9 @@ import {
 import 'react-native-get-random-values';
 import { v4 as createUUID } from 'uuid';
 import { selectLocations, selectCurrLocation } from 'locations/state';
+import { LocationData } from 'locations/types';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
-import { LocationData } from 'common/types';
 import { addLocation } from '../state';
 import {
     getAdressFromGooglePlaceDetails,

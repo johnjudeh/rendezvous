@@ -1,6 +1,6 @@
 import { Action, createSlice, CreateSliceOptions, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import * as Segment from 'expo-analytics-segment';
-import { LocationData } from 'common/types';
+import { LocationData } from 'locations/types';
 
 interface LocationSlice {
     [id: string]: LocationData,

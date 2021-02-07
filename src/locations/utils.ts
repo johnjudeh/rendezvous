@@ -1,6 +1,6 @@
 import { AddressComponent } from 'react-native-google-places-autocomplete';
 import { LatLng } from 'react-native-maps';
-import { LatLngShort } from 'common/types';
+import { LatLngShort } from 'locations/types';
 
 export function getAdressFromGooglePlaceDetails(addressComponents: AddressComponent[]): string {
     // TODO: Move to constants?

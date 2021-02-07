@@ -1,6 +1,6 @@
 import { LatLng } from 'react-native-maps';
 import { latLngToString, convertLatLngShortToLong } from 'locations/utils';
-import { LocationData, LatLngShort } from '../types';
+import { LocationData, LatLngShort } from 'locations/types';
 
 type OutputType = 'json' | 'xml';
 
