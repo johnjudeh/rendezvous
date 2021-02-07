@@ -1,7 +1,7 @@
 import { Action, createSlice, CreateSliceOptions, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { LatLng } from 'react-native-maps';
 import * as Segment from 'expo-analytics-segment';
-import { PlaceType, Result as GooglePlacesResult, Photo } from 'common/clients/googlePlaces';
+import { PlaceType, PlacesResult as GooglePlacesResult, Photo } from 'common/clients/googlePlaces';
 
 interface EnrichedPhoto extends Photo {
     photo_data_url?: string,

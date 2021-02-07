@@ -1,6 +1,6 @@
 import { LatLng } from 'react-native-maps';
-import { Language } from 'react-native-google-places-autocomplete';
-import { latLngToString } from 'locations/utils';
+import { latLngToString, convertLatLngShortToLong } from 'locations/utils';
+import { LocationData, LatLngShort } from '../types';
 
 type OutputType = 'json' | 'xml';
 
@@ -32,32 +32,6 @@ enum PriceLevel {
     VeryExpensive,
 };
 
-interface NearbySearchQueryParams {
-    key: string,
-    location: string,
-    radius: number,
-    keyword?: string,
-    language?: Language,
-    minprice?: PriceLevel,
-    maxprice?: PriceLevel,
-    opennow?: boolean,
-    rankby?: 'prominence' | 'distance',
-    type?: PlaceType,
-    pagetoken?: string,
-}
-
-interface PlacePhotoQueryParams {
-    key: string,
-    photoreference: string,
-    maxheight?: number,
-    maxwidth?: number,
-}
-
-interface LatLngShort {
-    lat: number,
-    lng: number,
-}
-
 export interface Photo {
     photo_reference: string,
     height: number,
@@ -65,16 +39,18 @@ export interface Photo {
     html_attributions: string[],
 }
 
-export interface Result {
+interface Geometry {
+    location: LatLngShort,
+    viewport?: {
+        northeast: LatLngShort,
+        southwest: LatLngShort,
+    },
+}
+
+export interface PlacesResult {
     place_id: string,
     name: string,
-    geometry: {
-        location: LatLngShort,
-        viewport?: {
-            northeast: LatLngShort,
-            southwest: LatLngShort,
-        }
-    },
+    geometry: Geometry,
     icon: string,
     price_level: PriceLevel,
     rating: number,
@@ -89,16 +65,36 @@ export interface Result {
     permanently_closed?: Boolean,
 }
 
-interface Response {
+interface PlacesResponse {
     status: StatusCode,
-    results: Result[],
+    results: PlacesResult[],
     html_attributions: [],
     next_page_token?: string,
     error_message?: string,
 }
 
+interface AddressComponent {
+    long_name: string,
+    short_name: string,
+    types: string[],
+}
+
+interface ReverseGeocodeResult {
+    place_id: string,
+    formatted_address: string,
+    geometry: Geometry,
+    types: string[],
+    address_components: AddressComponent[],
+}
+
+interface ReverseGeocodeResponse {
+    status: StatusCode,
+    results: ReverseGeocodeResult[],
+    error_message?: string,
+}
+
 export class Client {
-    static BASE_URL: string = 'https://maps.googleapis.com/maps/api/place';
+    static BASE_URL: string = 'https://maps.googleapis.com/maps/api';
     static OUTPUT_TYPE: OutputType = 'json';
     static ALLOWED_STATUSES: StatusCode[] = ['OK', 'ZERO_RESULTS'];
 
@@ -108,8 +104,8 @@ export class Client {
         this.apiKey = key;
     }
 
-    async nearbySearch(location: LatLng, radius: number, type?: PlaceType, openNow: boolean = true): Promise<Result[]> {
-        const path: string = `/nearbysearch/${Client.OUTPUT_TYPE}`;
+    async nearbySearch(location: LatLng, radius: number, type?: PlaceType, openNow: boolean = true): Promise<PlacesResult[]> {
+        const path: string = `/place/nearbysearch/${Client.OUTPUT_TYPE}`;
         const url = new URL(path, Client.BASE_URL);
         const queryParams = url.searchParams;
         queryParams.append('key', this.apiKey);
@@ -129,7 +125,7 @@ export class Client {
                 );
             }
 
-            const json: Response = await res.json();
+            const json: PlacesResponse = await res.json();
             if (!Client.ALLOWED_STATUSES.includes(json.status)) {
                 throw new Error(
                     `GooglePlaces status of ${json.status} with message ${json.error_message}. Response message: ${JSON.stringify(json, undefined, 2)}`
@@ -146,7 +142,7 @@ export class Client {
     }
 
     async placePhotoURL(photoRef: string, maxHeight?: number, maxWidth?: number): Promise<string | undefined> {
-        const path: string = '/photo';
+        const path: string = '/place/photo';
         const url = new URL(path, Client.BASE_URL);
         const queryParams = url.searchParams;
         queryParams.append('key', this.apiKey);
@@ -170,6 +166,58 @@ export class Client {
             });
 
             return photoDataURI;
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    async reverseGeocode(LatLng: LatLng): Promise<LocationData | undefined> {
+        const path: string = `/geocode/${Client.OUTPUT_TYPE}`;
+        const url = new URL(path, Client.BASE_URL);
+        const queryParams = url.searchParams;
+        queryParams.append('key', this.apiKey);
+        queryParams.append('latlng', latLngToString(LatLng));
+
+        try {
+            const res = await fetch(url.toString());
+            if (!res.ok) {
+                throw new Error(
+                    `API responded with HTTP status code of ${res.status}`
+                );
+            }
+
+            const json: ReverseGeocodeResponse = await res.json();
+            if (!Client.ALLOWED_STATUSES.includes(json.status)) {
+                throw new Error(
+                    `GooglePlaces status of ${json.status} with message ${json.error_message}. Response message: ${JSON.stringify(json, undefined, 2)}`
+                );
+            }
+
+            for (let result of json.results) {
+                // Check for an appropriate result, once found go with that result regardless of other results
+                if (result.types.includes('street_address') && result.place_id && result.geometry.location) {
+                    const location: LocationData = {
+                        id: result.place_id,
+                        latLng: convertLatLngShortToLong(result.geometry.location),
+                        address: result.formatted_address.split(',')[0],
+                        postcode: '',
+                    };
+
+                    for (let addressComponent of result.address_components) {
+                        if (addressComponent.types.includes('postal_code')) {
+                            location.postcode = addressComponent.long_name;
+                            break;
+                        }
+                    }
+
+                    // Successfully created location, can safely return value
+                    return location;
+                }
+            }
+
+            // If this is reached, no suitable location was found
+            throw new Error(`Location could not be extracted from the reverse geocoding API: ${JSON.stringify(json, undefined, 2)}`);
 
         } catch (err) {
             console.error(err);

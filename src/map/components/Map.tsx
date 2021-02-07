@@ -10,12 +10,13 @@ import MapView, {
     EdgePadding
 } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLocations, setCurrLocation } from 'locations/state';
+import { selectLocations, setCurrLocation, addLocation } from 'locations/state';
 import { calculateCenter } from 'locations/utils';
 import Coordinates from 'locations/constants/cities';
 import { requestLocation } from 'common/permissions';
 import Color from 'common/constants/colors';
 import { appleDeviceHasDockBar } from 'common/utils/device';
+import GooglePlacesAPI from 'common/clients/googlePlaces';
 import { SEARCH_RADIUS } from '../constants';
 
 function Map() {
@@ -41,7 +42,8 @@ function Map() {
     }
 
     const locations = useSelector(selectLocations);
-    const center: LatLng = locations.length !== 0
+    const showMarkers = locations.length > 1;
+    const center: LatLng = showMarkers
         ? calculateCenter(locations.map(loc => loc.latLng))
         : { ...Coordinates.London };
 
@@ -68,7 +70,7 @@ function Map() {
 
     useEffect(requestLocation);
     useEffect(() => {
-        if (mapRef.current !== null && locations.length !== 0) {
+        if (mapRef.current !== null && showMarkers) {
             mapRef.current.fitToSuppliedMarkers(
                 locations.map(loc => loc.id),
                 {
@@ -84,7 +86,7 @@ function Map() {
         }
     }, [mapRef, locations]);
 
-    const onLocationChange = (e: EventUserLocation): void => {
+    const onUserLocationChange = (e: EventUserLocation): void => {
         if (locationSet === false && locations.length === 0) {
             const { coordinate } = e.nativeEvent;
             const latLng: LatLng = {
@@ -92,6 +94,9 @@ function Map() {
                 longitude: coordinate.longitude,
             }
             dispatch(setCurrLocation(latLng));
+            GooglePlacesAPI.reverseGeocode(latLng).then(loc => {
+                if (loc) dispatch(addLocation(loc));
+            });
             if (mapRef.current !== null) {
                 mapRef.current.animateCamera({ center: coordinate, zoom: 12 });
                 setLocationSet(true);
@@ -103,22 +108,25 @@ function Map() {
         <MapView style={styles.mapStyle}
             initialRegion={INITAL_REGION}
             provider={PROVIDER_GOOGLE}
-            showsUserLocation={locations.length === 0 ? true : false}
-            onUserLocationChange={onLocationChange}
+            showsUserLocation={!showMarkers}
+            onUserLocationChange={onUserLocationChange}
             showsMyLocationButton={true}
             ref={mapRef}
             mapPadding={mapPadding}
         >
-            {locations.map((location, i) => (
-                <Marker
-                    key={location.id}
-                    identifier={location.id}
-                    title={i === 0 ? 'Your Location' : `Friend ${i}`}
-                    description={location.address}
-                    coordinate={location.latLng}
-                />
-            ))}
-            {locations.length !== 0
+            {showMarkers
+                ? locations.map((location, i) => (
+                    <Marker
+                        key={location.id}
+                        identifier={location.id}
+                        title={i === 0 ? 'Your Location' : `Friend ${i}`}
+                        description={location.address}
+                        coordinate={location.latLng}
+                    />
+                ))
+                : null
+            }
+            {showMarkers
                 ? <Circle
                     ref={circleRef}
                     center={center}

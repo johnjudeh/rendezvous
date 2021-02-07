@@ -14,7 +14,8 @@ import Map from './Map';
 function MapperView({ navigation }: NavigationProps) {
     const currLocation = useSelector(selectCurrLocation);
     const locations = useSelector(selectLocations);
-    const center: LatLng | null = locations.length !== 0
+    const showMarkers = locations.length > 1;
+    const center: LatLng | null = showMarkers
         ? calculateCenter(locations.map(loc => loc.latLng))
         : null;
     const showDock = locations.length >= 2;

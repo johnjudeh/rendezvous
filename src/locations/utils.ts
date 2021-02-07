@@ -1,5 +1,6 @@
 import { AddressComponent } from 'react-native-google-places-autocomplete';
 import { LatLng } from 'react-native-maps';
+import { LatLngShort } from 'common/types';
 
 export function getAdressFromGooglePlaceDetails(addressComponents: AddressComponent[]): string {
     // TODO: Move to constants?
@@ -67,4 +68,11 @@ export function calculateCenter(coordinates: LatLng[]): LatLng {
 export function latLngToString(latLng: LatLng): string {
     const { latitude, longitude } = latLng;
     return `${latitude},${longitude}`;
+}
+
+export function convertLatLngShortToLong(latLng: LatLngShort): LatLng {
+    return {
+        latitude: latLng.lat,
+        longitude: latLng.lng,
+    }
 }

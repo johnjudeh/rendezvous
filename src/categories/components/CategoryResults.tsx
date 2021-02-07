@@ -12,7 +12,7 @@ import { Dictionary, NavigationProps } from 'common/types';
 import { BackButton, Dock } from 'common/components';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
-import GooglePlacesAPI, { PlaceType, Result as GooglePlacesResult } from 'common/clients/googlePlaces';
+import GooglePlacesAPI, { PlaceType, PlacesResult as GooglePlacesResult } from 'common/clients/googlePlaces';
 import { SEARCH_RADIUS } from 'map/constants';
 import { CATEGORY_LABELS, CATEGORY_PHOTOS_LARGE } from '../constants';
 import CategoryResult from './CategoryResult';

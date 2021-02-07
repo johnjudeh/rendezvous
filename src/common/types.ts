@@ -31,3 +31,8 @@ export interface LocationData extends UniqueObject {
     postcode: string,
     latLng: LatLng,
 }
+
+export interface LatLngShort {
+    lat: number,
+    lng: number,
+}
