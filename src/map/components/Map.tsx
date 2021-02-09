@@ -122,6 +122,7 @@ function Map() {
                         title={i === 0 ? 'Your Location' : `Friend ${i}`}
                         description={location.address}
                         coordinate={location.latLng}
+                        pinColor={Color.ORANGE}
                     />
                 ))
                 : null
