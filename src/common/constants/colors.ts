@@ -16,6 +16,7 @@ enum Color {
 
 export enum Opacity {
     DISABLED = 'AA',
+    OVERLAY = '88',
 }
 
 export default Color;

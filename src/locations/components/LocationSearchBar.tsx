@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 3,
         padding: 15,
+        marginLeft: 12,
     },
     listView: {
         height: 140,

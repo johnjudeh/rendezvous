@@ -12,6 +12,7 @@ module.exports = function (api) {
                         map: './src/map',
                         locations: './src/locations',
                         categories: './src/categories',
+                        privacy: './src/privacy',
                     }
                 }
             ]

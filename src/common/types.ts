@@ -4,6 +4,7 @@ export interface NavigationProps {
     navigation: {
         navigate: (route: string, params?: Object) => void,
         goBack: () => void,
+        toggleDrawer: () => void,
     },
     route: {
         params?: {

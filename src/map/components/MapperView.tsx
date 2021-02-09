@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { NavigationProps } from 'common/types';
 import { useSelector } from 'react-redux';
 import * as Segment from 'expo-analytics-segment';
 import { useFocusEffect } from '@react-navigation/native';
 import { LatLng } from 'react-native-maps';
+import { NavigationProps } from 'common/types';
+import { Dock, MainButton, BackButton, BurgerButton } from 'common/components';
 import { selectCurrLocation, selectLocations } from 'locations/state';
 import { calculateCenter } from 'locations/utils';
-import { Dock, MainButton, BackButton } from 'common/components';
 import { CategoryList } from 'categories/components';
 import Map from './Map';
 
@@ -36,6 +36,7 @@ function MapperView({ navigation }: NavigationProps) {
                     ? <BackButton onPress={() => navigation.navigate('locations')}/>
                     : null
                 }
+                <BurgerButton onPress={() => navigation.toggleDrawer()} />
                 <Map />
             </View>
             {showDock
