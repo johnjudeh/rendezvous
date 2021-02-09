@@ -13,7 +13,7 @@ function CategoryList() {
                 <CategoryThumbnail
                     key={category}
                     category={category}
-                    onPress={() => navigation.navigate('category', { category })}
+                    onPress={() => navigation.navigate('Category', { category })}
                 />
             ))}
         </ScrollView>

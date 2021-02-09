@@ -24,7 +24,7 @@ function LocationSearch({ navigation }: NavigationProps) {
         if (locations.length !== 0) {
             dispatch(removeAllLocations());
         }
-        navigation.navigate('map');
+        navigation.navigate('Map');
     }
 
     return (
@@ -36,7 +36,7 @@ function LocationSearch({ navigation }: NavigationProps) {
                 <MainButton
                     text='Rendez Vous'
                     disabled={locations.length < 2}
-                    onPress={() => navigation.navigate('map')}
+                    onPress={() => navigation.navigate('Map')}
                 />
             </View>
         </View>

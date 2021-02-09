@@ -33,7 +33,7 @@ function MapperView({ navigation }: NavigationProps) {
         <View style={styles.container}>
             <View style={styles.mapContainer}>
                 {showDock
-                    ? <BackButton onPress={() => navigation.navigate('locations')}/>
+                    ? <BackButton onPress={() => navigation.navigate('Locations')}/>
                     : null
                 }
                 <BurgerButton onPress={() => navigation.toggleDrawer()} />
@@ -45,7 +45,7 @@ function MapperView({ navigation }: NavigationProps) {
                 </Dock>
                 : <Dock>
                     <View style={styles.buttonContainer}>
-                        <MainButton text='Add location' onPress={() => navigation.navigate('locations')} />
+                        <MainButton text='Add location' onPress={() => navigation.navigate('Locations')} />
                     </View>
                 </Dock>
             }

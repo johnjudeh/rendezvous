@@ -8,10 +8,10 @@ const Stack = createStackNavigator();
 
 function StackNavigator() {
     return (
-        <Stack.Navigator initialRouteName='map' screenOptions={{ headerShown: false }}>
-            <Stack.Screen name='map' component={MapperView} />
-            <Stack.Screen name='locations' component={LocationSearch} />
-            <Stack.Screen name='category' component={CategoryResults} />
+        <Stack.Navigator initialRouteName='Map' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name='Map' component={MapperView} />
+            <Stack.Screen name='Locations' component={LocationSearch} />
+            <Stack.Screen name='Category' component={CategoryResults} />
         </Stack.Navigator>
     );
 }
