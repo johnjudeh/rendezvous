@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Segment from 'expo-analytics-segment';
-import { selectLocations, removeAllLocations } from '../state';
+import { selectLocations, removeAllLocationsExcept } from '../state';
 import { NavigationProps } from 'common/types';
 import { BackButton, MainButton } from 'common/components';
 import Locations from './Locations';
@@ -22,7 +22,7 @@ function LocationSearch({ navigation }: NavigationProps) {
 
     const handleGoBack = () => {
         if (locations.length !== 0) {
-            dispatch(removeAllLocations());
+            dispatch(removeAllLocationsExcept(1));
         }
         navigation.navigate('Map');
     }

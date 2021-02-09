@@ -2,6 +2,7 @@ export {
     default as locationsReducer,
     handleAdd as addLocation,
     handleRemove as removeLocation,
+    handleRemoveAllExcept as removeAllLocationsExcept,
     handleRemoveAll as removeAllLocations,
     selectLocations,
     selectLocationsDict,

@@ -22,16 +22,17 @@ const sliceObject: CreateSliceOptions<LocationSlice> = {
         remove: (state, action: PayloadAction<string>) => {
             delete state[action.payload];
         },
-        removeAll: state => {
-            Object.keys(state).forEach(id => {
-                delete state[id];
+        removeAllExcept: (state, action: PayloadAction<number>) => {
+            Object.keys(state).forEach((id, i) => {
+                const lastIndexToKeep = action.payload - 1;
+                if (i > lastIndexToKeep) delete state[id];
             });
         },
     },
 };
 
 export const slice = createSlice(sliceObject);
-export const { add, remove, removeAll } = slice.actions;
+export const { add, remove, removeAllExcept } = slice.actions;
 
 export const selectLocationsDict: (state: State) => LocationSlice = state => state.locations;
 export const selectLocations: (state: State) => LocationData[] = state => Object.values(state.locations);
@@ -51,13 +52,15 @@ export const handleRemove = (id: string): LocationsThunkAction => (dispatch, get
     dispatch(remove(id));
 };
 
-export const handleRemoveAll = (): LocationsThunkAction => (dispatch, getState) => {
+export const handleRemoveAllExcept = (numToKeep: number): LocationsThunkAction => (dispatch, getState) => {
     const locations = selectLocations(getState());
-    Segment.trackWithProperties('Remove all locations', {
+    Segment.trackWithProperties('Remove all locations except', {
         locations,
+        numToKeep,
     });
-    dispatch(removeAll());
+    dispatch(removeAllExcept(numToKeep));
 };
 
+export const handleRemoveAll = () => handleRemoveAllExcept(0);
 
 export default slice.reducer;

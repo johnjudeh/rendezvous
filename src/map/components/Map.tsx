@@ -10,7 +10,7 @@ import MapView, {
     EdgePadding
 } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLocations, setCurrLocation, addLocation } from 'locations/state';
+import { selectLocations, setCurrLocation, addLocation, removeAllLocations } from 'locations/state';
 import { calculateCenter } from 'locations/utils';
 import Coordinates from 'locations/constants/cities';
 import { requestLocation } from 'common/permissions';
@@ -87,7 +87,7 @@ function Map() {
     }, [mapRef, locations]);
 
     const onUserLocationChange = (e: EventUserLocation): void => {
-        if (locationSet === false && locations.length === 0) {
+        if (locationSet === false && !showMarkers) {
             const { coordinate } = e.nativeEvent;
             const latLng: LatLng = {
                 latitude: coordinate.latitude,
@@ -95,7 +95,10 @@ function Map() {
             }
             dispatch(setCurrLocation(latLng));
             GooglePlacesAPI.reverseGeocode(latLng).then(loc => {
-                if (loc) dispatch(addLocation(loc));
+                if (loc) {
+                    dispatch(removeAllLocations());
+                    dispatch(addLocation(loc));
+                }
             });
             if (mapRef.current !== null) {
                 mapRef.current.animateCamera({ center: coordinate, zoom: 12 });
