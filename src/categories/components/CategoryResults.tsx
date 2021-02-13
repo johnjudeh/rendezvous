@@ -32,6 +32,7 @@ function CategoryResults({ navigation, route }: NavigationProps) {
                 id={item.place_id}
                 category={categoryName}
                 name={item.name}
+                latLng={item.geometry.location}
                 address={item.vicinity}
                 rating={item.rating}
                 numOfRatings={item.user_ratings_total}

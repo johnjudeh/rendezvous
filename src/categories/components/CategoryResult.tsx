@@ -8,6 +8,7 @@ import * as Segment from 'expo-analytics-segment';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
+import { LatLngShort } from 'locations/types';
 import { setPlacePhoto, SetPlacePhotoActionPaylod } from '../state';
 
 interface CategoryResultProps {
@@ -15,6 +16,7 @@ interface CategoryResultProps {
     category: PlaceType,
     name: string,
     address: string,
+    latLng: LatLngShort,
     rating: number,
     numOfRatings: number,
     photoRef?: string,
@@ -23,7 +25,7 @@ interface CategoryResultProps {
 }
 
 function CategoryResult(props: CategoryResultProps) {
-    const { id, category, name, address, rating, numOfRatings, photoRef, photoDataURL, photoAttrHTML } = props;
+    const { id, category, name, address, latLng, rating, numOfRatings, photoRef, photoDataURL, photoAttrHTML } = props;
     const dispatch = useDispatch();
 
     const navigateToGoogleMaps = () => {
@@ -36,6 +38,7 @@ function CategoryResult(props: CategoryResultProps) {
             placeName: name,
             placeId: id,
             address,
+            latLng,
             rating,
             numOfRatings,
             hasPhoto: photoRef !== undefined,
