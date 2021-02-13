@@ -65,6 +65,51 @@ export function calculateCenter(coordinates: LatLng[]): LatLng {
     }
 }
 
+export function calculateDistance(pointA: LatLng, pointB: LatLng): number {
+    /* Calculates the metre distance between 2 sets of latLng coordinates.
+
+    This uses the *haversine* formula to calculate the great-circule distance
+    between 2 points - i.e. the shortest distance over the earth's surface. It
+    assumes a spherical earth and ignores changes in altitude at different
+    points.
+
+    The formula is as follows:
+
+        a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
+        c = 2 ⋅ atan2( √a, √(1−a) )
+        d = R ⋅ c
+
+    where:
+
+        φ is latitude, λ is longitude, R is earth’s radius (mean radius = 6,371km);
+        note that angles need to be in radians to pass to trig functions!
+
+    Source: https://www.movable-type.co.uk/scripts/latlong.html
+     */
+    const lat1 = pointA.latitude;
+    const lon1 = pointA.longitude;
+
+    const lat2 = pointB.latitude;
+    const lon2 = pointB.longitude;
+
+    const coordToRadians = (coord: number): number => coord * Math.PI / 180;
+
+    const R = 6371e3; // radius of earth in metres
+    const φ1 = coordToRadians(lat1); // φ1 in radians
+    const φ2 = coordToRadians(lat2); // φ2 in radians
+    const Δφ = coordToRadians(lat2 - lat1); // Δφ in radians
+    const Δλ = coordToRadians(lon2 - lon1); // Δλ in radians
+
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) *
+        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const d = R * c; // in metres
+
+    return d;
+}
+
 export function latLngToString(latLng: LatLng): string {
     const { latitude, longitude } = latLng;
     return `${latitude},${longitude}`;

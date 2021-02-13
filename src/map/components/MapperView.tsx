@@ -7,7 +7,7 @@ import { LatLng } from 'react-native-maps';
 import { NavigationProps } from 'common/types';
 import { Dock, MainButton, BackButton, BurgerButton } from 'common/components';
 import { selectCurrLocation, selectLocations } from 'locations/state';
-import { calculateCenter } from 'locations/utils';
+import { calculateCenter, calculateDistance } from 'locations/utils';
 import { CategoryList } from 'categories/components';
 import Map from './Map';
 
@@ -21,10 +21,17 @@ function MapperView({ navigation }: NavigationProps) {
     const showDock = locations.length >= 2;
 
     useFocusEffect(useCallback(() => {
+        // As the center is equa-distance from all locations, it is sufficient to calculate
+        // the distance between any single location and the center. If the way the center is
+        // calculated changes, it it important that this calculation is changed alongside that
+        const avgDistanceFromCenter: number | null = center
+            ? Math.round(calculateDistance(locations[0].latLng, center))
+            : null;
+
         Segment.screenWithProperties('Map', {
             showingCategories: showDock,
             numOfLocations: locations.length,
-            locations,
+            locationsAvgDistanceFromCenter: avgDistanceFromCenter,
             center,
         }, currLocation ? { location: currLocation } : undefined);
     }, [showDock]));
