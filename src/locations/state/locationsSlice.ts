@@ -37,17 +37,18 @@ export const { add, remove, removeAllExcept } = slice.actions;
 export const selectLocationsDict: (state: State) => LocationSlice = state => state.locations;
 export const selectLocations: (state: State) => LocationData[] = state => Object.values(state.locations);
 
-export const handleAdd = (location: LocationData): LocationsThunkAction => dispatch => {
+export const handleAdd = (location: LocationData): LocationsThunkAction => (dispatch, getState) => {
+    const locations = selectLocations(getState());
     Segment.trackWithProperties('Add location', {
-        location,
+        numOfLocations: locations.length,
     });
     dispatch(add(location));
 };
 
 export const handleRemove = (id: string): LocationsThunkAction => (dispatch, getState) => {
-    const locationsDict = selectLocationsDict(getState());
+    const locations = selectLocations(getState());
     Segment.trackWithProperties('Remove location', {
-        location: locationsDict[id],
+        numOfLocations: locations.length,
     });
     dispatch(remove(id));
 };
@@ -55,7 +56,7 @@ export const handleRemove = (id: string): LocationsThunkAction => (dispatch, get
 export const handleRemoveAllExcept = (numToKeep: number): LocationsThunkAction => (dispatch, getState) => {
     const locations = selectLocations(getState());
     Segment.trackWithProperties('Remove all locations except', {
-        locations,
+        numOfLocations: locations.length,
         numToKeep,
     });
     dispatch(removeAllExcept(numToKeep));
