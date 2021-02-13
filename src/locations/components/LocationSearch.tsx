@@ -15,9 +15,7 @@ function LocationSearch({ navigation }: NavigationProps) {
     const locations = useSelector(selectLocations);
 
     useFocusEffect(useCallback(() => {
-        Segment.screenWithProperties('Location Search', {
-            locations,
-        });
+        Segment.screen('Location Search');
     }, []));
 
     const handleGoBack = () => {
