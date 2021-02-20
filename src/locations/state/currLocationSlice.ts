@@ -26,9 +26,9 @@ export const { set } = slice.actions;
 
 export const selectCurrLocation = (state: State) => state.currLocation;
 
-export const handleSet = (location: LatLng): CurrLocationThunkAction => dispatch => {
+export const handleSet = (location: LatLng, country: string = ""): CurrLocationThunkAction => dispatch => {
     Segment.trackWithProperties('Current location set', {
-        location,
+        country,
     });
     dispatch(set(location));
 };

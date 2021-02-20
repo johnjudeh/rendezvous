@@ -16,6 +16,7 @@ import { addLocation } from '../state';
 import {
     getAdressFromGooglePlaceDetails,
     getPostcodeFromGooglePlaceDetails,
+    getCountryFromGooglePlaceDetails,
     latLngToString,
 } from '../utils';
 
@@ -51,11 +52,13 @@ function LocationSearchBar() {
 
         const address: string = getAdressFromGooglePlaceDetails(addressComponents);
         const postcode: string = getPostcodeFromGooglePlaceDetails(addressComponents) || '';
+        const country: string = getCountryFromGooglePlaceDetails(addressComponents) || '';
 
         const location: LocationData = {
             id: place_id,
             address,
             postcode,
+            country,
             latLng: {
                 latitude: placeCoords.lat,
                 longitude: placeCoords.lng,

@@ -4,6 +4,7 @@ import { UniqueObject } from 'common/types';
 export interface LocationData extends UniqueObject {
     address: string,
     postcode: string,
+    country: string,
     latLng: LatLng,
 }
 

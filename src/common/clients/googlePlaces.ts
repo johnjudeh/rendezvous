@@ -1,5 +1,12 @@
 import { LatLng } from 'react-native-maps';
-import { latLngToString, convertLatLngShortToLong } from 'locations/utils';
+import { AddressComponent } from 'react-native-google-places-autocomplete';
+import {
+    latLngToString,
+    convertLatLngShortToLong,
+    getAdressFromGooglePlaceDetails,
+    getPostcodeFromGooglePlaceDetails,
+    getCountryFromGooglePlaceDetails,
+} from 'locations/utils';
 import { LocationData, LatLngShort } from 'locations/types';
 
 type OutputType = 'json' | 'xml';
@@ -71,12 +78,6 @@ interface PlacesResponse {
     html_attributions: [],
     next_page_token?: string,
     error_message?: string,
-}
-
-interface AddressComponent {
-    long_name: string,
-    short_name: string,
-    types: string[],
 }
 
 interface ReverseGeocodeResult {
@@ -169,6 +170,7 @@ export class Client {
 
         } catch (err) {
             console.error(err);
+            throw err;
         }
     }
 
@@ -200,16 +202,10 @@ export class Client {
                     const location: LocationData = {
                         id: result.place_id,
                         latLng: convertLatLngShortToLong(result.geometry.location),
-                        address: result.formatted_address.split(',')[0],
-                        postcode: '',
+                        address: getAdressFromGooglePlaceDetails(result.address_components),
+                        postcode: getPostcodeFromGooglePlaceDetails(result.address_components) || '',
+                        country: getCountryFromGooglePlaceDetails(result.address_components) || '',
                     };
-
-                    for (let addressComponent of result.address_components) {
-                        if (addressComponent.types.includes('postal_code')) {
-                            location.postcode = addressComponent.long_name;
-                            break;
-                        }
-                    }
 
                     // Successfully created location, can safely return value
                     return location;
@@ -221,6 +217,7 @@ export class Client {
 
         } catch (err) {
             console.error(err);
+            throw err;
         }
     }
 }

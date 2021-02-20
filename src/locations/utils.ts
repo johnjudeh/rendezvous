@@ -24,6 +24,14 @@ export function getPostcodeFromGooglePlaceDetails(addressComponents: AddressComp
     return postcode;
 }
 
+export function getCountryFromGooglePlaceDetails(addressComponents: AddressComponent[]): string | undefined {
+    const country: string | undefined = addressComponents.find(addressComponent => {
+        return addressComponent.types.includes('country');
+    })?.long_name;
+
+    return country;
+}
+
 export function formatAddress(address: string, maxLength: number): string {
     const separator = ' ';
     const elipsis = '...';

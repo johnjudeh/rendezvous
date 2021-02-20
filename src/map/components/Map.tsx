@@ -93,13 +93,18 @@ function Map() {
                 latitude: coordinate.latitude,
                 longitude: coordinate.longitude,
             }
-            dispatch(setCurrLocation(latLng));
-            GooglePlacesAPI.reverseGeocode(latLng).then(loc => {
-                if (loc) {
-                    dispatch(removeAllLocations());
-                    dispatch(addLocation(loc));
-                }
-            });
+            GooglePlacesAPI.reverseGeocode(latLng)
+                .then(loc => {
+                    if (loc) {
+                        dispatch(setCurrLocation(latLng, loc.country));
+                        dispatch(removeAllLocations());
+                        dispatch(addLocation(loc));
+                    }
+                })
+                .catch(err => {
+                    // Sets currLocation even when API fails
+                    dispatch(setCurrLocation(latLng));
+                });
             if (mapRef.current !== null) {
                 mapRef.current.animateCamera({ center: coordinate, zoom: 12 });
                 setLocationSet(true);
