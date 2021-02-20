@@ -27,7 +27,7 @@ export function getPostcodeFromGoogleAddressComponents(addressComponents: Addres
 export function getCountryFromGoogleAddressComponents(addressComponents: AddressComponent[]): string | undefined {
     const country: string | undefined = addressComponents.find(addressComponent => {
         return addressComponent.types.includes('country');
-    })?.long_name;
+    })?.short_name;
 
     return country;
 }

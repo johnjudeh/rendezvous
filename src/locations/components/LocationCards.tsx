@@ -14,6 +14,7 @@ function LocationCards() {
                     key={location.id}
                     id={location.id}
                     address={location.address}
+                    country={location.country}
                     postcode={location.postcode}
                     index={i}
                 />

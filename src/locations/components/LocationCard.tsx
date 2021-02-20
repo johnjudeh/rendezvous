@@ -10,6 +10,7 @@ import { removeLocation } from '../state'
 
 interface LocationCardProps extends UniqueObject {
     address: string,
+    country: string,
     postcode: string,
     index: number,
 }
@@ -29,7 +30,7 @@ const COLORS: Color[] = [
 function LocationCard(props: LocationCardProps) {
     const address_max_length = Math.round(Dimensions.get('screen').width / 17);
 
-    const { id, address, postcode, index } = props;
+    const { id, address, country, postcode, index } = props;
     const dispatch = useDispatch();
 
     const handleLocationRemoval = () => dispatch(removeLocation(id));
@@ -39,7 +40,7 @@ function LocationCard(props: LocationCardProps) {
         <View style={styles.container}>
             <View style={[styles.postcodeContainer, { backgroundColor: BAKGROUND_COLORS[index % BAKGROUND_COLORS.length] }]}>
                 <Text style={[styles.postcode, { color: COLORS[index % COLORS.length] }]}>
-                    {postcode.length !== 0 ? postcode.substring(0, 3) : 'RV'}
+                    {postcode.length !== 0 ? postcode.substring(0, 3) : country}
                 </Text>
             </View>
             <View style={styles.locationContainer}>
