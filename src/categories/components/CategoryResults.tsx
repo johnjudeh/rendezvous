@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Segment from 'expo-analytics-segment';
 import { selectLocations } from 'locations/state';
-import { calculateCenter } from 'locations/utils';
+import { calculateCenter, convertLatLngShortToLong, averageDistanceFromPoint } from 'locations/utils';
 import { setCategoryResults, selectCategoryCreator, SetActionPayload, CategoryResult as CategoryResultInterface } from 'categories/state';
 import { Dictionary, NavigationProps } from 'common/types';
 import { BackButton, Dock } from 'common/components';
@@ -32,7 +32,8 @@ function CategoryResults({ navigation, route }: NavigationProps) {
                 id={item.place_id}
                 category={categoryName}
                 name={item.name}
-                latLng={item.geometry.location}
+                latLng={convertLatLngShortToLong(item.geometry.location)}
+                center={center}
                 address={item.vicinity}
                 rating={item.rating}
                 numOfRatings={item.user_ratings_total}
@@ -52,9 +53,22 @@ function CategoryResults({ navigation, route }: NavigationProps) {
     };
 
     useFocusEffect(useCallback(() => {
+        // TODO: Figure out how to make this fires only after the results have loaded.
+        // Currently the first time you go onto the page, it fires before results are
+        // fetched.
+
+        // Calculates the average distance from center of each result
+        let avgDistanceFromCenter = null;
+
+        if (results) {
+            const resultList = Object.values(results);
+            const resultLatLngs = resultList.map(res => convertLatLngShortToLong(res.geometry.location));
+            avgDistanceFromCenter = averageDistanceFromPoint(resultLatLngs, center);
+        }
+
         Segment.screenWithProperties('Category Results', {
             category: categoryName,
-            locations,
+            resultAvgDistanceFromCenter: avgDistanceFromCenter,
             center,
             radius,
             numOfResults: results ? Object.values(results).length : null,

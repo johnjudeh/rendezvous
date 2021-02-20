@@ -3,12 +3,13 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio, Dimensions
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import HTMLView from 'react-native-htmlview';
+import { LatLng } from 'react-native-maps';
 import * as WebBrowser from 'expo-web-browser';
 import * as Segment from 'expo-analytics-segment';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
-import { LatLngShort } from 'locations/types';
+import { calculateDistance } from 'locations/utils';
 import { setPlacePhoto, SetPlacePhotoActionPaylod } from '../state';
 
 interface CategoryResultProps {
@@ -16,7 +17,8 @@ interface CategoryResultProps {
     category: PlaceType,
     name: string,
     address: string,
-    latLng: LatLngShort,
+    latLng: LatLng,
+    center: LatLng,
     rating: number,
     numOfRatings: number,
     photoRef?: string,
@@ -25,7 +27,7 @@ interface CategoryResultProps {
 }
 
 function CategoryResult(props: CategoryResultProps) {
-    const { id, category, name, address, latLng, rating, numOfRatings, photoRef, photoDataURL, photoAttrHTML } = props;
+    const { id, category, name, address, latLng, center, rating, numOfRatings, photoRef, photoDataURL, photoAttrHTML } = props;
     const dispatch = useDispatch();
 
     const navigateToGoogleMaps = () => {
@@ -39,6 +41,8 @@ function CategoryResult(props: CategoryResultProps) {
             placeId: id,
             address,
             latLng,
+            center,
+            distanceFromCenter: calculateDistance(center, latLng),
             rating,
             numOfRatings,
             hasPhoto: photoRef !== undefined,
