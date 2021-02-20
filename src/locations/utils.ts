@@ -2,7 +2,7 @@ import { AddressComponent } from 'react-native-google-places-autocomplete';
 import { LatLng } from 'react-native-maps';
 import { LatLngShort } from 'locations/types';
 
-export function getAdressFromGooglePlaceDetails(addressComponents: AddressComponent[]): string {
+export function getAdressFromGoogleAddressComponents(addressComponents: AddressComponent[]): string {
     // TODO: Move to constants?
     const addresTypes = ['premise', 'street_number', 'route', 'neighborhood'];
 
@@ -16,7 +16,7 @@ export function getAdressFromGooglePlaceDetails(addressComponents: AddressCompon
     return address;
 }
 
-export function getPostcodeFromGooglePlaceDetails(addressComponents: AddressComponent[]): string | undefined {
+export function getPostcodeFromGoogleAddressComponents(addressComponents: AddressComponent[]): string | undefined {
     const postcode: string | undefined = addressComponents.find(addressComponent => {
         return addressComponent.types.includes('postal_code');
     })?.long_name;
@@ -24,7 +24,7 @@ export function getPostcodeFromGooglePlaceDetails(addressComponents: AddressComp
     return postcode;
 }
 
-export function getCountryFromGooglePlaceDetails(addressComponents: AddressComponent[]): string | undefined {
+export function getCountryFromGoogleAddressComponents(addressComponents: AddressComponent[]): string | undefined {
     const country: string | undefined = addressComponents.find(addressComponent => {
         return addressComponent.types.includes('country');
     })?.long_name;
@@ -132,7 +132,7 @@ export function latLngToString(latLng: LatLng): string {
     return `${latitude},${longitude}`;
 }
 
-export function convertLatLngShortToLong(latLng: LatLngShort): LatLng {
+export function latLngShortToLatLng(latLng: LatLngShort): LatLng {
     return {
         latitude: latLng.lat,
         longitude: latLng.lng,

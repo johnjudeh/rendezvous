@@ -2,10 +2,10 @@ import { LatLng } from 'react-native-maps';
 import { AddressComponent } from 'react-native-google-places-autocomplete';
 import {
     latLngToString,
-    convertLatLngShortToLong,
-    getAdressFromGooglePlaceDetails,
-    getPostcodeFromGooglePlaceDetails,
-    getCountryFromGooglePlaceDetails,
+    latLngShortToLatLng,
+    getAdressFromGoogleAddressComponents,
+    getPostcodeFromGoogleAddressComponents,
+    getCountryFromGoogleAddressComponents,
 } from 'locations/utils';
 import { LocationData, LatLngShort } from 'locations/types';
 
@@ -201,10 +201,10 @@ export class Client {
                 if (result.types.includes('street_address') && result.place_id && result.geometry.location) {
                     const location: LocationData = {
                         id: result.place_id,
-                        latLng: convertLatLngShortToLong(result.geometry.location),
-                        address: getAdressFromGooglePlaceDetails(result.address_components),
-                        postcode: getPostcodeFromGooglePlaceDetails(result.address_components) || '',
-                        country: getCountryFromGooglePlaceDetails(result.address_components) || '',
+                        latLng: latLngShortToLatLng(result.geometry.location),
+                        address: getAdressFromGoogleAddressComponents(result.address_components),
+                        postcode: getPostcodeFromGoogleAddressComponents(result.address_components) || '',
+                        country: getCountryFromGoogleAddressComponents(result.address_components) || '',
                     };
 
                     // Successfully created location, can safely return value

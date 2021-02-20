@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Segment from 'expo-analytics-segment';
 import { selectLocations } from 'locations/state';
-import { calculateCenter, convertLatLngShortToLong, averageDistanceFromPoint } from 'locations/utils';
+import { calculateCenter, latLngShortToLatLng, averageDistanceFromPoint } from 'locations/utils';
 import { setCategoryResults, selectCategoryCreator, SetActionPayload, CategoryResult as CategoryResultInterface } from 'categories/state';
 import { Dictionary, NavigationProps } from 'common/types';
 import { BackButton, Dock } from 'common/components';
@@ -32,7 +32,7 @@ function CategoryResults({ navigation, route }: NavigationProps) {
                 id={item.place_id}
                 category={categoryName}
                 name={item.name}
-                latLng={convertLatLngShortToLong(item.geometry.location)}
+                latLng={latLngShortToLatLng(item.geometry.location)}
                 center={center}
                 address={item.vicinity}
                 rating={item.rating}
@@ -62,7 +62,7 @@ function CategoryResults({ navigation, route }: NavigationProps) {
 
         if (results) {
             const resultList = Object.values(results);
-            const resultLatLngs = resultList.map(res => convertLatLngShortToLong(res.geometry.location));
+            const resultLatLngs = resultList.map(res => latLngShortToLatLng(res.geometry.location));
             avgDistanceFromCenter = averageDistanceFromPoint(resultLatLngs, center);
         }
 
