@@ -1,5 +1,4 @@
 import { Action, createSlice, CreateSliceOptions, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import * as Segment from 'expo-analytics-segment';
 import { LocationData } from 'locations/types';
 
 interface LocationSlice {
@@ -37,28 +36,15 @@ export const { add, remove, removeAllExcept } = slice.actions;
 export const selectLocationsDict: (state: State) => LocationSlice = state => state.locations;
 export const selectLocations: (state: State) => LocationData[] = state => Object.values(state.locations);
 
-export const handleAdd = (location: LocationData): LocationsThunkAction => (dispatch, getState) => {
-    const locations = selectLocations(getState());
-    Segment.trackWithProperties('Add location', {
-        numOfLocations: locations.length,
-    });
+export const handleAdd = (location: LocationData): LocationsThunkAction => dispatch => {
     dispatch(add(location));
 };
 
-export const handleRemove = (id: string): LocationsThunkAction => (dispatch, getState) => {
-    const locations = selectLocations(getState());
-    Segment.trackWithProperties('Remove location', {
-        numOfLocations: locations.length,
-    });
+export const handleRemove = (id: string): LocationsThunkAction => dispatch => {
     dispatch(remove(id));
 };
 
-export const handleRemoveAllExcept = (numToKeep: number): LocationsThunkAction => (dispatch, getState) => {
-    const locations = selectLocations(getState());
-    Segment.trackWithProperties('Remove all locations except', {
-        numOfLocations: locations.length,
-        numToKeep,
-    });
+export const handleRemoveAllExcept = (numToKeep: number): LocationsThunkAction => dispatch => {
     dispatch(removeAllExcept(numToKeep));
 };
 

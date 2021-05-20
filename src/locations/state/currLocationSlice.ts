@@ -1,5 +1,4 @@
 import { Action, createSlice, CreateSliceOptions, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import * as Segment from 'expo-analytics-segment';
 import { LatLng } from 'react-native-maps';
 
 type CurrentLocation = LatLng | null;
@@ -26,10 +25,7 @@ export const { set } = slice.actions;
 
 export const selectCurrLocation = (state: State) => state.currLocation;
 
-export const handleSet = (location: LatLng, country: string = ""): CurrLocationThunkAction => dispatch => {
-    Segment.trackWithProperties('Current location set', {
-        country,
-    });
+export const handleSet = (location: LatLng, country: string = ''): CurrLocationThunkAction => dispatch => {
     dispatch(set(location));
 };
 

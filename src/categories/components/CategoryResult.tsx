@@ -5,11 +5,9 @@ import { useDispatch } from 'react-redux';
 import HTMLView from 'react-native-htmlview';
 import { LatLng } from 'react-native-maps';
 import * as WebBrowser from 'expo-web-browser';
-import * as Segment from 'expo-analytics-segment';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
-import { calculateDistance } from 'locations/utils';
 import { setPlacePhoto, SetPlacePhotoActionPaylod } from '../state';
 
 interface CategoryResultProps {
@@ -35,18 +33,6 @@ function CategoryResult(props: CategoryResultProps) {
         url.searchParams.append('api', '1');
         url.searchParams.append('query', encodeURIComponent(name));
         url.searchParams.append('query_place_id', id);
-        Segment.trackWithProperties('Choose place', {
-            category,
-            placeName: name,
-            placeId: id,
-            address,
-            latLng,
-            center,
-            distanceFromCenter: calculateDistance(center, latLng),
-            rating,
-            numOfRatings,
-            hasPhoto: photoRef !== undefined,
-        });
         Linking.openURL(url.toString());
     }
 

@@ -1,6 +1,5 @@
 import { Action, createSlice, CreateSliceOptions, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { LatLng } from 'react-native-maps';
-import * as Segment from 'expo-analytics-segment';
 import { PlaceType, PlacesResult as GooglePlacesResult, Photo } from 'common/clients/googlePlaces';
 
 interface EnrichedPhoto extends Photo {
@@ -84,20 +83,11 @@ export const { set, setPlacePhoto } = slice.actions;
 export const selectCategoryCreator = (category: PlaceType) => (state: State): CategoryOrNull => state.categories[category];
 
 export const handleSet = (payload: SetActionPayload): CategoryThunkAction => dispatch => {
-    Segment.trackWithProperties('Loaded category results', {
-        numOfResults: Object.values(payload.category.results).length,
-        ...payload,
-    });
     dispatch(set(payload));
 };
 
 export const handleSetPlacePhoto = (payload: SetPlacePhotoActionPaylod): CategoryThunkAction => (dispatch, getState) => {
     const category = selectCategoryCreator(payload.categoryName)(getState());
-    Segment.trackWithProperties('Loaded place photo', {
-        category: payload.categoryName,
-        placeId: payload.placeId,
-        place: category?.results[payload.placeId],
-    });
     dispatch(setPlacePhoto(payload));
 };
 

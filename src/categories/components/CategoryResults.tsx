@@ -4,7 +4,6 @@ import { StatusBar } from 'expo-status-bar';
 import { LatLng } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
-import * as Segment from 'expo-analytics-segment';
 import { selectLocations } from 'locations/state';
 import { calculateCenter, latLngShortToLatLng, averageDistanceFromPoint } from 'locations/utils';
 import { setCategoryResults, selectCategoryCreator, SetActionPayload, CategoryResult as CategoryResultInterface } from 'categories/state';
@@ -65,14 +64,6 @@ function CategoryResults({ navigation, route }: NavigationProps) {
             const resultLatLngs = resultList.map(res => latLngShortToLatLng(res.geometry.location));
             avgDistanceFromCenter = averageDistanceFromPoint(resultLatLngs, center);
         }
-
-        Segment.screenWithProperties('Category Results', {
-            category: categoryName,
-            resultAvgDistanceFromCenter: avgDistanceFromCenter,
-            center,
-            radius,
-            numOfResults: results ? Object.values(results).length : null,
-        });
     }, []));
 
     useEffect(() => {
