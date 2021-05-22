@@ -28,6 +28,15 @@ function Map() {
 
     const dispatch = useDispatch();
     const [ locationSet, setLocationSet ] = useState(false);
+
+    // TODO: Find a neater solution to the mapPadding problem below.
+    // This is a hack needed to ensure the mapPadding works properly.
+    // It causes the map to be redrawn once it's ready so that the padding
+    // is respected. I am not a fan... but it does the job
+    // Issue: https://github.com/react-native-maps/react-native-maps/issues/2688
+    const [ mapStyle, setMapStyle ] = useState({ flex: 0.8 });
+    const onMapReady = () => setMapStyle(styles.mapStyle);
+
     const mapRef: MutableRefObject<MapView | null> = useRef(null);
 
     // Added to work around bug on iOS where fillColor is not respected:
@@ -87,33 +96,35 @@ function Map() {
     }, [mapRef, locations]);
 
     const onUserLocationChange = (e: EventUserLocation): void => {
-        if (locationSet === false && !showMarkers) {
+        if (!showMarkers) {
             const { coordinate } = e.nativeEvent;
-            const latLng: LatLng = {
-                latitude: coordinate.latitude,
-                longitude: coordinate.longitude,
-            }
-            GooglePlacesAPI.reverseGeocode(latLng)
-                .then(loc => {
-                    if (loc) {
-                        dispatch(setCurrLocation(latLng, loc.country));
-                        dispatch(removeAllLocations());
-                        dispatch(addLocation(loc));
-                    }
-                })
-                .catch(err => {
-                    // Sets currLocation even when API fails
-                    dispatch(setCurrLocation(latLng));
-                });
             if (mapRef.current !== null) {
                 mapRef.current.animateCamera({ center: coordinate, zoom: 12 });
                 setLocationSet(true);
+            }
+            if (locationSet === false) {
+                const latLng: LatLng = {
+                    latitude: coordinate.latitude,
+                    longitude: coordinate.longitude,
+                }
+                GooglePlacesAPI.reverseGeocode(latLng)
+                    .then(loc => {
+                        if (loc) {
+                            dispatch(setCurrLocation(latLng, loc.country));
+                            dispatch(removeAllLocations());
+                            dispatch(addLocation(loc));
+                        }
+                    })
+                    .catch(err => {
+                        // Sets currLocation even when API fails
+                        dispatch(setCurrLocation(latLng));
+                    });
             }
         }
     };
 
     return (
-        <MapView style={styles.mapStyle}
+        <MapView
             initialRegion={INITAL_REGION}
             provider={PROVIDER_GOOGLE}
             showsUserLocation={!showMarkers}
@@ -121,6 +132,10 @@ function Map() {
             showsMyLocationButton={true}
             ref={mapRef}
             mapPadding={mapPadding}
+            // The two lines are part of the fix for
+            // mapPadding bug that requires
+            style={mapStyle}
+            onMapReady={onMapReady}
         >
             {showMarkers
                 ? locations.map((location, i) => (
