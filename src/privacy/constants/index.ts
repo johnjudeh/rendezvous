@@ -1,0 +1,1 @@
+export const PRIVACY_POLICY_URL = 'https://johnjudeh.github.io/rendezvous-policies/privacy_policy';

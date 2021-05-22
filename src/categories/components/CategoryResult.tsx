@@ -4,7 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import HTMLView from 'react-native-htmlview';
 import { LatLng } from 'react-native-maps';
-import * as WebBrowser from 'expo-web-browser';
+import { openBrowserAsync } from 'expo-web-browser';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
@@ -71,7 +71,7 @@ function CategoryResult(props: CategoryResultProps) {
                             <HTMLView
                                 value={photoAttrHTML}
                                 stylesheet={HTMLStyles}
-                                onLinkPress={(url: string) => WebBrowser.openBrowserAsync(url, {
+                                onLinkPress={(url: string) => openBrowserAsync(url, {
                                     toolbarColor: Color.OFF_WHITE,
                                     controlsColor: Color.ORANGE,
                                 })}
