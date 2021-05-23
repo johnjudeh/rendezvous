@@ -28,7 +28,7 @@
     ],
     "ios": {
       "bundleIdentifier": "guide.rendezvous.rendezvous",
-      "buildNumber": "1.0.0d1",
+      "buildNumber": "1.0.0",
       "supportsTablet": false,
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Your location is used to find nearby places to meet friends"
