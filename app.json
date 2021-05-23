@@ -34,7 +34,8 @@
         "NSLocationWhenInUseUsageDescription": "Your location is used to find nearby places to meet friends"
       },
       "config": {
-        "googleMapsApiKey": "***REMOVED***"
+        "googleMapsApiKey": "***REMOVED***",
+        "usesNonExemptEncryption": false
       }
     },
     "android": {
