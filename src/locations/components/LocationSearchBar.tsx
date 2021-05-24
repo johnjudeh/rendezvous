@@ -22,14 +22,6 @@ import {
 
 type GooglePlacesAutocompleteOnPress = (data: GooglePlaceData, detail: GooglePlaceDetail | null) => void;
 
-// TODO: This is a hack. It solves the issue that by default Android loads the ActivityIndicator
-// as a transparent color since Expo 39. The library does not provide anyway to explicity set the color.
-// So it has been done below. Ideally, a PR should be opened to the library to allow for setting the
-// colour of the indicator.
-GooglePlacesAutocomplete.prototype._getRowLoader = () => {
-    return <ActivityIndicator animating={true} size='small' color={Color.DARK_GREEN} />;
-}
-
 function LocationSearchBar() {
     const dispatch = useDispatch();
     const locations = useSelector(selectLocations);
@@ -76,7 +68,6 @@ function LocationSearchBar() {
         <View style={styles.topContainer}>
             <GooglePlacesAutocomplete
                 placeholder={locations.length === 0 ? "Add your location" : "Add a friend's location"}
-                placeholderTextColor={Color.MID_LIGHT_GREY}
                 query={{
                     // TODO: Remove this key from the code somehow, then generate a new one!
                     key: '***REMOVED***',
@@ -94,6 +85,7 @@ function LocationSearchBar() {
                 textInputProps={{
                     value,
                     onChangeText: text => setValue(text),
+                    placeholderTextColor: Color.MID_LIGHT_GREY,
                 }}
             />
         </View>

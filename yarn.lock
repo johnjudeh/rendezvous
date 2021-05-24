@@ -6607,7 +6607,7 @@ promise@^8.0.3:
   dependencies:
     asap "~2.0.6"
 
-prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -6736,13 +6736,13 @@ react-native-get-random-values@~1.7.0:
   dependencies:
     fast-base64-decode "^1.0.0"
 
-react-native-google-places-autocomplete@^1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/react-native-google-places-autocomplete/-/react-native-google-places-autocomplete-1.8.2.tgz#8cd2edea6b9946416f5994358a94e8186c47c762"
-  integrity sha512-+bQPeSJCfq6nqdVSGJQTwe7djCzKHBT/ULuSjhWiijidWhKstVnZ/9bB8z/8Jpk0gHs0fYCJb0DFR3djFrg7uw==
+react-native-google-places-autocomplete@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-google-places-autocomplete/-/react-native-google-places-autocomplete-2.2.0.tgz#8471515cc4c2db07e7c33c2acbebf4bc79ebdac3"
+  integrity sha512-Kb1RmBLWTVsb4BKlAea5feZGr28EMFRUzqOQ4nenK3h+ACAb0B9IFpJZARKBn7yluRhK0v6/pDb8ulJB0RKxrQ==
   dependencies:
     lodash.debounce "^4.0.8"
-    prop-types "^15.5.10"
+    prop-types "^15.7.2"
     qs "~6.9.1"
 
 react-native-htmlview@^0.16.0:
