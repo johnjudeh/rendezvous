@@ -10,8 +10,8 @@ import MapView, {
     EdgePadding
 } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLocations, setCurrLocation, addLocation, removeAllLocations } from 'locations/state';
-import { calculateCenter } from 'locations/utils';
+import { selectLocations, selectCurrLocation, setCurrLocation, addLocation, removeAllLocations } from 'locations/state';
+import { calculateCenter, calculateDistance } from 'locations/utils';
 import Coordinates from 'locations/constants/cities';
 import { requestLocation } from 'common/permissions';
 import Color from 'common/constants/colors';
@@ -25,6 +25,7 @@ function Map() {
         latitudeDelta: 0.1000,
         longitudeDelta: 0.1000,
     };
+    const LOC_SENSITIVITY = 100;
 
     const dispatch = useDispatch();
     const [ locationSet, setLocationSet ] = useState(false);
@@ -50,6 +51,7 @@ function Map() {
         }
     }
 
+    const currLocation = useSelector(selectCurrLocation);
     const locations = useSelector(selectLocations);
     const showMarkers = locations.length > 1;
     const center: LatLng = showMarkers
@@ -98,11 +100,15 @@ function Map() {
     const onUserLocationChange = (e: EventUserLocation): void => {
         if (!showMarkers) {
             const { coordinate } = e.nativeEvent;
-            if (mapRef.current !== null) {
-                mapRef.current.animateCamera({ center: coordinate, zoom: 12 });
-                setLocationSet(true);
-            }
-            if (locationSet === false) {
+            const significantLocationChange = currLocation !== null
+                ? calculateDistance(currLocation, coordinate) >= LOC_SENSITIVITY
+                : false;
+
+            if (locationSet === false || significantLocationChange) {
+                if (mapRef.current !== null) {
+                    mapRef.current.animateCamera({ center: coordinate, zoom: 12 });
+                    setLocationSet(true);
+                }
                 const latLng: LatLng = {
                     latitude: coordinate.latitude,
                     longitude: coordinate.longitude,
