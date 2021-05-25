@@ -133,7 +133,12 @@ export class Client {
                 );
             }
 
-            return json.results;
+            // A lot of hotels are being returned so this is a quick way to simply remove them
+            // Ideally this would be changed to something more sophisticated but works for now
+            const filterOutHotels = (result: PlacesResult) => !result.types.includes('lodging');
+            const results = json.results.filter(filterOutHotels);
+
+            return results;
 
         } catch (err) {
             // TODO: Do something more sophistcated with the error.
