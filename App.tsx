@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { AppState, AppStateStatus } from 'react-native';
+import React from 'react';
 import { Provider } from 'react-redux';
 import AppLoading from 'expo-app-loading';
-import { getNetworkStateAsync, NetworkState } from 'expo-network';
 import { useAssets } from 'expo-asset';
 import {
     useFonts,
@@ -15,7 +13,6 @@ import {
 } from '@expo-google-fonts/roboto';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { AppContainer, store } from 'app';
-import Toast from 'common/components/Toast';
 
 function App() {
     const [ fontsLoaded ] = useFonts({
@@ -41,33 +38,6 @@ function App() {
         require('categories/img/park-large.jpg'),
     ]);
 
-    // Checks the app state to ensure that network checks are only done
-    // when the app is active - i.e. in the foreground. Worth moving this to
-    // the redux store at some point
-    const [ appState, setAppState ] = useState(AppState.currentState);
-    useEffect(() => {
-        const updateAppState = (state: AppStateStatus) => setAppState(state);
-        AppState.addEventListener('change', updateAppState);
-        const cleanup = () => {
-            AppState.removeEventListener('change', updateAppState);
-        };
-        return cleanup;
-    });
-
-    // Checks that network is up when app loads and keeps checking every
-    // 2 seconds until it is
-    const [ networkUp, setNetworkUp ] = useState(false);
-    const checkNetworkStatus = () => {
-        getNetworkStateAsync()
-            .then((networkState: NetworkState) => {
-                setNetworkUp(networkState.isInternetReachable || false);
-                if (!networkState.isInternetReachable && appState === 'active') {
-                    setTimeout(checkNetworkStatus, 2000);
-                }
-            });
-    };
-    useEffect(checkNetworkStatus, [ appState ]);
-
     if (!fontsLoaded || !assets) {
         return <AppLoading />;
     }
@@ -75,7 +45,6 @@ function App() {
     return (
         <Provider store={store}>
             <AppContainer />
-            <Toast visible={!networkUp} message={'You seem to be offline'} />
         </Provider>
     );
 }
