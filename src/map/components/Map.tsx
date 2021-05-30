@@ -55,7 +55,7 @@ function Map() {
         return (
             Platform.OS === 'android'
                 ? padding * PixelRatio.get() - 50
-                : padding - mapPadding[side].valueOf()
+                : padding
         );
     }
 
