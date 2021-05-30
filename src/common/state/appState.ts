@@ -7,7 +7,7 @@ interface State {
 
 const sliceObject: CreateSliceOptions<AppStateStatus> = {
     name: 'appState',
-    initialState: 'unknown',
+    initialState: 'active',
     reducers: {
         set: (state, action: PayloadAction<AppStateStatus>) => {
             return action.payload;
