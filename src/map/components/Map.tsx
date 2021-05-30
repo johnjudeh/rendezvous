@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
-import { PixelRatio, Platform, StyleSheet } from 'react-native';
+import { Dimensions, PixelRatio, Platform, StyleSheet } from 'react-native';
 import MapView, {
     PROVIDER_GOOGLE,
     Marker,
@@ -15,7 +15,6 @@ import { calculateCenter, calculateDistance } from 'locations/utils';
 import Coordinates from 'locations/constants/cities';
 import { requestLocation } from 'common/permissions';
 import Color from 'common/constants/colors';
-import { appleDeviceHasDockBar } from 'common/utils/device';
 import GooglePlacesAPI from 'common/clients/googlePlaces';
 import { SEARCH_RADIUS } from '../constants';
 
@@ -29,14 +28,6 @@ function Map() {
 
     const dispatch = useDispatch();
     const [ locationSet, setLocationSet ] = useState(false);
-
-    // TODO: Find a neater solution to the mapPadding problem below.
-    // This is a hack needed to ensure the mapPadding works properly.
-    // It causes the map to be redrawn once it's ready so that the padding
-    // is respected. I am not a fan... but it does the job
-    // Issue: https://github.com/react-native-maps/react-native-maps/issues/2688
-    const [ mapStyle, setMapStyle ] = useState({ flex: 0.8 });
-    const onMapReady = () => setMapStyle(styles.mapStyle);
 
     const mapRef: MutableRefObject<MapView | null> = useRef(null);
 
@@ -57,17 +48,6 @@ function Map() {
     const center: LatLng = showMarkers
         ? calculateCenter(locations.map(loc => loc.latLng))
         : { ...Coordinates.London };
-
-    const mapPadding: EdgePadding = {
-        top: 0,
-        bottom: Platform.OS === 'ios'
-            ? appleDeviceHasDockBar()
-                ? 85
-                : 110
-            : 90,
-        left: 0,
-        right: 0,
-    }
 
     const getEdgePaddingForPlatform = (padding: number, side: keyof EdgePadding): number => {
         // This is a hack to get the edge padding to work on Android. See issue below:
@@ -137,11 +117,10 @@ function Map() {
             onUserLocationChange={onUserLocationChange}
             showsMyLocationButton={true}
             ref={mapRef}
-            mapPadding={mapPadding}
-            // The two lines are part of the fix for
-            // mapPadding bug that requires
-            style={mapStyle}
-            onMapReady={onMapReady}
+            style={{
+                // Placed here so that Dimensions calculates on each render
+                height: Dimensions.get('window').height - (Platform.OS === 'ios' ? 110 : 90),
+            }}
         >
             {showMarkers
                 ? locations.map((location, i) => (
@@ -171,11 +150,5 @@ function Map() {
         </MapView>
     );
 }
-
-const styles = StyleSheet.create({
-    mapStyle: {
-        flex: 1,
-    },
-});
 
 export default Map;
