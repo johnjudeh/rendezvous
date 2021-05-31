@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Modal, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 
@@ -24,18 +24,18 @@ function CustomModal(props: ModalProps) {
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>{message}</Text>
                     <View style={styles.buttonsContainer}>
-                        <TouchableHighlight
+                        <TouchableOpacity
                             style={[styles.button, styles.cancelButton]}
                             onPress={cancelButtonFn}
                         >
                             <Text style={[styles.textStyle, styles.cancelTextStyle]}>Skip</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight
+                        </TouchableOpacity>
+                        <TouchableOpacity
                             style={[styles.button, styles.okButton]}
                             onPress={okButtonFn}
                         >
                             <Text style={styles.textStyle}>{okButtonText}</Text>
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
