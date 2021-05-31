@@ -3,7 +3,7 @@ import { View, StyleSheet, AppState, AppStateStatus } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNetworkStateAsync, NetworkState } from 'expo-network';
 import { StatusBar } from 'expo-status-bar';
-import Toast from 'common/components/Toast';
+import { Toast } from 'common/components';
 import { selectAppState, setAppState } from 'common/state';
 import MainNavigaton from './MainNavigaton';
 

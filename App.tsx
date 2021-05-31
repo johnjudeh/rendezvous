@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import AppLoading from 'expo-app-loading';
 import { useAssets } from 'expo-asset';
@@ -12,7 +12,10 @@ import {
     Roboto_700Bold_Italic,
 } from '@expo-google-fonts/roboto';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { addListener as addUpdateListener, reloadAsync, UpdateEvent, UpdateEventType } from 'expo-updates';
+import { EventSubscription } from 'fbemitter';
 import { AppContainer, store } from 'app';
+import { Modal } from 'common/components'
 
 function App() {
     const [ fontsLoaded ] = useFonts({
@@ -38,6 +41,22 @@ function App() {
         require('categories/img/park-large.jpg'),
     ]);
 
+    const [ modalVisible, setModalVisible ] = useState(false);
+    const hideModal = () => setModalVisible(false);
+    const okModalFn = () => {
+        hideModal();
+        reloadAsync();
+    };
+
+    useEffect(() => {
+        const subscription: EventSubscription = addUpdateListener((event: UpdateEvent) => {
+            if (event.type === UpdateEventType.UPDATE_AVAILABLE) {
+                setModalVisible(true);
+            }
+        });
+        return subscription.remove;
+    }, []);
+
     if (!fontsLoaded || !assets) {
         return <AppLoading />;
     }
@@ -45,6 +64,13 @@ function App() {
     return (
         <Provider store={store}>
             <AppContainer />
+            <Modal
+                visible={modalVisible}
+                message={'There is a new update available'}
+                okButtonText={'Refresh'}
+                okButtonFn={okModalFn}
+                cancelButtonFn={hideModal}
+            />
         </Provider>
     );
 }
