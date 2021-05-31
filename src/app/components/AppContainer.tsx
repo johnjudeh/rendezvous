@@ -3,7 +3,9 @@ import { View, StyleSheet, AppState, AppStateStatus } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNetworkStateAsync, NetworkState } from 'expo-network';
 import { StatusBar } from 'expo-status-bar';
-import { Toast } from 'common/components';
+import { addListener as addUpdateListener, checkForUpdateAsync, fetchUpdateAsync, reloadAsync, UpdateEvent, UpdateEventType } from 'expo-updates';
+import { EventSubscription } from 'fbemitter';
+import { Modal, Toast } from 'common/components';
 import { selectAppState, setAppState } from 'common/state';
 import MainNavigaton from './MainNavigaton';
 
@@ -22,6 +24,38 @@ function AppContainer() {
         return cleanup;
     });
 
+    // App updates handled below
+    const [ modalVisible, setModalVisible ] = useState(false);
+    const hideModal = () => setModalVisible(false);
+    const okModalFn = () => {
+        hideModal();
+        reloadAsync();
+    };
+
+    const addListenerForUpdate = () => {
+        const subscription: EventSubscription = addUpdateListener((event: UpdateEvent) => {
+            if (event.type === UpdateEventType.UPDATE_AVAILABLE) {
+                setModalVisible(true);
+            }
+        });
+        return subscription.remove;
+    };
+
+    const checkForUpdate = () => {
+        if (appState === 'active') {
+            checkForUpdateAsync()
+                .then(update => {
+                    if (update.isAvailable) {
+                        fetchUpdateAsync();
+                    }
+                });
+        }
+    };
+
+    useEffect(addListenerForUpdate, []);
+    useEffect(checkForUpdate, [ appState ]);
+
+    // Network connectivity handled below
     // Checks that network is up when app loads and keeps checking every
     // 2 seconds until it is
     const [ networkUp, setNetworkUp ] = useState(true);
@@ -40,6 +74,13 @@ function AppContainer() {
         <View style={styles.container}>
             <StatusBar style='dark' />
             <MainNavigaton />
+            <Modal
+                visible={modalVisible}
+                message={'There is a new update available'}
+                okButtonText={'Refresh'}
+                okButtonFn={okModalFn}
+                cancelButtonFn={hideModal}
+            />
             <Toast visible={!networkUp} message={'You seem to be offline'} />
         </View>
     );
