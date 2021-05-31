@@ -3,7 +3,7 @@ import { View, StyleSheet, AppState, AppStateStatus } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNetworkStateAsync, NetworkState } from 'expo-network';
 import { StatusBar } from 'expo-status-bar';
-import { addListener as addUpdateListener, checkForUpdateAsync, fetchUpdateAsync, reloadAsync, UpdateEvent, UpdateEventType } from 'expo-updates';
+import { addListener as addUpdateListener, checkForUpdateAsync, fetchUpdateAsync, reloadAsync, UpdateEvent, UpdateEventType, UpdateFetchResult } from 'expo-updates';
 import { EventSubscription } from 'fbemitter';
 import { Modal, Toast } from 'common/components';
 import { selectAppState, setAppState } from 'common/state';
@@ -26,6 +26,7 @@ function AppContainer() {
 
     // App updates handled below
     const [ modalVisible, setModalVisible ] = useState(false);
+    const showModal = () => setModalVisible(true);
     const hideModal = () => setModalVisible(false);
     const okModalFn = () => {
         hideModal();
@@ -35,7 +36,7 @@ function AppContainer() {
     const addListenerForUpdate = () => {
         const subscription: EventSubscription = addUpdateListener((event: UpdateEvent) => {
             if (event.type === UpdateEventType.UPDATE_AVAILABLE) {
-                setModalVisible(true);
+                showModal();
             }
         });
         return subscription.remove;
@@ -44,9 +45,14 @@ function AppContainer() {
     const checkForUpdate = () => {
         if (appState === 'active') {
             checkForUpdateAsync()
+                .then(updateState => {
+                    if (updateState.isAvailable) {
+                        return fetchUpdateAsync();
+                    }
+                })
                 .then(update => {
-                    if (update.isAvailable) {
-                        fetchUpdateAsync();
+                    if (update && update.isNew) {
+                        showModal();
                     }
                 });
         }
