@@ -28,13 +28,13 @@ const COLORS: Color[] = [
 ]
 
 function LocationCard(props: LocationCardProps) {
-    const address_max_length = Math.round(Dimensions.get('screen').width / 17);
+    const POSTCODE_LENGTH = 6;
+    const ADDRESS_MAX_LENGTH = Math.round(Dimensions.get('screen').width / 20);
 
     const { id, address, country, postcode, index } = props;
     const dispatch = useDispatch();
 
     const handleLocationRemoval = () => dispatch(removeLocation(id));
-    const formattedAddress = formatAddress(address, address_max_length);
 
     return (
         <View style={styles.container}>
@@ -49,8 +49,8 @@ function LocationCard(props: LocationCardProps) {
                 </Text>
                 <Text style={styles.address}>{
                     postcode === ''
-                        ? `${formattedAddress}`
-                        : `${formattedAddress}, ${postcode}`
+                        ? `${formatAddress(address, ADDRESS_MAX_LENGTH + POSTCODE_LENGTH)}`
+                        : `${formatAddress(address, ADDRESS_MAX_LENGTH)}, ${postcode}`
                 }</Text>
             </View>
             <View style={styles.removeContainer}>

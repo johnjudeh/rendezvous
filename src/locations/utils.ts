@@ -19,25 +19,10 @@ export function getCountryFromGoogleAddressComponents(addressComponents: Address
 }
 
 export function formatAddress(address: string, maxLength: number): string {
-    const separator = ' ';
     const elipsis = '...';
-    let formattedAddress: string = address;
-
-    if (address.length > maxLength) {
-        formattedAddress = '';
-        const addressComponents: string[] = address.split(separator);
-
-        for (let comp of addressComponents) {
-            if (formattedAddress.length + comp.length > maxLength) {
-                formattedAddress = formattedAddress.trim();
-                formattedAddress += elipsis;
-                break;
-            }
-            formattedAddress += comp + separator;
-        }
-    }
-
-    return formattedAddress.trim();
+    return address.length > maxLength
+        ? address.slice(0, maxLength) + elipsis
+        : address;
 }
 
 export function calculateCenter(coordinates: LatLng[]): LatLng {
