@@ -14,7 +14,6 @@ import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import { addLocation } from '../state';
 import {
-    getAdressFromGoogleAddressComponents,
     getPostcodeFromGoogleAddressComponents,
     getCountryFromGoogleAddressComponents,
     latLngToString,
@@ -42,7 +41,7 @@ function LocationSearchBar() {
         const placeCoords: { lat: number, lng: number } = details.geometry.location;
         const addressComponents = details.address_components;
 
-        const address: string = getAdressFromGoogleAddressComponents(addressComponents);
+        const address: string = details.formatted_address;
         const postcode: string = getPostcodeFromGoogleAddressComponents(addressComponents) || '';
         const country: string = getCountryFromGoogleAddressComponents(addressComponents) || '';
 

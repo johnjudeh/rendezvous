@@ -2,20 +2,6 @@ import { AddressComponent } from 'react-native-google-places-autocomplete';
 import { LatLng } from 'react-native-maps';
 import { LatLngShort } from 'locations/types';
 
-export function getAdressFromGoogleAddressComponents(addressComponents: AddressComponent[]): string {
-    // TODO: Move to constants?
-    const addresTypes = ['premise', 'street_number', 'route', 'neighborhood'];
-
-    const address: string = addressComponents.reduce((address, addressComponent, i) => {
-        const separator = i === 0 ? '' : ' ';
-        return addressComponent.types.some(type => addresTypes.includes(type))
-            ? `${address}${separator}${addressComponent.long_name}`
-            : address;
-    }, '');
-
-    return address;
-}
-
 export function getPostcodeFromGoogleAddressComponents(addressComponents: AddressComponent[]): string | undefined {
     const postcode: string | undefined = addressComponents.find(addressComponent => {
         return addressComponent.types.includes('postal_code');

@@ -3,7 +3,6 @@ import { AddressComponent } from 'react-native-google-places-autocomplete';
 import {
     latLngToString,
     latLngShortToLatLng,
-    getAdressFromGoogleAddressComponents,
     getPostcodeFromGoogleAddressComponents,
     getCountryFromGoogleAddressComponents,
 } from 'locations/utils';
@@ -204,14 +203,13 @@ export class Client {
             for (let result of json.results) {
                 // Check for an appropriate result, once found go with that result regardless of other results
                 if (
-                    (result.types.includes('street_address') || result.types.includes('premise'))
-                    && result.place_id
+                    result.place_id
                     && result.geometry.location
                 ) {
                     const location: LocationData = {
                         id: result.place_id,
                         latLng: latLngShortToLatLng(result.geometry.location),
-                        address: getAdressFromGoogleAddressComponents(result.address_components),
+                        address: result.formatted_address,
                         postcode: getPostcodeFromGoogleAddressComponents(result.address_components) || '',
                         country: getCountryFromGoogleAddressComponents(result.address_components) || '',
                     };
