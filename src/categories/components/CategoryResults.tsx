@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions, FlatList, Text, View, StyleSheet, Image, ListRenderItem } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { LatLng } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
 import { selectLocations } from 'locations/state';
-import { calculateCenter, latLngShortToLatLng, averageDistanceFromPoint } from 'locations/utils';
+import { calculateCenter, latLngShortToLatLng } from 'locations/utils';
 import { setCategoryResults, selectCategoryCreator, SetActionPayload, CategoryResult as CategoryResultInterface } from 'categories/state';
 import { Dictionary, NavigationProps } from 'common/types';
 import { BackButton, Dock } from 'common/components';
@@ -50,21 +49,6 @@ function CategoryResults({ navigation, route }: NavigationProps) {
             </Text>
         );
     };
-
-    useFocusEffect(useCallback(() => {
-        // TODO: Figure out how to make this fires only after the results have loaded.
-        // Currently the first time you go onto the page, it fires before results are
-        // fetched.
-
-        // Calculates the average distance from center of each result
-        let avgDistanceFromCenter = null;
-
-        if (results && Object.keys(results).length !== 0) {
-            const resultList = Object.values(results);
-            const resultLatLngs = resultList.map(res => latLngShortToLatLng(res.geometry.location));
-            avgDistanceFromCenter = averageDistanceFromPoint(resultLatLngs, center);
-        }
-    }, []));
 
     useEffect(() => {
         if (

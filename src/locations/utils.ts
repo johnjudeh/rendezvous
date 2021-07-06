@@ -89,15 +89,6 @@ export function calculateDistance(pointA: LatLng, pointB: LatLng): number {
     return d;
 }
 
-export function averageDistanceFromPoint(fromPoints: LatLng[], toPoint: LatLng) {
-    const distances = fromPoints.map(fromPoint => calculateDistance(fromPoint, toPoint));
-
-    const sum = (accumulator: number, currentVal: number) => accumulator + currentVal;
-    const averageDistance = Math.round(distances.reduce(sum) / distances.length);
-
-    return averageDistance;
-}
-
 export function latLngToString(latLng: LatLng): string {
     const { latitude, longitude } = latLng;
     return `${latitude},${longitude}`;
