@@ -59,7 +59,7 @@ function CategoryResults({ navigation, route }: NavigationProps) {
         // Calculates the average distance from center of each result
         let avgDistanceFromCenter = null;
 
-        if (results) {
+        if (results && Object.keys(results).length !== 0) {
             const resultList = Object.values(results);
             const resultLatLngs = resultList.map(res => latLngShortToLatLng(res.geometry.location));
             avgDistanceFromCenter = averageDistanceFromPoint(resultLatLngs, center);
