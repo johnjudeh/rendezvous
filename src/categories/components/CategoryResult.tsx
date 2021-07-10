@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio, Dimensions, Linking } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio, Dimensions } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import HTMLView from 'react-native-htmlview';
 import { LatLng } from 'react-native-maps';
-import { openBrowserAsync } from 'expo-web-browser';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
+import { openBrowser } from 'common/utils';
 import { setPlacePhoto, SetPlacePhotoActionPaylod } from '../state';
 
 interface CategoryResultProps {
@@ -28,12 +28,12 @@ function CategoryResult(props: CategoryResultProps) {
     const { id, category, name, address, latLng, center, rating, numOfRatings, photoRef, photoDataURL, photoAttrHTML } = props;
     const dispatch = useDispatch();
 
-    const navigateToGoogleMaps = () => {
+    const openGoogleMaps = () => {
         const url = new URL('https://www.google.com/maps/search/');
         url.searchParams.append('api', '1');
         url.searchParams.append('query', encodeURIComponent(name));
         url.searchParams.append('query_place_id', id);
-        Linking.openURL(url.toString());
+        openBrowser(url.toString());
     }
 
     useEffect(() => {
@@ -55,7 +55,7 @@ function CategoryResult(props: CategoryResultProps) {
     }, [id, photoRef]);
 
     return (
-        <TouchableOpacity style={styles.container} onPress={navigateToGoogleMaps}>
+        <TouchableOpacity style={styles.container} onPress={openGoogleMaps}>
             <View style={styles.imageContainer}>
                 <Image
                     source={photoDataURL
@@ -71,10 +71,7 @@ function CategoryResult(props: CategoryResultProps) {
                             <HTMLView
                                 value={photoAttrHTML}
                                 stylesheet={HTMLStyles}
-                                onLinkPress={(url: string) => openBrowserAsync(url, {
-                                    toolbarColor: Color.OFF_WHITE,
-                                    controlsColor: Color.ORANGE,
-                                })}
+                                onLinkPress={(url: string) => openBrowser(url)}
                             />
                         </View>
                         : null

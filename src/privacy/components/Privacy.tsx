@@ -1,18 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Constants from 'expo-constants';
-import { openBrowserAsync } from 'expo-web-browser';
 import { NavigationProps } from 'common/types';
 import { BurgerButton } from 'common/components';
 import Color from 'common/constants/colors';
+import { openBrowser } from 'common/utils';
 import FontFamily from 'common/constants/fonts';
 import { PRIVACY_POLICY_URL } from '../constants';
 
 function Privacy({ navigation }: NavigationProps) {
-    const privacyPolicyPress = () => openBrowserAsync(PRIVACY_POLICY_URL, {
-        toolbarColor: Color.OFF_WHITE,
-        controlsColor: Color.ORANGE,
-    });
+    const privacyPolicyPress = () => openBrowser(PRIVACY_POLICY_URL);
 
     return (
         <View style={styles.container}>
