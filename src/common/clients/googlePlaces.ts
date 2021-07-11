@@ -30,7 +30,7 @@ type BusinessStatus =
     | 'CLOSED_TEMPORARILY'
     | 'CLOSED_PERMANENTLY';
 
-enum PriceLevel {
+export enum PriceLevel {
     Free,
     Inexpensive,
     Moderate,

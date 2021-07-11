@@ -35,6 +35,7 @@ function CategoryResults({ navigation, route }: NavigationProps) {
                 address={item.vicinity}
                 rating={item.rating}
                 numOfRatings={item.user_ratings_total}
+                priceLevel={item.price_level}
                 photoRef={item.photos?.[0]?.photo_reference}
                 photoDataURL={item.photos?.[0]?.photo_data_url}
                 photoAttrHTML={item.photos?.[0]?.html_attributions[0]}

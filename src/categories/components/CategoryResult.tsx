@@ -6,7 +6,7 @@ import HTMLView from 'react-native-htmlview';
 import { LatLng } from 'react-native-maps';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
-import GooglePlacesAPI, { PlaceType } from 'common/clients/googlePlaces';
+import GooglePlacesAPI, { PlaceType, PriceLevel } from 'common/clients/googlePlaces';
 import { openBrowser } from 'common/utils';
 import { setPlacePhoto, SetPlacePhotoActionPaylod } from '../state';
 
@@ -19,13 +19,14 @@ interface CategoryResultProps {
     center: LatLng,
     rating: number,
     numOfRatings: number,
+    priceLevel: PriceLevel,
     photoRef?: string,
     photoDataURL?: string,
     photoAttrHTML?: string,
 }
 
 function CategoryResult(props: CategoryResultProps) {
-    const { id, category, name, address, latLng, center, rating, numOfRatings, photoRef, photoDataURL, photoAttrHTML } = props;
+    const { id, category, name, address, latLng, center, rating, numOfRatings, priceLevel, photoRef, photoDataURL, photoAttrHTML } = props;
     const dispatch = useDispatch();
 
     const openGoogleMaps = () => {
@@ -34,6 +35,28 @@ function CategoryResult(props: CategoryResultProps) {
         url.searchParams.append('query', encodeURIComponent(name));
         url.searchParams.append('query_place_id', id);
         openBrowser(url.toString());
+    }
+
+    const renderPriceLevel = () => {
+        if (priceLevel === undefined) {
+            return null;
+        } else if (priceLevel === PriceLevel.Free) {
+            return <Text style={styles.priceLevelFree}>{PriceLevel[priceLevel]}</Text>
+        }
+
+        const priceLevelComponents = [];
+
+        for (let i = PriceLevel.Inexpensive; i <= PriceLevel.VeryExpensive; i++) {
+            priceLevelComponents.push(
+                <FontAwesome
+                    name="gbp"
+                    size={14}
+                    color={i <= priceLevel ? Color.ORANGE : Color.MID_LIGHT_GREY}
+                    style={styles.priceLevelMoneyIcon}
+                />
+            )
+        }
+        return priceLevelComponents;
     }
 
     useEffect(() => {
@@ -85,6 +108,7 @@ function CategoryResult(props: CategoryResultProps) {
                     <FontAwesome name='star' size={16} color={Color.ORANGE} />
                     <Text style={styles.rating}>{rating ? rating.toPrecision(2) : 'Unrated'}</Text>
                     <Text style={styles.numOfRatings}>{rating ? `(${numOfRatings})` : ''}</Text>
+                    <View style={styles.priceLevelContainer}>{renderPriceLevel()}</View>
                 </View>
             </View>
         </TouchableOpacity>
@@ -159,6 +183,19 @@ const styles = StyleSheet.create({
         fontFamily: FontFamily.BODY,
         marginLeft: 3,
     },
+    priceLevelContainer: {
+        flexDirection: 'row',
+        marginLeft: 20,
+    },
+    priceLevelMoneyIcon: {
+        marginRight: 2,
+    },
+    priceLevelFree: {
+        fontFamily: FontFamily.CTA,
+        fontSize: 14,
+        color: Color.ORANGE,
+        textTransform: 'uppercase',
+    }
 });
 
 const HTMLStyles = StyleSheet.create({
