@@ -27,7 +27,7 @@ function MapperView({ navigation }: NavigationProps) {
                 </Dock>
                 : <Dock>
                     <View style={styles.buttonContainer}>
-                        <MainButton text='Add location' onPress={() => navigation.navigate('Locations')} />
+                        <MainButton text='Get started' onPress={() => navigation.navigate('Locations')} />
                     </View>
                 </Dock>
             }
