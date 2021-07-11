@@ -50,6 +50,7 @@ function CategoryResult(props: CategoryResultProps) {
             priceLevelComponents.push(
                 <FontAwesome
                     name="gbp"
+                    key={i}
                     size={14}
                     color={i <= priceLevel ? Color.ORANGE : Color.LIGHT_GREY}
                     style={styles.priceLevelMoneyIcon}
