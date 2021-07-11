@@ -51,7 +51,7 @@ function CategoryResult(props: CategoryResultProps) {
                 <FontAwesome
                     name="gbp"
                     size={14}
-                    color={i <= priceLevel ? Color.ORANGE : Color.MID_LIGHT_GREY}
+                    color={i <= priceLevel ? Color.ORANGE : Color.LIGHT_GREY}
                     style={styles.priceLevelMoneyIcon}
                 />
             )
