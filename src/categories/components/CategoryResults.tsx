@@ -114,9 +114,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     resultsContainer: {
-        // TODO: This needs to be dynamic rather than static
-        // for when users turn their screen horizontally.
-        height: Dimensions.get('window').height - 300,
+        // This was updated from window_height - 300 to deal with screen sizes
+        // of lower resolution where the 300 takes too much of the screen real-estate
+        height: Dimensions.get('window').height - Math.min(300, Dimensions.get('window').height * 0.45),
     },
     loadingText: {
         fontSize: 15,

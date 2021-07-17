@@ -8,7 +8,11 @@ function CategoryList() {
     const navigation = useNavigation();
 
     return (
-        <ScrollView horizontal={true}>
+        <ScrollView
+            horizontal={true}
+            fadingEdgeLength={20}
+            overScrollMode={'always'}
+        >
             {Object.keys(CATEGORY_LABELS).map(category => (
                 <CategoryThumbnail
                     key={category}

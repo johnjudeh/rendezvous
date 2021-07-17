@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Privacy from 'privacy/components';
 import Color, { Opacity } from 'common/constants/colors';
@@ -12,7 +12,7 @@ function DrawerNavigator() {
         <Drawer.Navigator
             initialRouteName='Home'
             drawerPosition='right'
-            hideStatusBar={true}
+            hideStatusBar={Platform.OS === 'ios' ? true : false}
             overlayColor={Color.DARK_GREY + Opacity.OVERLAY}
             drawerStyle={styles.drawer}
             drawerContentOptions={{

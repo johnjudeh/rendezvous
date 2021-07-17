@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, AppState, AppStateStatus } from 'react-native';
+import { View, StyleSheet, AppState, AppStateStatus, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNetworkStateAsync, NetworkState } from 'expo-network';
 import { StatusBar } from 'expo-status-bar';
@@ -8,6 +8,7 @@ import { EventSubscription } from 'fbemitter';
 import { Modal, Toast } from 'common/components';
 import { selectAppState, setAppState } from 'common/state';
 import MainNavigaton from './MainNavigaton';
+import Color from 'common/constants/colors';
 
 function AppContainer() {
     const dispatch = useDispatch();
@@ -34,16 +35,18 @@ function AppContainer() {
     };
 
     const addListenerForUpdate = () => {
-        const subscription: EventSubscription = addUpdateListener((event: UpdateEvent) => {
-            if (event.type === UpdateEventType.UPDATE_AVAILABLE) {
-                showModal();
-            }
-        });
-        return subscription.remove;
+        if (!__DEV__) {
+            const subscription: EventSubscription = addUpdateListener((event: UpdateEvent) => {
+                if (event.type === UpdateEventType.UPDATE_AVAILABLE) {
+                    showModal();
+                }
+            });
+            return subscription.remove;
+        }
     };
 
     const checkForUpdate = () => {
-        if (appState === 'active') {
+        if (!__DEV__ && appState === 'active') {
             checkForUpdateAsync()
                 .then(updateState => {
                     if (updateState.isAvailable) {
@@ -78,7 +81,13 @@ function AppContainer() {
 
     return (
         <View style={styles.container}>
-            <StatusBar style='dark' />
+            <StatusBar
+                style={Platform.OS === 'ios' ? 'dark' : 'light'}
+                // The below properties are Android only to deal with a bug
+                // where the status bar does not respect the style property
+                backgroundColor={Color.DARK_GREY}
+                translucent={true}
+            />
             <MainNavigaton />
             <Modal
                 visible={modalVisible}
