@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dimensions, FlatList, Text, View, StyleSheet, Image, ListRenderItem } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { LatLng } from 'react-native-maps';
@@ -17,6 +17,9 @@ import CategoryResult from './CategoryResult';
 
 function CategoryResults({ navigation, route }: NavigationProps) {
     const categoryName: PlaceType = route.params?.category;
+
+    const [ showLoading, setShowLoading ] = useState(true);
+
     const dispatch = useDispatch();
     const locations = useSelector(selectLocations);
     const category = useSelector(selectCategoryCreator(categoryName));
@@ -52,12 +55,17 @@ function CategoryResults({ navigation, route }: NavigationProps) {
     };
 
     useEffect(() => {
+        if (results) setShowLoading(false);
+    }, [ results ]);
+
+    useEffect(() => {
         if (
             !category
             || category.center.latitude !== center.latitude
             || category.center.longitude !== center.longitude
             || category.radius !== radius
         ) {
+            setShowLoading(true);
             GooglePlacesAPI.nearbySearch(center, radius, categoryName)
                 .then(res => {
                     const placeResults: Dictionary<GooglePlacesResult> = {};
@@ -85,7 +93,7 @@ function CategoryResults({ navigation, route }: NavigationProps) {
             />
             <Dock title={CATEGORY_LABELS[categoryName]} style={styles.dock}>
                 <View style={styles.resultsContainer}>
-                    {results === undefined
+                    {showLoading || results === undefined
                         ? <Text style={styles.loadingText}>Loading...</Text>
                         : <FlatList
                             data={Object.values(results)}
