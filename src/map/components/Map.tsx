@@ -10,6 +10,7 @@ import MapView, {
     EdgePadding
 } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 import { selectLocations, selectCurrLocation, setCurrLocation, addLocation, removeAllLocations } from 'locations/state';
 import { calculateCenter, calculateDistance } from 'locations/utils';
 import Coordinates from 'locations/constants/cities';
@@ -28,6 +29,12 @@ function Map() {
 
     const dispatch = useDispatch();
     const [ locationSet, setLocationSet ] = useState(false);
+    const [ inFocus, setInFocus ] = useState(false);
+
+    useFocusEffect(() => {
+        setInFocus(true);
+        return () => { setInFocus(false) };
+    });
 
     const mapRef: MutableRefObject<MapView | null> = useRef(null);
 
@@ -84,7 +91,7 @@ function Map() {
                 ? calculateDistance(currLocation, coordinate) >= LOC_SENSITIVITY
                 : false;
 
-            if (locationSet === false || significantLocationChange) {
+            if (inFocus && (!locationSet || significantLocationChange)) {
                 if (mapRef.current !== null) {
                     mapRef.current.animateCamera({ center: coordinate, zoom: 12 });
                     setLocationSet(true);
