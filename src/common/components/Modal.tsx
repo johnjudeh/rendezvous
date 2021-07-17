@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import Color from 'common/constants/colors';
+import Color, { Opacity } from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 
 interface ModalProps {
@@ -16,7 +16,7 @@ function CustomModal(props: ModalProps) {
 
     return (
         <Modal
-            animationType="slide"
+            animationType='fade'
             transparent={true}
             visible={visible}
         >
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 22,
+        backgroundColor: Color.DARK_GREY + Opacity.OVERLAY,
     },
     modalView: {
         margin: 20,
