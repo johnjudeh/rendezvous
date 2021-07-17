@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
-import { Dimensions, PixelRatio, Platform, StyleSheet } from 'react-native';
+import { Dimensions, PixelRatio, Platform } from 'react-native';
 import MapView, {
     PROVIDER_GOOGLE,
     Marker,
@@ -65,6 +65,10 @@ function Map() {
                 : padding
         );
     }
+
+    useEffect(() => {
+        setLocationSet(locations.length > 0)
+    }, [ locations ]);
 
     useEffect(requestLocation);
     useEffect(() => {
