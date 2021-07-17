@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     GooglePlacesAutocomplete,
@@ -27,6 +27,7 @@ function LocationSearchBar() {
     const currLocation = useSelector(selectCurrLocation);
     const [ value, setValue ] = useState('');
     const [ sessionToken, setSessionToken ] = useState('');
+    const [ hasError, setHasError ] = useState(false);
 
     const setNewUUID = () => {
         setSessionToken(createUUID());
@@ -63,6 +64,17 @@ function LocationSearchBar() {
 
     useEffect(setNewUUID, []);
 
+    const EmptyComponent = () => (
+        <View style={styles.errorMsgContainer}>
+            <Text style={styles.errorMsgText}>
+                {hasError
+                    ? 'Something went wrong. Contact the team'
+                    : 'No results returned'
+                }
+            </Text>
+        </View>
+    );
+
     return (
         <View style={styles.topContainer}>
             <GooglePlacesAutocomplete
@@ -76,16 +88,17 @@ function LocationSearchBar() {
                 }}
                 fetchDetails={true}
                 onPress={addAutocompleteLocation}
-                onFail={(error) => console.error(error)}
+                onFail={(error) => { setHasError(true); console.error(error) }}
                 minLength={2}
                 debounce={500}
                 suppressDefaultStyles={true}
                 styles={{ ...styles }}
                 textInputProps={{
                     value,
-                    onChangeText: text => setValue(text),
+                    onChangeText: text => { setValue(text); setHasError(false) },
                     placeholderTextColor: Color.MID_LIGHT_GREY,
                 }}
+                listEmptyComponent={EmptyComponent}
             />
         </View>
     );
@@ -138,6 +151,14 @@ const styles = StyleSheet.create({
     },
     poweredContainer: {
         backgroundColor: null,
+    },
+    errorMsgContainer: {
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    errorMsgText: {
+        fontFamily: FontFamily.BODY,
+        color: Color.DARK_GREY,
     },
 });
 
