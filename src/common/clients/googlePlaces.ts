@@ -162,6 +162,11 @@ export class Client {
 
         try {
             const res = await fetch(url.toString());
+            if (!res.ok) {
+                throw new Error(
+                    `API responded with HTTP status code of ${res.status}`
+                );
+            }
             const photoBlob = await res.blob();
 
             const photoDataURI: string = await new Promise((resolve, reject) => {

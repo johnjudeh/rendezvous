@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio, Dimensions } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
@@ -74,9 +74,10 @@ function CategoryResult(props: CategoryResultProps) {
                         }
                         dispatch(setPlacePhoto(action));
                     }
-                });
+                })
+                .catch(err => console.error(err));
         }
-    }, [id, photoRef]);
+    });
 
     return (
         <TouchableOpacity style={styles.container} onPress={openGoogleMaps}>
