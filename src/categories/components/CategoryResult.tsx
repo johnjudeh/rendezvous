@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio, Dimensions } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
+import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import HTMLView from 'react-native-htmlview';
 import { LatLng } from 'react-native-maps';
 import Color from 'common/constants/colors';
@@ -28,6 +29,11 @@ interface CategoryResultProps {
 function CategoryResult(props: CategoryResultProps) {
     const { id, category, name, address, latLng, center, rating, numOfRatings, priceLevel, photoRef, photoDataURL, photoAttrHTML } = props;
     const dispatch = useDispatch();
+
+    // This needs to be used instead of Dimensions.get('window') as
+    // the behaviour is inconsistent across Android devices
+    const frame = useSafeAreaFrame();
+    const maxWidth = frame.width - 110 - 17 - 28;
 
     const openGoogleMaps = () => {
         const url = new URL('https://www.google.com/maps/search/');
@@ -104,8 +110,8 @@ function CategoryResult(props: CategoryResultProps) {
                 </View>
             </View>
             <View style={styles.detailsContainer}>
-                <Text style={styles.name}>{name}</Text>
-                <Text style={styles.address}>{address}</Text>
+                <Text style={[ styles.name, { maxWidth } ]}>{name}</Text>
+                <Text style={[ styles.address, { maxWidth } ]}>{address}</Text>
                 <View style={styles.secondaryContainer}>
                     <FontAwesome name='star' size={16} color={Color.ORANGE} />
                     <Text style={styles.rating}>{rating ? rating.toPrecision(2) : 'Unrated'}</Text>
@@ -156,14 +162,12 @@ const styles = StyleSheet.create({
         color: Color.DARK_GREY,
         fontFamily: FontFamily.TITLE,
         marginTop: 3,
-        maxWidth: Dimensions.get('window').width - 110 - 17 - 28,
     },
     address: {
         fontSize: 11,
         color: Color.MID_LIGHT_GREY,
         fontFamily: FontFamily.TITLE,
         marginTop: 3,
-        maxWidth: Dimensions.get('window').width - 110 - 17 - 28,
     },
     secondaryContainer: {
         flexDirection: 'row',

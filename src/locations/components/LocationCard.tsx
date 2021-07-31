@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
+import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import { UniqueObject } from 'common/types';
@@ -28,8 +29,12 @@ const COLORS: Color[] = [
 ]
 
 function LocationCard(props: LocationCardProps) {
+    // This needs to be used instead of Dimensions.get('window') as
+    // the behaviour is inconsistent across Android devices
+    const frame = useSafeAreaFrame();
+
     const POSTCODE_LENGTH = 6;
-    const ADDRESS_MAX_LENGTH = Math.round(Dimensions.get('screen').width / 20);
+    const ADDRESS_MAX_LENGTH = Math.round(frame.width / 20);
 
     const { id, address, country, postcode, index } = props;
     const dispatch = useDispatch();

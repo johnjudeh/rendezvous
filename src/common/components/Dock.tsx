@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: '100%',
-        minHeight: Platform.OS === 'ios' ? 110 : 90,
         backgroundColor: Color.OFF_WHITE,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,

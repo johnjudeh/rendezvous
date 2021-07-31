@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, FlatList, Text, View, StyleSheet, Image, ListRenderItem } from 'react-native';
+import { FlatList, Text, View, StyleSheet, Image, ListRenderItem } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { LatLng } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
+import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import { selectLocations } from 'locations/state';
 import { calculateCenter, latLngShortToLatLng } from 'locations/utils';
 import { setCategoryResults, selectCategoryCreator, SetActionPayload, CategoryResult as CategoryResultInterface } from 'categories/state';
@@ -18,6 +19,9 @@ import CategoryResult from './CategoryResult';
 function CategoryResults({ navigation, route }: NavigationProps) {
     const categoryName: PlaceType = route.params?.category;
 
+    // This needs to be used instead of Dimensions.get('window') as
+    // the behaviour is inconsistent across Android devices
+    const frame = useSafeAreaFrame();
     const [ showLoading, setShowLoading ] = useState(true);
 
     const dispatch = useDispatch();
@@ -92,7 +96,7 @@ function CategoryResults({ navigation, route }: NavigationProps) {
                 style={styles.imageContainer}
             />
             <Dock title={CATEGORY_LABELS[categoryName]} style={styles.dock}>
-                <View style={styles.resultsContainer}>
+                <View style={{ height: frame.height - 300 }}>
                     {showLoading || results === undefined
                         ? <Text style={styles.loadingText}>Loading...</Text>
                         : <FlatList
@@ -120,11 +124,6 @@ const styles = StyleSheet.create({
     },
     dock: {
         flex: 1,
-    },
-    resultsContainer: {
-        // This was updated from window_height - 300 to deal with screen sizes
-        // of lower resolution where the 300 takes too much of the screen real-estate
-        height: Dimensions.get('window').height - Math.min(300, Dimensions.get('window').height * 0.45),
     },
     loadingText: {
         fontSize: 15,

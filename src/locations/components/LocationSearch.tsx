@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Platform, Dimensions } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLocations, removeAllLocationsExcept } from '../state';
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         justifyContent: 'flex-start',
         paddingTop: Constants.statusBarHeight + 15,
-        minHeight: Dimensions.get('window').height,
     },
     buttonContainer: {
         position: 'absolute',

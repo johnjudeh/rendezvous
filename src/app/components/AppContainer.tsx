@@ -7,8 +7,8 @@ import { addListener as addUpdateListener, checkForUpdateAsync, fetchUpdateAsync
 import { EventSubscription } from 'fbemitter';
 import { Modal, Toast } from 'common/components';
 import { selectAppState, setAppState } from 'common/state';
-import MainNavigaton from './MainNavigaton';
 import Color from 'common/constants/colors';
+import MainNavigaton from './MainNavigaton';
 
 function AppContainer() {
     const dispatch = useDispatch();

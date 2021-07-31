@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
-import { Dimensions, PixelRatio, Platform } from 'react-native';
+import { PixelRatio, Platform } from 'react-native';
 import MapView, {
     PROVIDER_GOOGLE,
     Marker,
@@ -11,6 +11,7 @@ import MapView, {
 } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
+import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import { selectLocations, selectCurrLocation, setCurrLocation, addLocation, removeAllLocations } from 'locations/state';
 import { calculateCenter, calculateDistance } from 'locations/utils';
 import Coordinates from 'locations/constants/cities';
@@ -28,6 +29,11 @@ function Map() {
     const LOC_SENSITIVITY = 100;
 
     const dispatch = useDispatch();
+
+    // This needs to be used instead of Dimensions.get('window') as
+    // the behaviour is inconsistent across Android devices
+    const frame = useSafeAreaFrame();
+
     const [ locationSet, setLocationSet ] = useState(false);
     const [ inFocus, setInFocus ] = useState(false);
 
@@ -129,8 +135,8 @@ function Map() {
             showsMyLocationButton={true}
             ref={mapRef}
             style={{
-                // Placed here so that Dimensions calculates on each render
-                height: Dimensions.get('window').height - (Platform.OS === 'ios' ? 110 : 90),
+                // Placed here so that frame height calculates on each render
+                height: frame.height - (Platform.OS === 'ios' ? 102 : 92),
             }}
         >
             {showMarkers
