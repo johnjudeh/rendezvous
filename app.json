@@ -13,8 +13,8 @@
       "backgroundColor": "#353745"
     },
     "androidNavigationBar": {
-      "barStyle": "light-content",
-      "backgroundColor": "#353745"
+      "barStyle": "dark-content",
+      "backgroundColor": "#F0F0EF"
     },
     "splash": {
       "image": "./assets/splash.png",

@@ -81,13 +81,7 @@ function AppContainer() {
 
     return (
         <View style={styles.container}>
-            <StatusBar
-                style={Platform.OS === 'ios' ? 'dark' : 'light'}
-                // The below properties are Android only to deal with a bug
-                // where the status bar does not respect the style property
-                backgroundColor={Color.DARK_GREY}
-                translucent={true}
-            />
+            <StatusBar style='dark' />
             <MainNavigaton />
             <Modal
                 visible={modalVisible}

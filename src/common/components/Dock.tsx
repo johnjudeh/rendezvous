@@ -33,20 +33,16 @@ const styles = StyleSheet.create({
         backgroundColor: Color.OFF_WHITE,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
-        ...Platform.select({
-            android: {
-                elevation: 30,
-            },
-            default: {
-                shadowColor: Color.DARK_GREY,
-                shadowOffset: {
-                    width: 0,
-                    height: -2,
-                },
-                shadowRadius: 5,
-                shadowOpacity: 0.20,
-            },
-        }),
+        shadowColor: Color.DARK_GREY,
+        // Android only
+        elevation: 50,
+        // iOS only
+        shadowOffset: {
+            width: 0,
+            height: -2,
+        },
+        shadowRadius: 5,
+        shadowOpacity: 0.20,
     },
     titleContainer: {
         height: 56,
