@@ -20,7 +20,11 @@ import Color from 'common/constants/colors';
 import GooglePlacesAPI from 'common/clients/googlePlaces';
 import { SEARCH_RADIUS } from '../constants';
 
-function Map() {
+interface MapProps {
+    mapRef: MutableRefObject<MapView | null>,
+}
+
+function Map({ mapRef }: MapProps) {
     const INITAL_REGION: Region = {
         ...Coordinates.London,
         latitudeDelta: 0.1000,
@@ -41,8 +45,6 @@ function Map() {
         setInFocus(true);
         return () => { setInFocus(false) };
     });
-
-    const mapRef: MutableRefObject<MapView | null> = useRef(null);
 
     // Added to work around bug on iOS where fillColor is not respected:
     // https://github.com/react-native-community/react-native-maps/issues/3173
@@ -132,7 +134,7 @@ function Map() {
             provider={PROVIDER_GOOGLE}
             showsUserLocation={!showMarkers}
             onUserLocationChange={onUserLocationChange}
-            showsMyLocationButton={true}
+            showsMyLocationButton={false}
             ref={mapRef}
             style={{
                 // Placed here so that frame height calculates on each render
