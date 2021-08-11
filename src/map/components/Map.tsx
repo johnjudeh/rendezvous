@@ -64,16 +64,6 @@ function Map({ mapRef }: MapProps) {
         ? calculateCenter(locations.map(loc => loc.latLng))
         : { ...Coordinates.London };
 
-    const getEdgePaddingForPlatform = (padding: number, side: keyof EdgePadding): number => {
-        // This is a hack to get the edge padding to work on Android. See issue below:
-        // https://github.com/react-native-maps/react-native-maps/issues/3308#issuecomment-592500013
-        return (
-            Platform.OS === 'android'
-                ? padding * PixelRatio.get() - 50
-                : padding
-        );
-    }
-
     useEffect(() => {
         setLocationSet(locations.length > 0)
     }, [ locations ]);
@@ -81,17 +71,22 @@ function Map({ mapRef }: MapProps) {
     useEffect(requestLocation);
     useEffect(() => {
         if (mapRef.current !== null && showMarkers) {
-            mapRef.current.fitToSuppliedMarkers(
-                locations.map(loc => loc.id),
-                {
-                    edgePadding: {
-                        top: getEdgePaddingForPlatform(70, 'top'),
-                        right: getEdgePaddingForPlatform(30, 'right'),
-                        bottom: getEdgePaddingForPlatform(240, 'bottom'),
-                        left: getEdgePaddingForPlatform(30, 'left'),
+            // More quirks with different behaviour across Android and iOS
+            // with react-native-maps. Issues came up with the Google logo
+            Platform.OS === 'ios'
+                ? mapRef.current.fitToSuppliedMarkers(
+                    locations.map(loc => loc.id),
+                    {
+                        edgePadding: {
+                            top: 70,
+                            right: 30,
+                            bottom: 200,
+                            left: 30,
+                        }
                     }
-                }
-            );
+                )
+                : mapRef.current.fitToElements(true);
+
             setLocationSet(false);
         }
     }, [mapRef, locations]);
