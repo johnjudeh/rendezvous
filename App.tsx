@@ -1,7 +1,8 @@
-import React from 'react';
+import 'react-native-gesture-handler';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
-import AppLoading from 'expo-app-loading';
 import { useAssets } from 'expo-asset';
+import * as SplashScreen from 'expo-splash-screen';
 import {
     useFonts,
     Roboto_400Regular,
@@ -14,8 +15,10 @@ import {
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { AppContainer, store } from 'app';
 
+SplashScreen.preventAutoHideAsync();
+
 function App() {
-    const [ fontsLoaded ] = useFonts({
+    const [fontsLoaded] = useFonts({
         Roboto_400Regular,
         Roboto_400Regular_Italic,
         Roboto_500Medium,
@@ -25,7 +28,7 @@ function App() {
         ...FontAwesome.font,
         ...Ionicons.font,
     });
-    const [ assets ] = useAssets([
+    const [assets] = useAssets([
         require('categories/img/restaurant.jpg'),
         require('categories/img/bar.jpg'),
         require('categories/img/cafe.jpg'),
@@ -38,8 +41,17 @@ function App() {
         require('categories/img/park-large.jpg'),
     ]);
 
+    useEffect(() => {
+        const hideSplashScreen = async () => {
+            if (fontsLoaded && assets) {
+                await SplashScreen.hideAsync();
+            }
+        }
+        hideSplashScreen();
+    }, [fontsLoaded, assets]);
+
     if (!fontsLoaded || !assets) {
-        return <AppLoading />;
+        return null;
     }
 
     return (

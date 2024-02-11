@@ -53,6 +53,9 @@
           "apiKey": "***REMOVED***"
         }
       }
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

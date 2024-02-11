@@ -25,7 +25,7 @@ function MapperView({ navigation }: NavigationProps) {
         <View style={styles.container}>
             <View style={styles.mapContainer}>
                 {showDock
-                    ? <BackButton onPress={() => navigation.navigate('Locations')}/>
+                    ? <BackButton onPress={() => navigation.navigate('Locations')} />
                     : null
                 }
                 <BurgerButton onPress={() => navigation.toggleDrawer()} />
