@@ -60,7 +60,7 @@ function LocationCard(props: LocationCardProps) {
             </View>
             <View style={styles.removeContainer}>
                 <TouchableOpacity onPress={handleLocationRemoval}>
-                    <Ionicons name="md-close" size={22} color={Color.DARK_GREY} />
+                    <Ionicons name="close" size={22} color={Color.DARK_GREY} />
                 </TouchableOpacity>
             </View>
         </View>

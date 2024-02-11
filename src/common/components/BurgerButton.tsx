@@ -11,7 +11,7 @@ interface BurgerButtonProps extends TouchableOpacityProps {
 function BurgerButton({ onPress, color }: BurgerButtonProps) {
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Ionicons name="md-menu" size={30} color={color ? color : Color.DARK_GREY} />
+            <Ionicons name="menu" size={30} color={color ? color : Color.DARK_GREY} />
         </TouchableOpacity>
     );
 }

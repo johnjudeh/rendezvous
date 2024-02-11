@@ -11,7 +11,7 @@ interface BackButtonProps extends TouchableOpacityProps {
 function BackButton({ onPress, color }: BackButtonProps) {
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Ionicons name="md-arrow-back" size={30} color={color ? color : Color.DARK_GREY} />
+            <Ionicons name="arrow-back" size={30} color={color ? color : Color.DARK_GREY} />
         </TouchableOpacity>
     );
 }
