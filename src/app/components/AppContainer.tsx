@@ -18,16 +18,15 @@ function AppContainer() {
     const appState = useAppSelector(selectAppState);
     useEffect(() => {
         const updateAppState = (appState: AppStateStatus) => dispatch(setAppState(appState));
-        AppState.addEventListener('change', updateAppState);
-        // TODO: Do we need to clean this up?
+        const subscription = AppState.addEventListener('change', updateAppState);
         const cleanup = () => {
-            AppState.removeEventListener('change', updateAppState);
+            subscription.remove();
         };
         return cleanup;
     });
 
     // App updates handled below
-    const [ modalVisible, setModalVisible ] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
     const showModal = () => setModalVisible(true);
     const hideModal = () => setModalVisible(false);
     const okModalFn = () => {
@@ -63,12 +62,12 @@ function AppContainer() {
     };
 
     useEffect(addListenerForUpdate, []);
-    useEffect(checkForUpdate, [ appState ]);
+    useEffect(checkForUpdate, [appState]);
 
     // Network connectivity handled below
     // Checks that network is up when app loads and keeps checking every
     // 2 seconds until it is
-    const [ networkUp, setNetworkUp ] = useState(true);
+    const [networkUp, setNetworkUp] = useState(true);
     const checkNetworkStatus = () => {
         getNetworkStateAsync()
             .then((networkState: NetworkState) => {
@@ -78,7 +77,7 @@ function AppContainer() {
                 }
             });
     };
-    useEffect(checkNetworkStatus, [ appState ]);
+    useEffect(checkNetworkStatus, [appState]);
 
     return (
         <View style={styles.container}>

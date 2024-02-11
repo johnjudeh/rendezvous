@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
-import { PixelRatio, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import MapView, {
     PROVIDER_GOOGLE,
     Marker,
-    EventUserLocation,
     Circle,
     LatLng,
     Region,
-    EdgePadding
+    UserLocationChangeEvent,
+    MapCircle
 } from 'react-native-maps';
 import { useAppDispatch, useAppSelector } from 'common/hooks';
 import { useFocusEffect } from '@react-navigation/native';
@@ -38,8 +38,8 @@ function Map({ mapRef }: MapProps) {
     // the behaviour is inconsistent across Android devices
     const frame = useSafeAreaFrame();
 
-    const [ locationSet, setLocationSet ] = useState(false);
-    const [ inFocus, setInFocus ] = useState(false);
+    const [locationSet, setLocationSet] = useState(false);
+    const [inFocus, setInFocus] = useState(false);
 
     useFocusEffect(() => {
         setInFocus(true);
@@ -49,7 +49,7 @@ function Map({ mapRef }: MapProps) {
     // Added to work around bug on iOS where fillColor is not respected:
     // https://github.com/react-native-community/react-native-maps/issues/3173
     // TODO: Remove after this bug is fixed in the react-native-maps
-    const circleRef: MutableRefObject<Circle | null> = useRef(null);
+    const circleRef: MutableRefObject<MapCircle | null> = useRef(null);
     const forceCircleFillColor = (fillColor: string): void => {
         if (circleRef.current !== null) {
             // TODO: Figure out how to fix the type error here
@@ -66,7 +66,7 @@ function Map({ mapRef }: MapProps) {
 
     useEffect(() => {
         setLocationSet(locations.length > 0)
-    }, [ locations ]);
+    }, [locations]);
 
     useEffect(requestLocation);
     useEffect(() => {
@@ -91,9 +91,10 @@ function Map({ mapRef }: MapProps) {
         }
     }, [mapRef, locations]);
 
-    const onUserLocationChange = (e: EventUserLocation): void => {
+    const onUserLocationChange = (e: UserLocationChangeEvent): void => {
         if (!showMarkers) {
             const { coordinate } = e.nativeEvent;
+            if (!coordinate) return
             const significantLocationChange = currLocation !== null
                 ? calculateDistance(currLocation, coordinate) >= LOC_SENSITIVITY
                 : false;
@@ -110,7 +111,7 @@ function Map({ mapRef }: MapProps) {
                 GooglePlacesAPI.reverseGeocode(latLng)
                     .then(loc => {
                         if (loc) {
-                            dispatch(setCurrLocation(latLng, loc.country));
+                            dispatch(setCurrLocation(latLng));
                             dispatch(removeAllLocations());
                             dispatch(addLocation(loc));
                         }

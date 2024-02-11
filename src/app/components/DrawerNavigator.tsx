@@ -11,13 +11,13 @@ function DrawerNavigator() {
     return (
         <Drawer.Navigator
             initialRouteName='Home'
-            drawerPosition='right'
-            hideStatusBar={Platform.OS === 'ios' ? true : false}
-            overlayColor={Color.DARK_GREY + Opacity.OVERLAY}
-            drawerStyle={styles.drawer}
-            drawerContentOptions={{
-                activeTintColor: Color.ORANGE,
-                inactiveTintColor: Color.MID_GREY,
+            screenOptions={{
+                drawerPosition: 'right',
+                drawerHideStatusBarOnOpen: Platform.OS === 'ios' ? true : false,
+                overlayColor: Color.DARK_GREY + Opacity.OVERLAY,
+                drawerStyle: styles.drawer,
+                drawerActiveTintColor: Color.ORANGE,
+                drawerInactiveTintColor: Color.MID_GREY,
             }}
         >
             <Drawer.Screen name='Home' component={StackNavigator} />
