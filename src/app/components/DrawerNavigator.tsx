@@ -12,6 +12,7 @@ function DrawerNavigator() {
         <Drawer.Navigator
             initialRouteName='Home'
             screenOptions={{
+                headerShown: false,
                 drawerPosition: 'right',
                 drawerHideStatusBarOnOpen: Platform.OS === 'ios' ? true : false,
                 overlayColor: Color.DARK_GREY + Opacity.OVERLAY,
