@@ -9,7 +9,7 @@ import MapView, {
     Region,
     EdgePadding
 } from 'react-native-maps';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'common/hooks';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import { selectLocations, selectCurrLocation, setCurrLocation, addLocation, removeAllLocations } from 'locations/state';
@@ -32,7 +32,7 @@ function Map({ mapRef }: MapProps) {
     };
     const LOC_SENSITIVITY = 100;
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     // This needs to be used instead of Dimensions.get('window') as
     // the behaviour is inconsistent across Android devices
@@ -57,8 +57,8 @@ function Map({ mapRef }: MapProps) {
         }
     }
 
-    const currLocation = useSelector(selectCurrLocation);
-    const locations = useSelector(selectLocations);
+    const currLocation = useAppSelector(selectCurrLocation);
+    const locations = useAppSelector(selectLocations);
     const showMarkers = locations.length > 1;
     const center: LatLng = showMarkers
         ? calculateCenter(locations.map(loc => loc.latLng))

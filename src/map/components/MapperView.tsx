@@ -1,6 +1,6 @@
 import React, { useRef, MutableRefObject } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from 'common/hooks';
 import MapView from 'react-native-maps';
 import { selectCurrLocation, selectLocations } from 'locations/state';
 import { NavigationProps } from 'common/types';
@@ -10,10 +10,10 @@ import MyLocationButton from './MyLocationButton';
 import Map from './Map';
 
 function MapperView({ navigation }: NavigationProps) {
-    const locations = useSelector(selectLocations);
+    const locations = useAppSelector(selectLocations);
     const showDock = locations.length >= 2;
     const mapRef: MutableRefObject<MapView | null> = useRef(null);
-    const currLocation = useSelector(selectCurrLocation);
+    const currLocation = useAppSelector(selectCurrLocation);
 
     const animateToCurrLocation = () => {
         if (mapRef.current !== null && currLocation !== null) {

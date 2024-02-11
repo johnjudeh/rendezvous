@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from 'common/hooks';
 import { selectLocations } from 'locations/state';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 import LocationCards from './LocationCards';
 
 function Locations() {
-    const locations = useSelector(selectLocations);
+    const locations = useAppSelector(selectLocations);
     const showHelpText = locations.length < 2;
 
     return (

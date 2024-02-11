@@ -1,15 +1,12 @@
 import { Action, createSlice, CreateSliceOptions, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
+import { RootState } from 'app/store';
 import { LocationData } from 'locations/types';
 
 interface LocationSlice {
     [id: string]: LocationData,
 }
 
-interface State {
-    locations: LocationSlice;
-}
-
-type LocationsThunkAction = ThunkAction<void, State, undefined, Action<string>>;
+type LocationsThunkAction = ThunkAction<void, RootState, undefined, Action<string>>;
 
 const sliceObject: CreateSliceOptions<LocationSlice> = {
     name: 'locations',
@@ -33,8 +30,8 @@ const sliceObject: CreateSliceOptions<LocationSlice> = {
 export const slice = createSlice(sliceObject);
 export const { add, remove, removeAllExcept } = slice.actions;
 
-export const selectLocationsDict: (state: State) => LocationSlice = state => state.locations;
-export const selectLocations: (state: State) => LocationData[] = state => Object.values(state.locations);
+export const selectLocationsDict: (state: RootState) => LocationSlice = state => state.locations;
+export const selectLocations: (state: RootState) => LocationData[] = state => Object.values(state.locations);
 
 export const handleAdd = (location: LocationData): LocationsThunkAction => dispatch => {
     dispatch(add(location));

@@ -1,9 +1,6 @@
 import { AppStateStatus } from 'react-native';
+import { RootState } from 'app/store';
 import { createSlice, CreateSliceOptions, PayloadAction } from "@reduxjs/toolkit";
-
-interface State {
-    appState: AppStateStatus
-}
 
 const sliceObject: CreateSliceOptions<AppStateStatus> = {
     name: 'appState',
@@ -18,6 +15,6 @@ const sliceObject: CreateSliceOptions<AppStateStatus> = {
 const slice = createSlice(sliceObject);
 export const { set } = slice.actions;
 
-export const selectAppState = (state: State) => state.appState;
+export const selectAppState = (state: RootState) => state.appState;
 
 export default slice.reducer;

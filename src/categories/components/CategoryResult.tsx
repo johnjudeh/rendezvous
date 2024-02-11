@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, PixelRatio } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'common/hooks';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import HTMLView from 'react-native-htmlview';
 import { LatLng } from 'react-native-maps';
@@ -28,7 +28,7 @@ interface CategoryResultProps {
 
 function CategoryResult(props: CategoryResultProps) {
     const { id, category, name, address, latLng, center, rating, numOfRatings, priceLevel, photoRef, photoDataURL, photoAttrHTML } = props;
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     // This needs to be used instead of Dimensions.get('window') as
     // the behaviour is inconsistent across Android devices

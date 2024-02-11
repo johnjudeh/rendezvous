@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'common/hooks';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import Color from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
@@ -37,7 +37,7 @@ function LocationCard(props: LocationCardProps) {
     const ADDRESS_MAX_LENGTH = Math.round(frame.width / 20);
 
     const { id, address, country, postcode, index } = props;
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const handleLocationRemoval = () => dispatch(removeLocation(id));
 

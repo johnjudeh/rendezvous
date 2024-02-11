@@ -1,6 +1,7 @@
 import { Action, createSlice, CreateSliceOptions, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { LatLng } from 'react-native-maps';
 import { PlaceType, PlacesResult as GooglePlacesResult, Photo } from 'common/clients/googlePlaces';
+import { RootState } from 'app/store';
 
 interface EnrichedPhoto extends Photo {
     photo_data_url?: string,
@@ -32,11 +33,7 @@ interface CategorySlice {
     park: CategoryOrNull,
 }
 
-interface State {
-    categories: CategorySlice,
-}
-
-type CategoryThunkAction = ThunkAction<void, State, undefined, Action<string>>;
+type CategoryThunkAction = ThunkAction<void, RootState, undefined, Action<string>>;
 
 export interface SetActionPayload {
     categoryName: PlaceType,
@@ -80,7 +77,7 @@ export const slice = createSlice(sliceObject);
 export const { set, setPlacePhoto } = slice.actions;
 
 // TODO: Checkout best practices on how to write this type of dynamic selector
-export const selectCategoryCreator = (category: PlaceType) => (state: State): CategoryOrNull => state.categories[category];
+export const selectCategoryCreator = (category: PlaceType) => (state: RootState): CategoryOrNull => state.categories[category];
 
 export const handleSet = (payload: SetActionPayload): CategoryThunkAction => dispatch => {
     dispatch(set(payload));

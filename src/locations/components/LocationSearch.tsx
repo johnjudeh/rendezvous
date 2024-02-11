@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
 import Constants from 'expo-constants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'common/hooks';
 import { selectLocations, removeAllLocationsExcept } from '../state';
 import { NavigationProps } from 'common/types';
 import { BackButton, MainButton } from 'common/components';
@@ -9,8 +9,8 @@ import Locations from './Locations';
 import LocationSearchBar from './LocationSearchBar';
 
 function LocationSearch({ navigation }: NavigationProps) {
-    const dispatch = useDispatch();
-    const locations = useSelector(selectLocations);
+    const dispatch = useAppDispatch();
+    const locations = useAppSelector(selectLocations);
 
     const handleGoBack = () => {
         if (locations.length !== 0) {

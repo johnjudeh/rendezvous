@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'common/hooks';
 import {
     GooglePlacesAutocomplete,
     GooglePlaceData,
@@ -22,9 +22,9 @@ import {
 type GooglePlacesAutocompleteOnPress = (data: GooglePlaceData, detail: GooglePlaceDetail | null) => void;
 
 function LocationSearchBar() {
-    const dispatch = useDispatch();
-    const locations = useSelector(selectLocations);
-    const currLocation = useSelector(selectCurrLocation);
+    const dispatch = useAppDispatch();
+    const locations = useAppSelector(selectLocations);
+    const currLocation = useAppSelector(selectCurrLocation);
     const [ value, setValue ] = useState('');
     const [ sessionToken, setSessionToken ] = useState('');
     const [ hasError, setHasError ] = useState(false);

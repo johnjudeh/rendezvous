@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, AppState, AppStateStatus, Platform } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { View, StyleSheet, AppState, AppStateStatus } from 'react-native';
+
+import { useAppDispatch, useAppSelector } from 'common/hooks';
 import { getNetworkStateAsync, NetworkState } from 'expo-network';
 import { StatusBar } from 'expo-status-bar';
-import { addListener as addUpdateListener, checkForUpdateAsync, fetchUpdateAsync, reloadAsync, UpdateEvent, UpdateEventType, UpdateFetchResult } from 'expo-updates';
+import { addListener as addUpdateListener, checkForUpdateAsync, fetchUpdateAsync, reloadAsync, UpdateEvent, UpdateEventType } from 'expo-updates';
 import { EventSubscription } from 'fbemitter';
 import { Modal, Toast } from 'common/components';
 import { selectAppState, setAppState } from 'common/state';
-import Color from 'common/constants/colors';
 import MainNavigaton from './MainNavigaton';
 
 function AppContainer() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     // Sets the appState in the redux store to be used to monitor when
     // the app is in the background or foreground (active)
-    const appState = useSelector(selectAppState);
+    const appState = useAppSelector(selectAppState);
     useEffect(() => {
         const updateAppState = (appState: AppStateStatus) => dispatch(setAppState(appState));
         AppState.addEventListener('change', updateAppState);
+        // TODO: Do we need to clean this up?
         const cleanup = () => {
             AppState.removeEventListener('change', updateAppState);
         };

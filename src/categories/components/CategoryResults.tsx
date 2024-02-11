@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FlatList, Text, View, StyleSheet, Image, ListRenderItem } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { LatLng } from 'react-native-maps';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'common/hooks';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import { selectLocations } from 'locations/state';
 import { calculateCenter, latLngShortToLatLng } from 'locations/utils';
@@ -24,9 +24,9 @@ function CategoryResults({ navigation, route }: NavigationProps) {
     const frame = useSafeAreaFrame();
     const [ showLoading, setShowLoading ] = useState(true);
 
-    const dispatch = useDispatch();
-    const locations = useSelector(selectLocations);
-    const category = useSelector(selectCategoryCreator(categoryName));
+    const dispatch = useAppDispatch();
+    const locations = useAppSelector(selectLocations);
+    const category = useAppSelector(selectCategoryCreator(categoryName));
     const results = category?.results;
     const center: LatLng = calculateCenter(locations.map(loc => loc.latLng));
     const radius = SEARCH_RADIUS;

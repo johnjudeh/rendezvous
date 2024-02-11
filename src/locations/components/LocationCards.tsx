@@ -1,11 +1,11 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from 'common/hooks';
 import { selectLocations } from 'locations/state';
 import LocationCard from './LocationCard';
 
 function LocationCards() {
-    const locations = useSelector(selectLocations);
+    const locations = useAppSelector(selectLocations);
 
     return (
         <ScrollView>

@@ -3,7 +3,7 @@ import { currLocationReducer, locationsReducer } from 'locations/state';
 import { reducer as categoriesReducer } from 'categories/state';
 import { appStateReducer } from 'common/state';
 
-export default configureStore({
+const store = configureStore({
     reducer: {
         appState: appStateReducer,
         currLocation: currLocationReducer,
@@ -11,3 +11,8 @@ export default configureStore({
         categories: categoriesReducer,
     }
 });
+
+export default store;
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
