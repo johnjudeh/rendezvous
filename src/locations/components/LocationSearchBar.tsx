@@ -25,9 +25,9 @@ function LocationSearchBar() {
     const dispatch = useAppDispatch();
     const locations = useAppSelector(selectLocations);
     const currLocation = useAppSelector(selectCurrLocation);
-    const [ value, setValue ] = useState('');
-    const [ sessionToken, setSessionToken ] = useState('');
-    const [ hasError, setHasError ] = useState(false);
+    const [value, setValue] = useState('');
+    const [sessionToken, setSessionToken] = useState('');
+    const [hasError, setHasError] = useState(false);
 
     const setNewUUID = () => {
         setSessionToken(createUUID());
@@ -64,7 +64,7 @@ function LocationSearchBar() {
 
     useEffect(setNewUUID, []);
 
-    const EmptyComponent = () => (
+    const EmptyComponent = (
         <View style={styles.errorMsgContainer}>
             <Text style={styles.errorMsgText}>
                 {hasError

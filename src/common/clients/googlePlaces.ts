@@ -104,9 +104,13 @@ export class Client {
         this.apiKey = key;
     }
 
+    private getURL(path: string): URL {
+        return new URL(Client.BASE_URL + path);
+    }
+
     async nearbySearch(location: LatLng, radius: number, type?: PlaceType, openNow: boolean = true): Promise<PlacesResult[]> {
         const path: string = `/place/nearbysearch/${Client.OUTPUT_TYPE}`;
-        const url = new URL(path, Client.BASE_URL);
+        const url = this.getURL(path);
         const queryParams = url.searchParams;
         queryParams.append('key', this.apiKey);
         queryParams.append('location', latLngToString(location));
@@ -148,7 +152,7 @@ export class Client {
 
     async placePhotoURL(photoRef: string, maxHeight?: number, maxWidth?: number): Promise<string | undefined> {
         const path: string = '/place/photo';
-        const url = new URL(path, Client.BASE_URL);
+        const url = this.getURL(path);
         const queryParams = url.searchParams;
         queryParams.append('key', this.apiKey);
         queryParams.append('photoreference', photoRef);
@@ -185,7 +189,7 @@ export class Client {
 
     async reverseGeocode(LatLng: LatLng): Promise<LocationData | undefined> {
         const path: string = `/geocode/${Client.OUTPUT_TYPE}`;
-        const url = new URL(path, Client.BASE_URL);
+        const url = this.getURL(path);
         const queryParams = url.searchParams;
         queryParams.append('key', this.apiKey);
         queryParams.append('latlng', latLngToString(LatLng));
