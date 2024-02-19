@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { FlatList, Text, View, StyleSheet, Image, ListRenderItem } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { LatLng } from 'react-native-maps';
@@ -22,12 +22,21 @@ function CategoryResults({ navigation, route }: NavigationProps) {
     // This needs to be used instead of Dimensions.get('window') as
     // the behaviour is inconsistent across Android devices
     const frame = useSafeAreaFrame();
-    const [ showLoading, setShowLoading ] = useState(true);
+    const [showLoading, setShowLoading] = useState(true);
 
     const dispatch = useAppDispatch();
     const locations = useAppSelector(selectLocations);
     const category = useAppSelector(selectCategoryCreator(categoryName));
     const results = category?.results;
+    const sortedResults = useMemo(() => {
+        if (results) {
+            const resultsList = Object.values(results);
+            const ratedResults = resultsList.filter(r => r.rating !== undefined);
+            const unratedResults = resultsList.filter(r => r.rating === undefined);
+            return [...ratedResults, ...unratedResults];
+        }
+    }, [results])
+
     const center: LatLng = calculateCenter(locations.map(loc => loc.latLng));
     const radius = SEARCH_RADIUS;
 
@@ -59,8 +68,8 @@ function CategoryResults({ navigation, route }: NavigationProps) {
     };
 
     useEffect(() => {
-        if (results) setShowLoading(false);
-    }, [ results ]);
+        if (sortedResults) setShowLoading(false);
+    }, [sortedResults]);
 
     useEffect(() => {
         if (
@@ -97,10 +106,10 @@ function CategoryResults({ navigation, route }: NavigationProps) {
             />
             <Dock title={CATEGORY_LABELS[categoryName]} style={styles.dock}>
                 <View style={{ height: frame.height - 300 }}>
-                    {showLoading || results === undefined
+                    {showLoading || sortedResults === undefined
                         ? <Text style={styles.loadingText}>Loading...</Text>
                         : <FlatList
-                            data={Object.values(results)}
+                            data={sortedResults}
                             renderItem={renderCategoryResult}
                             keyExtractor={item => item.place_id}
                             extraData={categoryName}
