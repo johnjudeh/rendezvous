@@ -1,4 +1,4 @@
-import { Action, createSlice, CreateSliceOptions, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
+import { Action, createSlice, CreateSliceOptions, PayloadAction, ThunkAction, createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
 import { LocationData } from 'locations/types';
 
@@ -31,7 +31,7 @@ export const slice = createSlice(sliceObject);
 export const { add, remove, removeAllExcept } = slice.actions;
 
 export const selectLocationsDict: (state: RootState) => LocationSlice = state => state.locations;
-export const selectLocations: (state: RootState) => LocationData[] = state => Object.values(state.locations);
+export const selectLocations = createSelector(selectLocationsDict, locations => Object.values(locations));
 
 export const handleAdd = (location: LocationData): LocationsThunkAction => dispatch => {
     dispatch(add(location));
