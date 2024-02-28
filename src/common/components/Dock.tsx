@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ChildrenProps } from 'common/types';
-import Color from 'common/constants/colors';
+import Color, { Opacity } from 'common/constants/colors';
 import FontFamily from 'common/constants/fonts';
 
 interface DockProps extends ChildrenProps {
@@ -30,7 +30,7 @@ function Dock({ children, title, style }: DockProps) {
                 // This component is used to create a shadow on
                 // Android as elevation is not featureful enough
                 colors={['transparent', Color.DARK_GREY]}
-                end={{ x: 0, y: 0.40 }}
+                end={{ x: 0.5, y: 0.5 }}
                 style={styles.dockShadow}
             >
                 {dock}
