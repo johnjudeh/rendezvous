@@ -21,7 +21,8 @@
       "backgroundColor": "#353745"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/1c669adb-c73b-407c-9f79-bb9a1d6a4555"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -56,6 +57,14 @@
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1c669adb-c73b-407c-9f79-bb9a1d6a4555"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
   }
 }

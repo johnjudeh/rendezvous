@@ -4,8 +4,7 @@ import { View, StyleSheet, AppState, AppStateStatus } from 'react-native';
 import { useAppDispatch, useAppSelector } from 'common/hooks';
 import { getNetworkStateAsync, NetworkState } from 'expo-network';
 import { StatusBar } from 'expo-status-bar';
-// import { addListener as addUpdateListener, checkForUpdateAsync, fetchUpdateAsync, reloadAsync, UpdateEvent, UpdateEventType } from 'expo-updates';
-// import { EventSubscription } from 'fbemitter';
+import { useUpdates, checkForUpdateAsync, fetchUpdateAsync, reloadAsync } from 'expo-updates';
 import { Modal, Toast } from 'common/components';
 import { selectAppState, setAppState } from 'common/state';
 import MainNavigaton from './MainNavigaton';
@@ -26,43 +25,31 @@ function AppContainer() {
     });
 
     // App updates handled below
-    // const [modalVisible, setModalVisible] = useState(false);
-    // const showModal = () => setModalVisible(true);
-    // const hideModal = () => setModalVisible(false);
-    // const okModalFn = () => {
-    //     hideModal();
-    //     reloadAsync();
-    // };
+    const [modalVisible, setModalVisible] = useState(false);
+    const showModal = () => setModalVisible(true);
+    const hideModal = () => setModalVisible(false);
+    const okModalFn = () => {
+        hideModal();
+        reloadAsync();
+    };
 
-    // const addListenerForUpdate = () => {
-    //     if (!__DEV__) {
-    //         const subscription: EventSubscription = addUpdateListener((event: UpdateEvent) => {
-    //             if (event.type === UpdateEventType.UPDATE_AVAILABLE) {
-    //                 showModal();
-    //             }
-    //         });
-    //         return subscription.remove;
-    //     }
-    // };
+    const { isUpdateAvailable } = useUpdates();
 
-    // const checkForUpdate = () => {
-    //     if (!__DEV__ && appState === 'active') {
-    //         checkForUpdateAsync()
-    //             .then(updateState => {
-    //                 if (updateState.isAvailable) {
-    //                     return fetchUpdateAsync();
-    //                 }
-    //             })
-    //             .then(update => {
-    //                 if (update && update.isNew) {
-    //                     showModal();
-    //                 }
-    //             });
-    //     }
-    // };
+    const fetchUpdate = async () => {
+        if (!__DEV__) {
+            const update = await fetchUpdateAsync();
+            if (update && update.isNew) {
+                showModal();
+            }
+        }
+    };
 
-    // useEffect(addListenerForUpdate, []);
-    // useEffect(checkForUpdate, [appState]);
+    const checkForUpdateWhenActive = () => {
+        if (appState === 'active' && isUpdateAvailable) {
+            fetchUpdate();
+        }
+    }
+    useEffect(checkForUpdateWhenActive, [appState, isUpdateAvailable]);
 
     // Network connectivity handled below
     // Checks that network is up when app loads and keeps checking every
@@ -83,13 +70,13 @@ function AppContainer() {
         <View style={styles.container}>
             <StatusBar style='dark' />
             <MainNavigaton />
-            {/* <Modal
+            <Modal
                 visible={modalVisible}
                 message={'There is a new update available'}
                 okButtonText={'Refresh'}
                 okButtonFn={okModalFn}
                 cancelButtonFn={hideModal}
-            /> */}
+            />
             <Toast visible={!networkUp} message={'You seem to be offline'} />
         </View>
     );
