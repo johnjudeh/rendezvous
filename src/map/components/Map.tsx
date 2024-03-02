@@ -73,23 +73,21 @@ function Map({ mapRef }: MapProps) {
         if (mapRef.current !== null && showMarkers) {
             // More quirks with different behaviour across Android and iOS
             // with react-native-maps. Issues came up with the Google logo
-            Platform.OS === 'ios'
-                ? mapRef.current.fitToSuppliedMarkers(
-                    locations.map(loc => loc.id),
-                    {
-                        edgePadding: {
-                            top: 70,
-                            right: 30,
-                            bottom: 200,
-                            left: 30,
-                        }
+            const fitOptions = Platform.OS === 'ios'
+                ? {
+                    edgePadding: {
+                        top: 70,
+                        right: 30,
+                        bottom: 200,
+                        left: 30,
                     }
-                )
-                : mapRef.current.fitToElements(true);
+                } : undefined;
+
+            mapRef.current.fitToCoordinates(locations.map(loc => loc.latLng), fitOptions);
 
             setLocationSet(false);
         }
-    }, [mapRef, locations]);
+    }, [mapRef.current, locations]);
 
     const onUserLocationChange = (e: UserLocationChangeEvent): void => {
         if (!showMarkers) {
