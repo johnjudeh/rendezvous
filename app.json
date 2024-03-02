@@ -24,12 +24,10 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/1c669adb-c73b-407c-9f79-bb9a1d6a4555"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "guide.rendezvous.rendezvous",
-      "buildNumber": "1.0.2",
+      "buildNumber": "1.0.3",
       "supportsTablet": false,
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Your location is used to find nearby places to meet friends"
@@ -41,23 +39,19 @@
     },
     "android": {
       "package": "guide.rendezvous.rendezvous",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.foreground.png",
         "backgroundColor": "#F97958"
       },
-      "permissions": [
-        "ACCESS_FINE_LOCATION"
-      ],
+      "permissions": ["ACCESS_FINE_LOCATION"],
       "config": {
         "googleMaps": {
           "apiKey": "***REMOVED***"
         }
       }
     },
-    "plugins": [
-      "expo-font"
-    ],
+    "plugins": ["expo-font"],
     "extra": {
       "eas": {
         "projectId": "1c669adb-c73b-407c-9f79-bb9a1d6a4555"
