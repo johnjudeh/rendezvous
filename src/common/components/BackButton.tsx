@@ -19,9 +19,11 @@ function BackButton({ onPress, color }: BackButtonProps) {
 const styles = StyleSheet.create({
     button: {
         position: 'absolute',
+        height: 48,
+        width: 48,
         zIndex: 2,
-        left: 27,
-        top: Constants.statusBarHeight + 25,
+        left: 8,
+        top: Constants.statusBarHeight + 16,
         justifyContent: 'center',
         alignItems: 'center',
     },

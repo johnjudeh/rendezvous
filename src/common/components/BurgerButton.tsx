@@ -18,9 +18,11 @@ function BurgerButton({ onPress, color }: BurgerButtonProps) {
 
 const styles = StyleSheet.create({
     button: {
+        width: 48,
+        height: 48,
         position: 'absolute',
         zIndex: 2,
-        right: 27,
+        right: 17,
         top: Constants.statusBarHeight + 25,
         justifyContent: 'center',
         alignItems: 'center',

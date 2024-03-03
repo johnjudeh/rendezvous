@@ -19,6 +19,7 @@ function DrawerNavigator() {
                 drawerStyle: styles.drawer,
                 drawerActiveTintColor: Color.ORANGE,
                 drawerInactiveTintColor: Color.MID_GREY,
+                drawerItemStyle: styles.drawerItem,
             }}
         >
             <Drawer.Screen name='Home' component={StackNavigator} />
@@ -29,8 +30,12 @@ function DrawerNavigator() {
 
 const styles = StyleSheet.create({
     drawer: {
+        paddingTop: 12,
         backgroundColor: Color.OFF_WHITE,
     },
+    drawerItem: {
+        height: 48,
+    }
 });
 
 export default DrawerNavigator;

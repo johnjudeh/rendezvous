@@ -27,7 +27,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "guide.rendezvous.rendezvous",
-      "buildNumber": "1.0.3",
+      "buildNumber": "1.0.4",
       "supportsTablet": false,
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Your location is used to find nearby places to meet friends"
@@ -39,7 +39,7 @@
     },
     "android": {
       "package": "guide.rendezvous.rendezvous",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.foreground.png",
         "backgroundColor": "#F97958"
