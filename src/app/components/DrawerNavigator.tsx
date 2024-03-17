@@ -19,7 +19,7 @@ function DrawerNavigator() {
                 drawerStyle: styles.drawer,
                 drawerActiveTintColor: Color.ORANGE,
                 drawerInactiveTintColor: Color.MID_GREY,
-                drawerItemStyle: styles.drawerItem,
+                drawerLabelStyle: styles.drawerLabel,
             }}
         >
             <Drawer.Screen name='Home' component={StackNavigator} />
@@ -33,8 +33,10 @@ const styles = StyleSheet.create({
         paddingTop: 12,
         backgroundColor: Color.OFF_WHITE,
     },
-    drawerItem: {
-        height: 48,
+    drawerLabel: {
+        // Resolves an issue with the clickable being less than 48px
+        // Adjusts for the padding and margin of parent containers
+        height: 48 - (8 * 2 + 5 * 2),
     }
 });
 
