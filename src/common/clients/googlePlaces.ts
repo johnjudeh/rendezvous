@@ -7,6 +7,7 @@ import {
     getCountryFromGoogleAddressComponents,
 } from 'locations/utils';
 import { LocationData, LatLngShort } from 'locations/types';
+import Constants from 'expo-constants';
 
 type OutputType = 'json' | 'xml';
 
@@ -238,4 +239,4 @@ export class Client {
     }
 }
 
-export default new Client('***REMOVED***');
+export default new Client(Constants.expoConfig?.extra?.googlePlacesApiKey ?? "");

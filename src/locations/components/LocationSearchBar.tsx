@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
 import { useAppDispatch, useAppSelector } from 'common/hooks';
 import {
     GooglePlacesAutocomplete,
@@ -80,8 +81,7 @@ function LocationSearchBar() {
             <GooglePlacesAutocomplete
                 placeholder={locations.length === 0 ? "Add your location" : "Add a friend's location"}
                 query={{
-                    // TODO: Remove this key from the code somehow, then generate a new one!
-                    key: '***REMOVED***',
+                    key: Constants.expoConfig?.extra?.googlePlacesApiKey,
                     sessiontoken: sessionToken,
                     location: currLocation ? latLngToString(currLocation) : undefined,
                     radius: 5000,
