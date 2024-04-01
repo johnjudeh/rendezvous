@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   "name": "Rendez Vous",
   "description": "An app that helps friends connect in big cities",
   "slug": "rendezvous",
@@ -55,7 +55,7 @@ module.exports = {
     "eas": {
       "projectId": "1c669adb-c73b-407c-9f79-bb9a1d6a4555"
     },
-    "googlePlacesApiKey": process.env.GOGGLE_PLACES_API_KEY,
+    "googlePlacesApiKey": process.env.GOOGLE_PLACES_API_KEY,
   },
   "runtimeVersion": {
     "policy": "appVersion"

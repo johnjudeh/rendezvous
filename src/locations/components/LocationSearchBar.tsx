@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 import { useAppDispatch, useAppSelector } from 'common/hooks';
@@ -6,6 +6,7 @@ import {
     GooglePlacesAutocomplete,
     GooglePlaceData,
     GooglePlaceDetail,
+    GooglePlacesAutocompleteRef,
 } from 'react-native-google-places-autocomplete';
 import 'react-native-get-random-values';
 import { v4 as createUUID } from 'uuid';
@@ -26,9 +27,10 @@ function LocationSearchBar() {
     const dispatch = useAppDispatch();
     const locations = useAppSelector(selectLocations);
     const currLocation = useAppSelector(selectCurrLocation);
-    const [value, setValue] = useState('');
     const [sessionToken, setSessionToken] = useState('');
+    const [textInputResetPending, setTextInputResetPending] = useState(false);
     const [hasError, setHasError] = useState(false);
+    const autocompleteRef: MutableRefObject<GooglePlacesAutocompleteRef | null> = useRef(null);
 
     const setNewUUID = () => {
         setSessionToken(createUUID());
@@ -59,11 +61,19 @@ function LocationSearchBar() {
         }
 
         dispatch(addLocation(location));
-        setValue('');
         setNewUUID();
+        setTextInputResetPending(true);
     };
 
+    const resetTextInput = () => {
+        if (textInputResetPending && autocompleteRef.current !== null) {
+            autocompleteRef.current.setAddressText('');
+            setTextInputResetPending(false);
+        }
+    }
+
     useEffect(setNewUUID, []);
+    useEffect(resetTextInput, [textInputResetPending])
 
     const EmptyComponent = (
         <View style={styles.errorMsgContainer}>
@@ -79,6 +89,7 @@ function LocationSearchBar() {
     return (
         <View style={styles.topContainer}>
             <GooglePlacesAutocomplete
+                ref={autocompleteRef}
                 placeholder={locations.length === 0 ? "Add your location" : "Add a friend's location"}
                 query={{
                     key: Constants.expoConfig?.extra?.googlePlacesApiKey,
@@ -94,8 +105,7 @@ function LocationSearchBar() {
                 suppressDefaultStyles={true}
                 styles={{ ...styles }}
                 textInputProps={{
-                    value,
-                    onChangeText: text => { setValue(text); setHasError(false) },
+                    onChangeText: () => { setHasError(false) },
                     placeholderTextColor: Color.MID_LIGHT_GREY,
                 }}
                 listEmptyComponent={EmptyComponent}
